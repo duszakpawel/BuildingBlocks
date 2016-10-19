@@ -147,6 +147,16 @@
   <ItemGroup>
     <Resource Include="FodyWeavers.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BuildingBlocks.BusinessLogic\BuildingBlocks.BusinessLogic.csproj">
+      <Project>{3B3F8511-1FC1-472E-BB63-93F18857DD7D}</Project>
+      <Name>BuildingBlocks.BusinessLogic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BuildingBlocks.Models\BuildingBlocks.Models.csproj">
+      <Project>{6937F0B3-6427-48F5-AB7C-40C7EE9AA6CD}</Project>
+      <Name>BuildingBlocks.Models</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Fody.1.29.2\build\dotnet\Fody.targets" Condition="Exists('..\packages\Fody.1.29.2\build\dotnet\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
