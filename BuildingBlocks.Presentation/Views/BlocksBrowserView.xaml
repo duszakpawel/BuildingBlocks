@@ -7,17 +7,32 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <Label>dupa dupa chuj</Label>
         <ListView Name="BlocksListView" ItemsSource="{Binding Blocks}">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Width: " />
-                        <TextBlock Text="{Binding Width}" FontWeight="Bold" />
-                        <TextBlock Text=", Height: " />
-                        <TextBlock Text="{Binding Heigth}" FontWeight="Bold" />
+                    <WrapPanel Orientation="Horizontal" >
+                        <TextBlock Text="Width: " VerticalAlignment="Center" />
+                        <TextBlock Text="{Binding Width}" FontWeight="Bold" VerticalAlignment="Center" />
+                        <TextBlock Text=", Height: " VerticalAlignment="Center" />
+                        <TextBlock Text="{Binding Heigth}" FontWeight="Bold" VerticalAlignment="Center" />
+                        <ItemsControl ItemsSource="{Binding CanvasChildren}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <Canvas Background="Transparent" Width="100" Height="100" Margin="50,0,0,0"  />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
 
-                    </StackPanel>
+                            <ItemsControl.ItemContainerStyle>
+                                <Style>
+                                    <Setter Property="Canvas.Top" Value="{Binding Path=Y}" />
+                                    <Setter Property="Canvas.Left" Value="{Binding Path=X}" />
+                                </Style>
+                            </ItemsControl.ItemContainerStyle>
+                        </ItemsControl>
+
+                        <Label Margin="50,0,0,0" VerticalAlignment="Center">Quantity =</Label>
+                        <TextBox Width="80" Height="30" VerticalAlignment="Center"/>
+                    </WrapPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

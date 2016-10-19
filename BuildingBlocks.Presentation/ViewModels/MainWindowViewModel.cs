@@ -1,4 +1,7 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Windows.Media;
+using System.Windows.Shapes;
 using BuildingBlocks.BusinessLogic;
 using Caliburn.Micro;
 using Microsoft.Win32;
@@ -16,10 +19,8 @@ namespace BuildingBlocks.Presentation.ViewModels
             {
                 var blocks = new BlocksParser().LoadData(
                     new StreamReader(openFileDialog.FileName));
-                BlocksBrowserViewViewModel = new BlocksBrowserViewModel()
-                {
-                    Blocks = blocks.Blocks
-                };
+                BlocksBrowserViewViewModel = new BlocksBrowserViewModel(blocks.Blocks);
+
             }
         }
     }
