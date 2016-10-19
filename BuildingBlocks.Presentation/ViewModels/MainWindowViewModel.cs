@@ -13,7 +13,8 @@ namespace BuildingBlocks.Presentation.ViewModels
             OpenFileDialog openFileDialog = new OpenFileDialog();
             if (openFileDialog.ShowDialog() == true)
             {
-                var blocks = new BlocksParser().LoadBlocks(openFileDialog.FileName);
+                var blocks = new BlocksParser().LoadData(
+                    new StreamReader(openFileDialog.FileName));
             }
         }
     }

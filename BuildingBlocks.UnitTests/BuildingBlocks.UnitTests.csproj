@@ -40,6 +40,9 @@
       <HintPath>..\packages\Castle.Core.3.3.3\lib\net45\Castle.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Moq, Version=4.5.23.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <HintPath>..\packages\Moq.4.5.23\lib\net45\Moq.dll</HintPath>
       <Private>True</Private>
@@ -59,11 +62,22 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="BlocksParserTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SampleTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BuildingBlocks.BusinessLogic\BuildingBlocks.BusinessLogic.csproj">
+      <Project>{3B3F8511-1FC1-472E-BB63-93F18857DD7D}</Project>
+      <Name>BuildingBlocks.BusinessLogic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BuildingBlocks.Models\BuildingBlocks.Models.csproj">
+      <Project>{6937F0B3-6427-48F5-AB7C-40C7EE9AA6CD}</Project>
+      <Name>BuildingBlocks.Models</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
