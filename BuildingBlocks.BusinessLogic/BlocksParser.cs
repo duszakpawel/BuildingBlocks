@@ -30,9 +30,9 @@ namespace BuildingBlocks.BusinessLogic
                 parts = line.Split(separator);
                 Block b = new Block();
                 b.Width = int.Parse(parts[0]);
-                b.Height = int.Parse(parts[1]);
-                b.Content = new bool[b.Height,b.Width];
-                for (int i = 0; i < b.Height; i++)
+                b.Heigth = int.Parse(parts[1]);
+                b.Content = new bool[b.Heigth,b.Width];
+                for (int i = 0; i < b.Heigth; i++)
                 {
                     line = file.ReadLine();
                     parts = line.Split(separator);

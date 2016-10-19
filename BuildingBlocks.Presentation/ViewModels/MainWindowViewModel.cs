@@ -7,14 +7,19 @@ namespace BuildingBlocks.Presentation.ViewModels
 {
     public class MainWindowViewModel : Screen
     {
+        public BlocksBrowserViewModel BlocksBrowserViewViewModel { get; set; }
+
         public void LoadFile(string name)
         {
-            string fileContent;
             OpenFileDialog openFileDialog = new OpenFileDialog();
             if (openFileDialog.ShowDialog() == true)
             {
                 var blocks = new BlocksParser().LoadData(
                     new StreamReader(openFileDialog.FileName));
+                BlocksBrowserViewViewModel = new BlocksBrowserViewModel()
+                {
+                    Blocks = blocks.Blocks
+                };
             }
         }
     }

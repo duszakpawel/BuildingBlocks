@@ -30,7 +30,7 @@ namespace BuildingBlocks.UnitTests
             Assert.AreEqual(result.Blocks.Count, 2);
 
             Assert.AreEqual(result.Blocks[0].Width, 2);
-            Assert.AreEqual(result.Blocks[0].Height, 3);
+            Assert.AreEqual(result.Blocks[0].Heigth, 3);
             Assert.AreEqual(result.Blocks[0].Content[0, 0], false);
             Assert.AreEqual(result.Blocks[0].Content[0, 1], true);
             Assert.AreEqual(result.Blocks[0].Content[1, 0], false);
@@ -40,7 +40,7 @@ namespace BuildingBlocks.UnitTests
 
 
             Assert.AreEqual(result.Blocks[1].Width, 4);
-            Assert.AreEqual(result.Blocks[1].Height, 3);
+            Assert.AreEqual(result.Blocks[1].Heigth, 3);
             Assert.AreEqual(result.Blocks[1].Content[0, 0], true);
             Assert.AreEqual(result.Blocks[1].Content[0, 1], false);
             Assert.AreEqual(result.Blocks[1].Content[0, 2], false);

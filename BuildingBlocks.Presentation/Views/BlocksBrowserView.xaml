@@ -7,5 +7,19 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
+        <Label>dupa dupa chuj</Label>
+        <ListView Name="BlocksListView" ItemsSource="{Binding Blocks}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Width: " />
+                        <TextBlock Text="{Binding Width}" FontWeight="Bold" />
+                        <TextBlock Text=", Height: " />
+                        <TextBlock Text="{Binding Heigth}" FontWeight="Bold" />
+
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </Grid>
 </UserControl>

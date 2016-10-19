@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using BuildingBlocks.Presentation.ViewModels;
 
 namespace BuildingBlocks.Presentation.Views
 {

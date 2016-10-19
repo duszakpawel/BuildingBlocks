@@ -9,7 +9,7 @@ namespace BuildingBlocks.Models
     public class Block
     {
         public int Width { get; set; }
-        public int Height { get; set; }
+        public int Heigth { get; set; }
         public bool[,] Content { get; set; }
     }
 }
