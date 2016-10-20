@@ -8,7 +8,7 @@
     mc:Ignorable="d" 
     xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:cal="http://www.caliburnproject.org"
-    Title="ShellView" x:Name="Window" >
+    Title="ShellView" x:Name="Window" MinHeight="600" MinWidth="600">
     <controls:MetroWindow.RightWindowCommands>
         <controls:WindowCommands>
             <!--menu może tu być-->

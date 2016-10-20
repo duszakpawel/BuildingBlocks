@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -11,34 +12,37 @@ namespace BuildingBlocks.Presentation.ViewModels
     {
         public List<Block> Blocks { get; set; }
 
-        private const int rectSize = 20;
+        private const int CanvasWidth = 100;
 
         public BlocksBrowserViewModel(List<Block> blocks)
         {
             Blocks = blocks;
 
+            var maxWidth = blocks.Max(item => item.Width);
+            var maxHeight = blocks.Max(item => item.Heigth);
+            var rectSize = CanvasWidth / (maxHeight > maxWidth ? maxHeight : maxWidth);
+
             foreach (var block in Blocks)
             {
                 block.CanvasChildren = new List<Rectangle>();
-                for (int i = 0; i < block.Heigth; i++)
+                for (var i = 0; i < block.Heigth; ++i)
                 {
-                    for (int j = 0; j < block.Width; j++)
+                    for (var j = 0; j < block.Width; ++j)
                     {
-                        if (block.Content[i, j])
+                        if (!block.Content[i, j]) continue;
+                        var rect = new Rectangle
                         {
-                            Rectangle rect = new Rectangle();
-                            rect.Fill = Brushes.CornflowerBlue;
-                            rect.Width = rectSize;
-                            rect.Height = rectSize;
-                            rect.Stroke = Brushes.DarkCyan;
-                            Canvas.SetTop(rect, i* rectSize);
-                            Canvas.SetLeft(rect, j* rectSize);
-                            block.CanvasChildren.Add(rect);
-                        }
+                            Fill = Brushes.CornflowerBlue,
+                            Width = rectSize,
+                            Height = rectSize,
+                            Stroke = Brushes.DarkCyan
+                        };
+                        Canvas.SetTop(rect, i * rectSize);
+                        Canvas.SetLeft(rect, j * rectSize);
+                        block.CanvasChildren.Add(rect);
                     }
                 }
             }
         }
-
     }
 }

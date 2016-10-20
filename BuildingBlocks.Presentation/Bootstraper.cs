@@ -13,7 +13,7 @@ namespace BuildingBlocks.Presentation
 {
     public class Bootstrapper : BootstrapperBase
     {
-        private IContainer container;
+        private IContainer _container;
 
         public Bootstrapper()
         {
@@ -52,17 +52,17 @@ namespace BuildingBlocks.Presentation
 
         protected override object GetInstance(Type service, string key)
         {
-            return string.IsNullOrWhiteSpace(key) ? container.Resolve(service) : container.ResolveNamed(key, service);
+            return string.IsNullOrWhiteSpace(key) ? _container.Resolve(service) : _container.ResolveNamed(key, service);
         }
 
         protected override IEnumerable<object> GetAllInstances(Type service)
         {
-            return container.Resolve(typeof(IEnumerable<>).MakeGenericType(service)) as IEnumerable<object>;
+            return _container.Resolve(typeof(IEnumerable<>).MakeGenericType(service)) as IEnumerable<object>;
         }
 
         protected override void BuildUp(object instance)
         {
-            container.InjectProperties(instance);
+            _container.InjectProperties(instance);
         }
 
         protected override void OnStartup(object sender, StartupEventArgs e)
@@ -101,7 +101,7 @@ namespace BuildingBlocks.Presentation
             builder.Register<IEventAggregator>(c => new EventAggregator())
                 .SingleInstance();
 
-            container = builder.Build();
+            _container = builder.Build();
         }
     }
 }

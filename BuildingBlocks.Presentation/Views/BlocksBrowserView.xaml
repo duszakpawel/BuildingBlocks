@@ -8,6 +8,11 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <ListView Name="BlocksListView" ItemsSource="{Binding Blocks}">
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Vertical"/>
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <WrapPanel Orientation="Horizontal" >
@@ -18,7 +23,7 @@
                         <ItemsControl ItemsSource="{Binding CanvasChildren}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <Canvas Background="Transparent" Width="100" Height="100" Margin="50,0,0,0"  />
+                                    <Canvas Background="Transparent" Width="100" Height="100" Margin="10,0,0,0"  />
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
 
@@ -30,7 +35,7 @@
                             </ItemsControl.ItemContainerStyle>
                         </ItemsControl>
 
-                        <Label Margin="50,0,0,0" VerticalAlignment="Center">Quantity =</Label>
+                        <Label Margin="20,0,0,0" Width="60" VerticalAlignment="Center" Content="Quantity: " />
                         <TextBox Width="80" Height="30" VerticalAlignment="Center"/>
                     </WrapPanel>
                 </DataTemplate>

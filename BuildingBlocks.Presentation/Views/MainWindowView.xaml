@@ -26,9 +26,9 @@
                 <StackPanel Orientation="Horizontal">
                     <Button Content="Load File" x:Name="LoadFile" Style="{StaticResource ButtonStyle}" Command="{Binding LoadFile}"></Button>
                     <Label Width="20" Height="30" Margin="60,0,0,0" Content="K:" />
-                    <TextBox Width="80" Height="30"/>
+                    <TextBox x:Name="K" Width="80" Height="30"></TextBox>
                     <Label Width="80" Height="30" Margin="0,0,0,0" Content="Board Width:" />
-                    <TextBox Width="80" Height="30" IsEnabled="False"/>
+                    <TextBox x:Name="BoardWidth" Width="80" Height="30" IsEnabled="False"/>
                 </StackPanel>
                 <StackPanel>
                      <local:BlocksBrowserView DataContext="{Binding BlocksBrowserViewViewModel}"></local:BlocksBrowserView>
@@ -36,12 +36,12 @@
             </StackPanel>
         </Expander>
         <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
-            <Button Content="Start" Style="{StaticResource ButtonStyle}"></Button>
-            <Button Content="Pause" Style="{StaticResource ButtonStyle}"></Button>
-            <Button Content="Stop" Style="{StaticResource ButtonStyle}"></Button>
+            <Button x:Name="Start" Content="Start" Style="{StaticResource ButtonStyle}"></Button>
+            <Button x:Name="Pause" Content="Pause" Style="{StaticResource ButtonStyle}"></Button>
+            <Button x:Name="Stop" Content="Stop" Style="{StaticResource ButtonStyle}"></Button>
             <Label Width="40" Height="30" Margin="40,0,0,0" Content="Step:" />
-            <TextBox Width="80" Height="30"/>
-            <Button Content="Next" Style="{StaticResource ButtonStyle}"></Button>
+            <TextBox x:Name="Step" Width="80" Height="30"/>
+            <Button x:Name="Next" Content="Next" Style="{StaticResource ButtonStyle}"></Button>
         </StackPanel>
     </Grid>
 </UserControl>
