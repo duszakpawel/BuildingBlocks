@@ -20,14 +20,15 @@ namespace BuildingBlocks.Presentation.ViewModels
 
             var maxWidth = blocks.Max(item => item.Width);
             var maxHeight = blocks.Max(item => item.Height);
-            var rectSize = CanvasWidth / (maxHeight > maxWidth ? maxHeight : maxWidth);
+            int max = maxHeight > maxWidth ? maxHeight : maxWidth;
+            var rectSize = CanvasWidth / max;
 
             foreach (var block in Blocks)
             {
                 block.CanvasChildren = new List<Rectangle>();
 
                 // shift to center block vertically on list
-                int rectVerticalShift = (int) ((((double) (maxHeight - block.Height))/2)*rectSize);
+                int rectVerticalShift = (int) ((((double) (max - block.Height))/2)*rectSize);
 
                 for (var i = 0; i < block.Height; ++i)
                 {
