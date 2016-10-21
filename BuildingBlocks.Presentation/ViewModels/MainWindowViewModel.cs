@@ -12,11 +12,11 @@ namespace BuildingBlocks.Presentation.ViewModels
 
         public AlgorithmSimulationViewModel AlgorithmSimulationViewViewModel { get; set; }
 
-        public string BoardWidth { get { return _boardWidth; } set { _boardWidth = value; EnableStart(); EnableNext(); } }
+        public string BoardWidth { get { return _boardWidth; } set { _boardWidth = value; EnableStart(); } }
 
-        public string K { get { return _k; } set { _k = value; EnableStart(); EnableNext(); } }
+        public string K { get { return _k; } set { _k = value; EnableStart(); } }
 
-        public string Step { get { return _step; } set { _step = value; EnableNext(); } }
+        public string Step { get { return _step; } set { if (IsNaturalNumber(value)) _step = value; EnableStart(); } }
 
         public bool IsLoadFileEnabled { get; set; }
 
@@ -47,6 +47,7 @@ namespace BuildingBlocks.Presentation.ViewModels
             IsPauseEnabled = false;
             IsStopEnabled = false;
             IsStepEnabled = false;
+            Step = "1";
         }
 
         public void LoadFile(string name)
@@ -73,6 +74,7 @@ namespace BuildingBlocks.Presentation.ViewModels
                 if (!int.TryParse(Step, out tempStep)) { tempStep = 1; }
                 AlgorithmSimulationViewViewModel = new AlgorithmSimulationViewModel(BlocksBrowserViewViewModel.Blocks,
                     int.Parse(BoardWidth), int.Parse(K), tempStep);
+                BlocksBrowserViewViewModel.DisableQuantity();
             }
             AlgorithmSimulationViewViewModel.Start();
         }
@@ -85,16 +87,15 @@ namespace BuildingBlocks.Presentation.ViewModels
             IsKEnabled = true;
             IsLoadFileEnabled = true;
             IsExpanded = true;
-            EnableNext();
             AlgorithmSimulationViewViewModel.Stop();
             AlgorithmSimulationViewViewModel = null;
+            BlocksBrowserViewViewModel.EnableQuantity();
         }
 
         public void Pause(string name)
         {
             EnableStart();
             IsPauseEnabled = false;
-            EnableNext();
             AlgorithmSimulationViewViewModel.Pause();
         }
 
@@ -104,8 +105,10 @@ namespace BuildingBlocks.Presentation.ViewModels
             {
                 AlgorithmSimulationViewViewModel = new AlgorithmSimulationViewModel(BlocksBrowserViewViewModel.Blocks,
                     int.Parse(BoardWidth), int.Parse(K), int.Parse(Step));
+                BlocksBrowserViewViewModel.DisableQuantity();
             }
             AlgorithmSimulationViewViewModel.Next();
+            IsStopEnabled = true;
         }
 
         public string this[string columnName]
@@ -138,22 +141,12 @@ namespace BuildingBlocks.Presentation.ViewModels
             {
                 IsStartEnabled = true;
                 IsStepEnabled = true;
+                IsNextEnabled = true;
             }
             else
             {
                 IsStartEnabled = false;
                 IsStepEnabled = false;
-            }
-        }
-
-        private void EnableNext()
-        {
-            if (IsNaturalNumber(K) && IsNaturalNumber(BoardWidth) && IsNaturalNumber(Step) && IsStartEnabled)
-            {
-                IsNextEnabled = true;
-            }
-            else
-            {
                 IsNextEnabled = false;
             }
         }

@@ -21,29 +21,31 @@
             <RowDefinition Height="50"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Expander Grid.Row="0" Header="Select Data" IsExpanded="{Binding IsExpanded}" >
-            <StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <Button Content="Load File" x:Name="LoadFile" Style="{StaticResource ButtonStyle}" Command="{Binding LoadFile}" IsEnabled="{Binding IsLoadFileEnabled}" />
-                    <Label Width="20" Height="30" Margin="60,0,0,0" Content="K:" />
-                    <TextBox x:Name="K" Width="80" Height="30" IsEnabled="{Binding IsKEnabled}" />
-                    <Label Width="80" Height="30" Margin="0,0,0,0" Content="Board Width:" />
-                    <TextBox x:Name="BoardWidth" Width="80" Height="30" IsEnabled="False"/>
-                </StackPanel>
+        <ScrollViewer Grid.Row="0" MaxHeight="400" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+            <Expander Header="Select Data" IsExpanded="{Binding IsExpanded}" >
                 <StackPanel>
-                     <local:BlocksBrowserView DataContext="{Binding BlocksBrowserViewViewModel}" />
+                    <StackPanel Orientation="Horizontal">
+                        <Button Content="Load File" x:Name="LoadFile" Style="{StaticResource ButtonStyle}" Command="{Binding LoadFile}" IsEnabled="{Binding IsLoadFileEnabled}" />
+                        <Label Width="20" Height="30" Margin="60,0,0,0" Content="K:" />
+                        <TextBox x:Name="K" Width="80" Height="30" IsEnabled="{Binding IsKEnabled}" />
+                        <Label Width="80" Height="30" Margin="0,0,0,0" Content="Board Width:" />
+                        <TextBox x:Name="BoardWidth" Width="80" Height="30" IsEnabled="False"/>
+                    </StackPanel>
+                    <StackPanel>
+                        <local:BlocksBrowserView DataContext="{Binding BlocksBrowserViewViewModel}" />
+                    </StackPanel>
                 </StackPanel>
-            </StackPanel>
-        </Expander>
-        <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
+            </Expander>
+        </ScrollViewer>
+        <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal"> 
+            <Label Width="40" Height="30" Margin="40,0,0,0" Content="Step:" />
+            <TextBox x:Name="Step" Width="80" Height="30" IsEnabled="{Binding IsStepEnabled}" />
             <Button x:Name="Start" Content="Start" Style="{StaticResource ButtonStyle}" IsEnabled="{Binding IsStartEnabled}" />
             <Button x:Name="Pause" Content="Pause" Style="{StaticResource ButtonStyle}" IsEnabled="{Binding IsPauseEnabled}" />
             <Button x:Name="Stop" Content="Stop" Style="{StaticResource ButtonStyle}" IsEnabled="{Binding IsStopEnabled}" />
-            <Label Width="40" Height="30" Margin="40,0,0,0" Content="Step:" />
-            <TextBox x:Name="Step" Width="80" Height="30" IsEnabled="{Binding IsStepEnabled}" />
             <Button x:Name="Next" Content="Next" Style="{StaticResource ButtonStyle}" IsEnabled="{Binding IsNextEnabled}" />
         </StackPanel>
-        <ScrollViewer Grid.Row="2" Grid.Column="0">
+        <ScrollViewer Grid.Row="2" Grid.Column="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
             <local:AlgorithmSimulationView DataContext="{Binding AlgorithmSimulationViewViewModel}" />
         </ScrollViewer>
     </Grid>

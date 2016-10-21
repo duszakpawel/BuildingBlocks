@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -17,19 +18,16 @@ namespace BuildingBlocks.Presentation.ViewModels
         public BlocksBrowserViewModel(List<Block> blocks)
         {
             Blocks = blocks;
-
             var maxWidth = blocks.Max(item => item.Width);
             var maxHeight = blocks.Max(item => item.Height);
-            int max = maxHeight > maxWidth ? maxHeight : maxWidth;
+            var max = maxHeight > maxWidth ? maxHeight : maxWidth;
             var rectSize = CanvasWidth / max;
-
             foreach (var block in Blocks)
             {
+                block.IsQuantityEnabled = true;
                 block.CanvasChildren = new List<Rectangle>();
-
                 // shift to center block vertically on list
-                int rectVerticalShift = (int) ((((double) (max - block.Height))/2)*rectSize);
-
+                var rectVerticalShift = (int)((double)(max - block.Height) / 2 * rectSize);
                 for (var i = 0; i < block.Height; ++i)
                 {
                     for (var j = 0; j < block.Width; ++j)
@@ -47,6 +45,22 @@ namespace BuildingBlocks.Presentation.ViewModels
                         block.CanvasChildren.Add(rect);
                     }
                 }
+            }
+        }
+
+        public void DisableQuantity()
+        {
+            foreach (var block in Blocks)
+            {
+                block.IsQuantityEnabled = false;
+            }
+        }
+
+        public void EnableQuantity()
+        {
+            foreach (var block in Blocks)
+            {
+                block.IsQuantityEnabled = true;
             }
         }
     }

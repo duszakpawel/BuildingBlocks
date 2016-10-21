@@ -5,7 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <!--xmlns:local="clr-namespace:BuildingBlocks.Presentation.Views"-->
     <Grid>
         <ListView Name="BlocksListView" ItemsSource="{Binding Blocks}">
             <ListView.ItemsPanel>
@@ -26,15 +25,9 @@
                                     <Canvas Background="Transparent" Width="100" Height="100" Margin="10,0,0,0"  />
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
-                            <!--<ItemsControl.ItemContainerStyle>
-                                <Style>
-                                    <Setter Property="Canvas.Top" Value="{Binding Path=Y}" />
-                                    <Setter Property="Canvas.Left" Value="{Binding Path=X}" />
-                                </Style>
-                            </ItemsControl.ItemContainerStyle>-->
                         </ItemsControl>
                         <Label Margin="20,0,0,0" Width="60" VerticalAlignment="Center" Content="Quantity: " />
-                        <TextBox x:Name="Quantity" Width="80" Height="30" VerticalAlignment="Center" Text="{Binding Quantity}" />
+                        <TextBox x:Name="Quantity" Width="80" Height="30" VerticalAlignment="Center" Text="{Binding Quantity}" IsEnabled="{Binding IsQuantityEnabled}" />
                     </WrapPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
