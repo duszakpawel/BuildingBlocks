@@ -64,7 +64,6 @@
   <ItemGroup>
     <Compile Include="BlocksParserTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SampleTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using BuildingBlocks.BusinessLogic;
 
@@ -11,8 +10,7 @@ namespace BuildingBlocks.UnitTests
         [TestMethod]
         public void SampleFileParse()
         {
-            string text =
-@"8 2
+            const string text = @"8 2
 2 3
 0 1
 0 1
@@ -21,14 +19,12 @@ namespace BuildingBlocks.UnitTests
 1 0 0 1
 1 0 0 1
 1 1 1 1";
-
-            StringReader file = new StringReader(text);
-            BlocksParser parser = new BlocksParser();
+            var file = new StringReader(text);
+            var parser = new BlocksParser();
             var result = parser.LoadData(file);
             Assert.AreEqual(result.WellWidth, 8);
             Assert.AreEqual(result.BlocksCount, 2);
             Assert.AreEqual(result.Blocks.Count, 2);
-
             Assert.AreEqual(result.Blocks[0].Width, 2);
             Assert.AreEqual(result.Blocks[0].Heigth, 3);
             Assert.AreEqual(result.Blocks[0].Content[0, 0], false);
@@ -37,8 +33,6 @@ namespace BuildingBlocks.UnitTests
             Assert.AreEqual(result.Blocks[0].Content[1, 1], true);
             Assert.AreEqual(result.Blocks[0].Content[2, 0], true);
             Assert.AreEqual(result.Blocks[0].Content[2, 1], true);
-
-
             Assert.AreEqual(result.Blocks[1].Width, 4);
             Assert.AreEqual(result.Blocks[1].Heigth, 3);
             Assert.AreEqual(result.Blocks[1].Content[0, 0], true);
