@@ -27,10 +27,10 @@ namespace BuildingBlocks.BusinessLogic
                 var b = new Block
                 {
                     Width = int.Parse(parts[0]),
-                    Heigth = int.Parse(parts[1])
+                    Height = int.Parse(parts[1])
                 };
-                b.Content = new bool[b.Heigth, b.Width];
-                for (var i = 0; i < b.Heigth; ++i)
+                b.Content = new bool[b.Height, b.Width];
+                for (var i = 0; i < b.Height; ++i)
                 {
                     line = file.ReadLine();
                     if (line == null) continue;

@@ -19,7 +19,7 @@
                         <TextBlock Text="Width: " VerticalAlignment="Center" />
                         <TextBlock Text="{Binding Width}" FontWeight="Bold" VerticalAlignment="Center" />
                         <TextBlock Text=", Height: " VerticalAlignment="Center" />
-                        <TextBlock Text="{Binding Heigth}" FontWeight="Bold" VerticalAlignment="Center" />
+                        <TextBlock Text="{Binding Height}" FontWeight="Bold" VerticalAlignment="Center" />
                         <ItemsControl ItemsSource="{Binding CanvasChildren}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
