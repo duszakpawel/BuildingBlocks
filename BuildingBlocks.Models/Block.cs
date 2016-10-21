@@ -12,6 +12,10 @@ namespace BuildingBlocks.Models
 
         public int Height { get; set; }
 
+        public bool[,] Content { get; set; }
+
+        public List<Rectangle> CanvasChildren { get; set; }
+
         public int Quantity
         {
             get { return _quantity; }
@@ -21,15 +25,21 @@ namespace BuildingBlocks.Models
             }
         }
 
-        public bool[,] Content { get; set; }
+        public bool IsQuantityEnabled
+        {
+            get { return _isquantityenabled; }
+            set
+            {
+                _isquantityenabled = value;
+                OnPropertyChanged(nameof(IsQuantityEnabled));
+            }
+        }
 
-        public List<Rectangle> CanvasChildren { get; set; }
+        public event PropertyChangedEventHandler PropertyChanged;
 
         private int _quantity;
 
         private bool _isquantityenabled;
-        public bool IsQuantityEnabled { get { return _isquantityenabled; } set { _isquantityenabled = value; OnPropertyChanged(nameof(IsQuantityEnabled)); } }
-        public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)

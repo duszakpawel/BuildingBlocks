@@ -16,7 +16,7 @@ namespace BuildingBlocks.Presentation.ViewModels
 
         public string K { get { return _k; } set { _k = value; EnableStart(); } }
 
-        public string Step { get { return _step; } set { if (IsNaturalNumber(value)) _step = value; EnableStart(); } }
+        public string Step { get { return _step; } set { _step = value; EnableStart(); } }
 
         public bool IsLoadFileEnabled { get; set; }
 
@@ -137,7 +137,7 @@ namespace BuildingBlocks.Presentation.ViewModels
 
         private void EnableStart()
         {
-            if (IsNaturalNumber(K) && IsNaturalNumber(BoardWidth))
+            if (IsNaturalNumber(K) && IsNaturalNumber(BoardWidth) && IsNaturalNumber(Step))
             {
                 IsStartEnabled = true;
                 IsStepEnabled = true;
@@ -146,7 +146,6 @@ namespace BuildingBlocks.Presentation.ViewModels
             else
             {
                 IsStartEnabled = false;
-                IsStepEnabled = false;
                 IsNextEnabled = false;
             }
         }
