@@ -25,6 +25,10 @@ namespace BuildingBlocks.Presentation.ViewModels
             foreach (var block in Blocks)
             {
                 block.CanvasChildren = new List<Rectangle>();
+
+                // shift to center block vertically on list
+                int rectVerticalShift = (int) ((((double) (maxHeight - block.Heigth))/2)*rectSize);
+
                 for (var i = 0; i < block.Heigth; ++i)
                 {
                     for (var j = 0; j < block.Width; ++j)
@@ -37,7 +41,7 @@ namespace BuildingBlocks.Presentation.ViewModels
                             Height = rectSize,
                             Stroke = Brushes.DarkCyan
                         };
-                        Canvas.SetTop(rect, i * rectSize);
+                        Canvas.SetTop(rect, i * rectSize + rectVerticalShift);
                         Canvas.SetLeft(rect, j * rectSize);
                         block.CanvasChildren.Add(rect);
                     }
