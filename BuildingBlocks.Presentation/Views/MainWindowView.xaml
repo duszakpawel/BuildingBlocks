@@ -19,7 +19,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="50"/>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Expander Grid.Row="0" Header="Select Data" IsExpanded="{Binding IsExpanded}" >
             <StackPanel>
@@ -43,5 +43,8 @@
             <TextBox x:Name="Step" Width="80" Height="30" IsEnabled="{Binding IsStepEnabled}" />
             <Button x:Name="Next" Content="Next" Style="{StaticResource ButtonStyle}" IsEnabled="{Binding IsNextEnabled}" />
         </StackPanel>
+        <ScrollViewer Grid.Row="2" Grid.Column="0">
+            <local:AlgorithmSimulationView DataContext="{Binding AlgorithmSimulationViewViewModel}" />
+        </ScrollViewer>
     </Grid>
 </UserControl>

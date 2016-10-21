@@ -87,9 +87,13 @@
     </ApplicationDefinition>
     <Compile Include="Bootstraper.cs" />
     <Compile Include="ShowShellEvent.cs" />
+    <Compile Include="ViewModels\AlgorithmSimulationViewModel.cs" />
     <Compile Include="ViewModels\BlocksBrowserViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
+    <Compile Include="Views\AlgorithmSimulationView.xaml.cs">
+      <DependentUpon>AlgorithmSimulationView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\BlocksBrowserView.xaml.cs">
       <DependentUpon>BlocksBrowserView.xaml</DependentUpon>
     </Compile>
@@ -103,6 +107,10 @@
     <Compile Include="Views\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\AlgorithmSimulationView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\BlocksBrowserView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -10,6 +10,8 @@ namespace BuildingBlocks.Presentation.ViewModels
     {
         public BlocksBrowserViewModel BlocksBrowserViewViewModel { get; set; }
 
+        public AlgorithmSimulationViewModel AlgorithmSimulationViewViewModel { get; set; }
+
         public string BoardWidth { get { return _boardWidth; } set { _boardWidth = value; EnableStart(); EnableNext(); } }
 
         public string K { get { return _k; } set { _k = value; EnableStart(); EnableNext(); } }
@@ -65,6 +67,14 @@ namespace BuildingBlocks.Presentation.ViewModels
             IsLoadFileEnabled = false;
             IsExpanded = false;
             IsNextEnabled = false;
+            if (AlgorithmSimulationViewViewModel == null)
+            {
+                int tempStep;
+                if (!int.TryParse(Step, out tempStep)) { tempStep = 1; }
+                AlgorithmSimulationViewViewModel = new AlgorithmSimulationViewModel(BlocksBrowserViewViewModel.Blocks,
+                    int.Parse(BoardWidth), int.Parse(K), tempStep);
+            }
+            AlgorithmSimulationViewViewModel.Start();
         }
 
         public void Stop(string name)
@@ -76,6 +86,8 @@ namespace BuildingBlocks.Presentation.ViewModels
             IsLoadFileEnabled = true;
             IsExpanded = true;
             EnableNext();
+            AlgorithmSimulationViewViewModel.Stop();
+            AlgorithmSimulationViewViewModel = null;
         }
 
         public void Pause(string name)
@@ -83,11 +95,17 @@ namespace BuildingBlocks.Presentation.ViewModels
             EnableStart();
             IsPauseEnabled = false;
             EnableNext();
+            AlgorithmSimulationViewViewModel.Pause();
         }
 
         public void Next(string name)
         {
-
+            if (AlgorithmSimulationViewViewModel == null)
+            {
+                AlgorithmSimulationViewViewModel = new AlgorithmSimulationViewModel(BlocksBrowserViewViewModel.Blocks,
+                    int.Parse(BoardWidth), int.Parse(K), int.Parse(Step));
+            }
+            AlgorithmSimulationViewViewModel.Next();
         }
 
         public string this[string columnName]
