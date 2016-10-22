@@ -35,10 +35,10 @@ namespace BuildingBlocks.Presentation.ViewModels
                         if (!block.Content[i, j]) continue;
                         var rect = new Rectangle
                         {
-                            Fill = Brushes.CornflowerBlue,
+                            Fill = Brushes.DeepSkyBlue,
                             Width = rectSize,
                             Height = rectSize,
-                            Stroke = Brushes.DarkCyan
+                            Stroke = Brushes.Black
                         };
                         Canvas.SetTop(rect, i * rectSize + rectVerticalShift);
                         Canvas.SetLeft(rect, j * rectSize);
