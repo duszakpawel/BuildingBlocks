@@ -21,7 +21,7 @@
             <RowDefinition Height="50"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <ScrollViewer Grid.Row="0" MaxHeight="400" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+        <ScrollViewer Grid.Row="0" MaxHeight="400" VerticalScrollBarVisibility="Auto">
             <Expander Header="Select Data" IsExpanded="{Binding IsExpanded}" >
                 <StackPanel>
                     <StackPanel Orientation="Horizontal">

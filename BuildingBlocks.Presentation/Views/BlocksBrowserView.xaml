@@ -6,7 +6,36 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <ListView Name="BlocksListView" ItemsSource="{Binding Blocks}">
+        <ItemsControl x:Name="BlocksListView" Margin="10" ItemsSource="{Binding Blocks}">
+            <ItemsControl.Template>
+                <ControlTemplate>
+                    <WrapPanel FlowDirection="LeftToRight" IsItemsHost="true">
+                    </WrapPanel>
+                </ControlTemplate>
+            </ItemsControl.Template>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Border BorderThickness="1" CornerRadius="30" BorderBrush="Black" Margin="5" Padding="5">
+                        <WrapPanel Orientation="Horizontal">
+                            <TextBlock Text="Width: " VerticalAlignment="Center" />
+                            <TextBlock Text="{Binding Width}" FontWeight="Bold" VerticalAlignment="Center" />
+                            <TextBlock Text=", Height: " VerticalAlignment="Center" />
+                            <TextBlock Text="{Binding Height}" FontWeight="Bold" VerticalAlignment="Center" />
+                            <ItemsControl ItemsSource="{Binding CanvasChildren}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <Canvas Background="Transparent" Width="100" Height="100" Margin="10,0,0,0"  />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                            </ItemsControl>
+                            <Label Margin="20,0,0,0" Width="60" VerticalAlignment="Center" Content="Quantity: " />
+                            <TextBox x:Name="Quantity" Width="80" Height="30" VerticalAlignment="Center" Text="{Binding Quantity}" IsEnabled="{Binding IsQuantityEnabled}" />
+                        </WrapPanel>
+                    </Border>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <!--<ListView Name="BlocksListView" ItemsSource="{Binding Blocks}">
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <StackPanel Orientation="Vertical"/>
@@ -31,6 +60,6 @@
                     </WrapPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
-        </ListView>
+        </ListView>-->
     </Grid>
 </UserControl>

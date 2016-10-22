@@ -50,11 +50,11 @@ namespace BuildingBlocks.Presentation.ViewModels
             Step = "1";
         }
 
-        public void LoadFile(string name)
+        public async void LoadFile(string name)
         {
             var openFileDialog = new OpenFileDialog();
             if (openFileDialog.ShowDialog() != true) return;
-            var blocks = new BlocksParser().LoadData(new StreamReader(openFileDialog.FileName));
+            var blocks = await new BlocksParser().LoadData(new StreamReader(openFileDialog.FileName));
             BlocksBrowserViewViewModel = new BlocksBrowserViewModel(blocks.Blocks);
             BoardWidth = blocks.WellWidth.ToString();
         }
@@ -118,15 +118,15 @@ namespace BuildingBlocks.Presentation.ViewModels
                 // ReSharper disable once ConvertIfStatementToSwitchStatement
                 if (columnName == "K")
                 {
-                    if (!IsNaturalNumber(K)) return "Value must natural number";
+                    if (!IsNaturalNumber(K)) return "Value must be a natural number";
                 }
                 else if (columnName == "Step")
                 {
-                    if (!IsNaturalNumber(Step)) return "Value must natural number";
+                    if (!IsNaturalNumber(Step)) return "Value must be a natural number";
                 }
                 else if (columnName == "BoardWidth")
                 {
-                    if (!IsNaturalNumber(BoardWidth)) return "Value must natural number";
+                    if (!IsNaturalNumber(BoardWidth)) return "Value must be a natural number";
                 }
                 return null;
             }
