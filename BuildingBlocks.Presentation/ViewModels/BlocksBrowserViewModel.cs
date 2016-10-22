@@ -14,6 +14,7 @@ namespace BuildingBlocks.Presentation.ViewModels
 
         private const int CanvasWidth = 100;
 
+
         public BlocksBrowserViewModel(List<Block> blocks)
         {
             Blocks = blocks;

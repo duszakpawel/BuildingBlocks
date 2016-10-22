@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.IO;
+using System.Threading.Tasks;
 using BuildingBlocks.BusinessLogic;
 using Caliburn.Micro;
 using Microsoft.Win32;
@@ -49,7 +50,6 @@ namespace BuildingBlocks.Presentation.ViewModels
             IsStepEnabled = false;
             Step = "1";
         }
-
         public async void LoadFile(string name)
         {
             var openFileDialog = new OpenFileDialog();
