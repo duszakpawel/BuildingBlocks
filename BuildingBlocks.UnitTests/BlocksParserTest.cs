@@ -8,7 +8,7 @@ namespace BuildingBlocks.UnitTests
     public class BlocksParserTest
     {
         [TestMethod]
-        public void SampleFileParse()
+        public async void SampleFileParse()
         {
             const string text = @"8 2
 2 3
@@ -21,7 +21,7 @@ namespace BuildingBlocks.UnitTests
 1 1 1 1";
             var file = new StringReader(text);
             var parser = new BlocksParser();
-            var result = parser.LoadData(file);
+            var result = await parser.LoadData(file);
             Assert.AreEqual(result.WellWidth, 8);
             Assert.AreEqual(result.BlocksCount, 2);
             Assert.AreEqual(result.Blocks.Count, 2);
