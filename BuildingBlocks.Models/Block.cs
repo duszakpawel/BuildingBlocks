@@ -14,7 +14,7 @@ namespace BuildingBlocks.Models
 
         public bool[,] Content { get; set; }
 
-        public List<Rectangle> CanvasChildren { get; set; }
+        public List<Rectangle> CanvasChildren { get; set; } = new List<Rectangle>();
 
         public int Quantity
         {
@@ -39,7 +39,7 @@ namespace BuildingBlocks.Models
 
         private int _quantity;
 
-        private bool _isquantityenabled;
+        private bool _isquantityenabled = true;
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
