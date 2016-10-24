@@ -42,12 +42,6 @@ namespace BuildingBlocks.Presentation
 
 
             return baseAssemblies;
-
-            //return new[]
-            //{
-            //       GetType().Assembly,
-            //       typeof(ShellViewModel).Assembly,
-            //};
         }
 
         protected override object GetInstance(Type service, string key)

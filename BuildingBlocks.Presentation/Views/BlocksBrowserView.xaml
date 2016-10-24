@@ -31,7 +31,6 @@
                             </ItemsControl>
                             <Label Margin="20,0,0,0" Width="60" VerticalAlignment="Center" Content="Quantity: " />
                             <controls:NumericUpDown Minimum="0" Maximum="10000" Interval="1" Value="{Binding Quantity}" IsEnabled="{Binding IsQuantityEnabled}" Width="80" Height="30" />
-                            <!--<TextBox x:Name="Quantity" Width="80" Height="30" VerticalAlignment="Center" Text="{Binding Quantity}" IsEnabled="{Binding IsQuantityEnabled}" />-->
                         </WrapPanel>
                     </Border>
                 </DataTemplate>

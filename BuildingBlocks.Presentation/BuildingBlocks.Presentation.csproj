@@ -89,6 +89,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Bootstraper.cs" />
+    <Compile Include="Common\DisplayMode.cs" />
     <Compile Include="ShowShellEvent.cs" />
     <Compile Include="ViewModels\AlgorithmSimulationViewModel.cs" />
     <Compile Include="ViewModels\BlocksBrowserViewModel.cs" />
@@ -110,6 +111,10 @@
     <Compile Include="Views\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Styles\Common.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\AlgorithmSimulationView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

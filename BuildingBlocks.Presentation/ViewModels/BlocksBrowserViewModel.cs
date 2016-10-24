@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Shapes;
 using BuildingBlocks.Models;
+using BuildingBlocks.Presentation.Common;
 using Caliburn.Micro;
 
 namespace BuildingBlocks.Presentation.ViewModels
@@ -15,62 +14,35 @@ namespace BuildingBlocks.Presentation.ViewModels
 
         private const int CanvasWidth = 100;
 
+        private static readonly Brush blockFillColor = Brushes.DeepSkyBlue;
+        private static readonly Brush blockEdgeColor = Brushes.Black;
 
-        public BlocksBrowserViewModel(List<Block> displayedBlocks)
+        public BlocksBrowserViewModel(List<Block> blocks)
         {
-            DisplayedBlocks = displayedBlocks;
+            PreprocessBlocks(blocks);
 
-            var maxWidth = displayedBlocks.Max(item => item.Width);
-            var maxHeight = displayedBlocks.Max(item => item.Height);
-            var max = maxHeight > maxWidth ? maxHeight : maxWidth;
-            var rectSize = CanvasWidth / max;
+            DisplayedBlocks = blocks;
+            LoadedBlocks = blocks;
+        }
 
-            foreach (var block in DisplayedBlocks)
-            {
-                //block.IsQuantityEnabled = true;
-                //block.CanvasChildren = new List<Rectangle>();
+        private void PreprocessBlocks(List<Block> Blocks)
+        {
+            var maxBlockWidth = Blocks.Max(item => item.Width);
+            var maxBlockHeight = Blocks.Max(item => item.Height);
+            var maxEdgeLength = maxBlockHeight > maxBlockWidth ? maxBlockHeight : maxBlockWidth;
+            var singleTileWidth = CanvasWidth/maxEdgeLength;
 
-                var rectVerticalShift = (int)((double)(max - block.Height) / 2 * rectSize);
-
-                for (var i = 0; i < block.Height; ++i)
-                {
-                    for (var j = 0; j < block.Width; ++j)
-                    {
-                        if (!block.Content[i, j])
-                        {
-                            continue;
-                        }
-
-                        var rect = new Rectangle
-                        {
-                            Fill = Brushes.DeepSkyBlue,
-                            Width = rectSize,
-                            Height = rectSize,
-                            Stroke = Brushes.Black
-                        };
-
-                        Canvas.SetTop(rect, i * rectSize + rectVerticalShift);
-                        Canvas.SetLeft(rect, j * rectSize);
-                        block.CanvasChildren.Add(rect);
-                    }
-                }
-            }
+            Blocks.ForEach(x => x.Preprocess(maxEdgeLength, singleTileWidth, blockFillColor, blockEdgeColor));
         }
 
         public void DisableQuantity()
         {
-            foreach (var block in DisplayedBlocks)
-            {
-                block.IsQuantityEnabled = false;
-            }
+            LoadedBlocks.ForEach(x => x.IsQuantityEnabled = false);
         }
 
         public void EnableQuantity()
         {
-            foreach (var block in DisplayedBlocks)
-            {
-                block.IsQuantityEnabled = true;
-            }
+            LoadedBlocks.ForEach(x => x.IsQuantityEnabled = true);
         }
 
         public void UpdateBrowserView(DisplayMode mode)
