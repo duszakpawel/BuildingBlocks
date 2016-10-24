@@ -10,19 +10,19 @@ namespace BuildingBlocks.Presentation.ViewModels
 {
     public class BlocksBrowserViewModel : Screen
     {
-        public List<Block> Blocks { get; set; }
+        public List<Block> DisplayedBlocks { get; set; }
 
         private const int CanvasWidth = 100;
 
 
-        public BlocksBrowserViewModel(List<Block> blocks)
+        public BlocksBrowserViewModel(List<Block> displayedBlocks)
         {
-            Blocks = blocks;
-            var maxWidth = blocks.Max(item => item.Width);
-            var maxHeight = blocks.Max(item => item.Height);
+            DisplayedBlocks = displayedBlocks;
+            var maxWidth = displayedBlocks.Max(item => item.Width);
+            var maxHeight = displayedBlocks.Max(item => item.Height);
             var max = maxHeight > maxWidth ? maxHeight : maxWidth;
             var rectSize = CanvasWidth / max;
-            foreach (var block in Blocks)
+            foreach (var block in DisplayedBlocks)
             {
                 block.IsQuantityEnabled = true;
                 block.CanvasChildren = new List<Rectangle>();
@@ -50,7 +50,7 @@ namespace BuildingBlocks.Presentation.ViewModels
 
         public void DisableQuantity()
         {
-            foreach (var block in Blocks)
+            foreach (var block in DisplayedBlocks)
             {
                 block.IsQuantityEnabled = false;
             }
@@ -58,10 +58,26 @@ namespace BuildingBlocks.Presentation.ViewModels
 
         public void EnableQuantity()
         {
-            foreach (var block in Blocks)
+            foreach (var block in DisplayedBlocks)
             {
                 block.IsQuantityEnabled = true;
             }
         }
+
+        public void UpdateBrowserView(DisplayMode mode)
+        {
+            if (mode == DisplayMode.Selected)
+            {
+                LoadedBlocks = new List<Block>(DisplayedBlocks);
+                DisplayedBlocks.RemoveAll(x => x.Quantity == 0);
+            }
+            else
+            {
+                DisplayedBlocks = LoadedBlocks;
+            }
+            NotifyOfPropertyChange(nameof(DisplayedBlocks));
+        }
+
+        public List<Block> LoadedBlocks { get; set; }
     }
 }

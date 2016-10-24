@@ -7,6 +7,12 @@ using Microsoft.Win32;
 
 namespace BuildingBlocks.Presentation.ViewModels
 {
+    public enum DisplayMode
+    {
+        Selected,
+        All
+    }
+
     public class MainWindowViewModel : Screen, IDataErrorInfo
     {
         public BlocksBrowserViewModel BlocksBrowserViewViewModel { get; set; }
@@ -59,8 +65,10 @@ namespace BuildingBlocks.Presentation.ViewModels
             BoardWidth = blocks.WellWidth.ToString();
         }
 
+
         public void Start(string name)
         {
+            BlocksBrowserViewViewModel.UpdateBrowserView(DisplayMode.Selected);
             IsStartEnabled = false;
             IsStopEnabled = true;
             IsPauseEnabled = true;
@@ -72,7 +80,7 @@ namespace BuildingBlocks.Presentation.ViewModels
             {
                 int tempStep;
                 if (!int.TryParse(Step, out tempStep)) { tempStep = 1; }
-                AlgorithmSimulationViewViewModel = new AlgorithmSimulationViewModel(BlocksBrowserViewViewModel.Blocks,
+                AlgorithmSimulationViewViewModel = new AlgorithmSimulationViewModel(BlocksBrowserViewViewModel.DisplayedBlocks,
                     int.Parse(BoardWidth), int.Parse(K), tempStep);
                 BlocksBrowserViewViewModel.DisableQuantity();
             }
@@ -81,6 +89,7 @@ namespace BuildingBlocks.Presentation.ViewModels
 
         public void Stop(string name)
         {
+            BlocksBrowserViewViewModel.UpdateBrowserView(DisplayMode.All);
             EnableStart();
             IsStopEnabled = false;
             IsPauseEnabled = false;
@@ -103,7 +112,7 @@ namespace BuildingBlocks.Presentation.ViewModels
         {
             if (AlgorithmSimulationViewViewModel == null)
             {
-                AlgorithmSimulationViewViewModel = new AlgorithmSimulationViewModel(BlocksBrowserViewViewModel.Blocks,
+                AlgorithmSimulationViewViewModel = new AlgorithmSimulationViewModel(BlocksBrowserViewViewModel.DisplayedBlocks,
                     int.Parse(BoardWidth), int.Parse(K), int.Parse(Step));
                 BlocksBrowserViewViewModel.DisableQuantity();
             }
