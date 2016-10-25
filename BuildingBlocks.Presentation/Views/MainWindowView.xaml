@@ -28,7 +28,7 @@
                     <StackPanel Orientation="Horizontal">
                             <Button Content="Load File" x:Name="LoadFile" Style="{StaticResource ButtonStyle}" Command="{Binding LoadFile}" IsEnabled="{Binding IsLoadFileEnabled}" />
                         <Label Width="20" Height="30" Margin="60,0,0,0" Content="K:" />
-                        <controls:NumericUpDown Minimum="0" Interval="1" Value="{Binding K}" IsEnabled="{Binding IsKEnabled}" Width="80" Height="30" />
+                        <controls:NumericUpDown Minimum="1" Interval="1" Value="{Binding K}" IsEnabled="{Binding IsKEnabled}" Width="80" Height="30" />
                         <Label Width="80" Height="30" Margin="0,0,0,0" Content="Board Width:" />
                         <TextBox x:Name="BoardWidth" Width="80" Height="30" IsEnabled="False"/>
                     </StackPanel>
@@ -42,14 +42,13 @@
         </StackPanel>
         <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal"> 
             <Label Width="40" Height="30" Margin="40,0,0,0" Content="Step:" />
-            <controls:NumericUpDown Minimum="0" Interval="1" Value="{Binding Step}" IsEnabled="{Binding IsStepEnabled}" Width="80" Height="30" />
-
-            <!--<TextBox x:Name="Step" Width="80" Height="30" IsEnabled="{Binding IsStepEnabled}" />-->
+            <controls:NumericUpDown Minimum="1" Interval="1" Value="{Binding Step}" IsEnabled="{Binding IsStepEnabled}" Width="80" Height="30" />
             <Button x:Name="Start" Content="Start" Style="{StaticResource ButtonStyle}" IsEnabled="{Binding IsStartEnabled}" />
             <Button x:Name="Pause" Content="Pause" Style="{StaticResource ButtonStyle}" IsEnabled="{Binding IsPauseEnabled}" />
             <Button x:Name="Stop" Content="Stop" Style="{StaticResource ButtonStyle}" IsEnabled="{Binding IsStopEnabled}" />
             <Button x:Name="Next" Content="Next" Style="{StaticResource ButtonStyle}" IsEnabled="{Binding IsNextEnabled}" />
             <Button x:Name="Save" Content="Save" Style="{StaticResource ButtonStyle}" IsEnabled="False" />
+            <Button x:Name="Load" Content="Load" Style="{StaticResource ButtonStyle}" IsEnabled="False" />
         </StackPanel>
         <ScrollViewer Grid.Row="2" Grid.Column="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
             <local:AlgorithmSimulationView DataContext="{Binding AlgorithmSimulationViewViewModel}" />

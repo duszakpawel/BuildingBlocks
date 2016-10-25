@@ -28,6 +28,17 @@
                                         <Canvas Background="Transparent" Width="100" Height="100" Margin="10,0,0,0"  />
                                     </ItemsPanelTemplate>
                                 </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemContainerStyle>
+                                    <Style TargetType="ContentPresenter">
+                                        <Setter Property="Canvas.Left" Value="{Binding X}"/>
+                                        <Setter Property="Canvas.Top" Value="{Binding Y}"/>
+                                    </Style>
+                                </ItemsControl.ItemContainerStyle>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Rectangle Width="{Binding Width}" Height="{Binding Height}" Fill="{Binding FillColor}" Stroke="{Binding StrokeColor}"/>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
                             </ItemsControl>
                             <Label Margin="20,0,0,0" Width="60" VerticalAlignment="Center" Content="Quantity: " />
                             <controls:NumericUpDown Minimum="0" Maximum="10000" Interval="1" Value="{Binding Quantity}" IsEnabled="{Binding IsQuantityEnabled}" Width="80" Height="30" />

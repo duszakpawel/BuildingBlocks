@@ -30,7 +30,7 @@ namespace BuildingBlocks.Presentation.ViewModels
             var maxBlockWidth = Blocks.Max(item => item.Width);
             var maxBlockHeight = Blocks.Max(item => item.Height);
             var maxEdgeLength = maxBlockHeight > maxBlockWidth ? maxBlockHeight : maxBlockWidth;
-            var singleTileWidth = CanvasWidth/maxEdgeLength;
+            var singleTileWidth = CanvasWidth/((double)maxEdgeLength);
 
             Blocks.ForEach(x => x.Preprocess(maxEdgeLength, singleTileWidth, blockFillColor, blockEdgeColor));
         }

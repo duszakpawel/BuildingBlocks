@@ -8,6 +8,16 @@ using BuildingBlocks.Models.Annotations;
 
 namespace BuildingBlocks.Models
 {
+    public class RectItem
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+        public double Width { get; set; }
+        public double Height { get; set; }
+        public Brush FillColor { get; set; }
+        public Brush StrokeColor { get; set; }
+    }
+
     public class Block : INotifyPropertyChanged
     {
         public int Width { get; set; }
@@ -16,7 +26,7 @@ namespace BuildingBlocks.Models
 
         public bool[,] Content { get; set; }
 
-        public List<Rectangle> CanvasChildren { get; set; } = new List<Rectangle>();
+        public List<RectItem> CanvasChildren { get; set; } = new List<RectItem>();
 
         public int Quantity
         {
@@ -51,6 +61,7 @@ namespace BuildingBlocks.Models
         private int _quantity;
 
         private bool _isquantityenabled = true;
+        public static double SingleTileWidth { get; set; }
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -58,8 +69,9 @@ namespace BuildingBlocks.Models
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public void Preprocess(int maxEdgeLength, int singleTileWidth, Brush blockFillColor, Brush blockEdgeColor)
+        public void Preprocess(int maxEdgeLength, double singleTileWidth, Brush blockFillColor, Brush blockEdgeColor)
         {
+            SingleTileWidth = singleTileWidth;
             var rectVerticalShift = (int)((double)(maxEdgeLength - Height) / 2 * singleTileWidth);
 
             for (var i = 0; i < Height; ++i)
@@ -71,19 +83,18 @@ namespace BuildingBlocks.Models
                         continue;
                     }
 
-                    var rect = new Rectangle
+                    var rectLeftPosition = j * singleTileWidth;
+                    var topRectPosition = i * singleTileWidth + rectVerticalShift;
+
+                    var rect = new RectItem
                     {
-                        Fill = blockFillColor,
-                        Stroke = blockEdgeColor,
+                        FillColor = blockFillColor,
+                        StrokeColor = blockEdgeColor,
                         Width = singleTileWidth,
                         Height = singleTileWidth,
+                        X = rectLeftPosition,
+                        Y = topRectPosition
                     };
-
-                    var rectLeftPosition = j * singleTileWidth;
-                    var rightRectPosition = i * singleTileWidth + rectVerticalShift;
-
-                    Canvas.SetTop(rect, rightRectPosition);
-                    Canvas.SetLeft(rect, rectLeftPosition);
 
                     CanvasChildren.Add(rect);
                 }

@@ -7,9 +7,11 @@ namespace BuildingBlocks.Models
 {
     public class Simulation
     {
-        public ObservableCollection<Rectangle> CanvasChildren { get; set; } = new ObservableCollection<Rectangle>(new List<Rectangle>());
+        public ObservableCollection<RectItem> CanvasChildren { get; set; } = new ObservableCollection<RectItem>();
         public List<Block> UsedBlocks { get; set; }=  new List<Block>();
         public List<Block> AvailableBlocks { get; set; }= new List<Block>();
         public Simulation Result { get; set; }
+        public double CurrentHeight { get; set; }
+
     }
 }

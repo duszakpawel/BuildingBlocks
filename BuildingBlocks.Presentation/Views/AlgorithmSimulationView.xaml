@@ -23,14 +23,25 @@
             </ItemsControl.Template>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Border BorderThickness="1 0 1 1" BorderBrush="Black" Margin="10" Padding="1" Width="602" Height="602" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <Border BorderThickness="1 0 1 1" BorderBrush="Black" Margin="10" Padding="1" Width="602" Height="802" VerticalAlignment="Center" HorizontalAlignment="Center">
                         <WrapPanel Orientation="Horizontal" Margin="0">
                             <ItemsControl ItemsSource="{Binding CanvasChildren}">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
-                                        <Canvas Background="Beige" Width="600" Height="600" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                        <Canvas Width="600" Height="800" VerticalAlignment="Center" Background="Beige" HorizontalAlignment="Center" />
                                     </ItemsPanelTemplate>
                                 </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemContainerStyle>
+                                    <Style TargetType="ContentPresenter">
+                                        <Setter Property="Canvas.Left" Value="{Binding X}"/>
+                                        <Setter Property="Canvas.Top" Value="{Binding Y}"/>
+                                    </Style>
+                                </ItemsControl.ItemContainerStyle>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Rectangle Width="{Binding Width}" Height="{Binding Height}" Fill="{Binding FillColor}" Stroke="{Binding StrokeColor}" Margin="0"/>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
                             </ItemsControl>
                         </WrapPanel>
                     </Border>
