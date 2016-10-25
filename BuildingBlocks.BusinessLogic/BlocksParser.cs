@@ -25,7 +25,8 @@ namespace BuildingBlocks.BusinessLogic
 
                 var parts = line.Split(Separator);
                 gd.WellWidth = int.Parse(parts[0]);
-                gd.BlocksCount = int.Parse(parts[1]);
+                if (parts.Length > 1)
+                    gd.BlocksCount = int.Parse(parts[1]);
                 gd.Blocks = new List<Block>();
 
                 // next lines
