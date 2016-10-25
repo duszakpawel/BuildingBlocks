@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Threading;
+using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using BuildingBlocks.Models;
@@ -106,6 +108,18 @@ namespace BuildingBlocks.Presentation.ViewModels
                     if (count == 0)
                     {
                         continue;
+                    }
+                    var tmp = new ObservableCollection<RectItem>();
+                    foreach (var el in simulation.CanvasChildren)
+                    {
+                        el.FillColor = Brushes.Gray;
+                        tmp.Add(el);
+                    }
+                    foreach (var elem in tmp)
+                    {
+                        simulation.CanvasChildren.Remove(elem);
+                        simulation.CanvasChildren.Add(elem);
+
                     }
 
                     foreach (var element in simulation.AvailableBlocks[r].CanvasChildren)
