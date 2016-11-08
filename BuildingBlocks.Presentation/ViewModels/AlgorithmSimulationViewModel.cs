@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Threading;
-using System.Windows.Media;
-using System.Windows.Shapes;
 using System.Windows.Threading;
+using BuildingBlocks.BusinessLogic;
 using BuildingBlocks.Models;
 using Caliburn.Micro;
 
@@ -15,34 +12,41 @@ namespace BuildingBlocks.Presentation.ViewModels
     {
         public ObservableCollection<Simulation> Simulations { get; set; }
 
-        private readonly int _canvasWidth = 600;
-        // it may change
+        private readonly int _canvasWidth;
+
+        // TODO: it may change
         private int _canvasHeight = 800;
+
         private readonly int _blockWidth;
 
-        private readonly Dispatcher dispatcherThread;
+        private readonly int _k;
 
+        private int _step;
+
+        private readonly Dispatcher _dispatcherThread;
+
+        private readonly DispatcherTimer _dispatcherTimer = new DispatcherTimer();
 
         public AlgorithmSimulationViewModel(List<Block> blocks, int boardWidth, int k, int step)
         {
-            dispatcherTimer.Tick += DispatcherTimer_Tick;
-            dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 2);
-            var _step = step;
+            _dispatcherTimer.Tick += DispatcherTimer_Tick;
+            _dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 2);
+            _step = step;
+            _k = k;
+            _canvasWidth = 600;
             if (boardWidth > 50)
             {
                 _canvasWidth = boardWidth * 10;
             }
-            dispatcherThread = Dispatcher.CurrentDispatcher;
+            _dispatcherThread = Dispatcher.CurrentDispatcher;
             _blockWidth = _canvasWidth / boardWidth;
-
             Simulations = new ObservableCollection<Simulation>();
-            
             for (var i = 0; i < k; ++i)
             {
                 var blocksCopy = new List<Block>();
                 foreach (var element in blocks)
                 {
-                    var  b = new Block
+                    var b = new Block
                     {
                         Width = element.Width,
                         Height = element.Height,
@@ -57,9 +61,9 @@ namespace BuildingBlocks.Presentation.ViewModels
                             Height = el.Height,
                             Width = el.Width,
                             Y = el.Y,
-                            X=el.X,
-                            FillColor=el.FillColor,
-                            StrokeColor=el.StrokeColor
+                            X = el.X,
+                            FillColor = el.FillColor,
+                            StrokeColor = el.StrokeColor
                         });
                     }
                     blocksCopy.Add(b);
@@ -67,72 +71,37 @@ namespace BuildingBlocks.Presentation.ViewModels
                 Simulations.Add(new Simulation
                 {
                     CanvasChildren = new ObservableCollection<RectItem>(),
-                    AvailableBlocks = blocksCopy
+                    AvailableBlocks = blocksCopy,
+                    CurrentHeight = 0
                 });
-
             }
         }
 
-        public void Start()
+        public void Start(int step)
         {
-            dispatcherTimer.Start();
+            _step = step;
+            _dispatcherTimer.Start();
         }
 
         public void Stop()
         {
-           dispatcherTimer.Stop();
+            _dispatcherTimer.Stop();
         }
-        DispatcherTimer dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
 
         public void Pause()
         {
-            dispatcherTimer.Start();
+            _dispatcherTimer.Stop();
+        }
+
+        public void Next(int step)
+        {
+            _step = step;
+            _dispatcherThread.Invoke(() => { Simulations = Algorithm.Execute(Simulations, _canvasHeight); });
         }
 
         private void DispatcherTimer_Tick(object sender, EventArgs e)
         {
-            Next();
-        }
-
-        public void Next()
-        {
-            dispatcherThread.Invoke(() =>
-            {
-                foreach (var simulation in Simulations)
-                {
-                    var rnd = new Random();
-                    Thread.Sleep(50);
-                    var count = simulation.AvailableBlocks.Count;
-                    var r = rnd.Next(count);
-
-                    if (count == 0)
-                    {
-                        continue;
-                    }
-                    var tmp = new ObservableCollection<RectItem>();
-                    foreach (var el in simulation.CanvasChildren)
-                    {
-                        el.FillColor = Brushes.Gray;
-                        tmp.Add(el);
-                    }
-                    foreach (var elem in tmp)
-                    {
-                        simulation.CanvasChildren.Remove(elem);
-                        simulation.CanvasChildren.Add(elem);
-
-                    }
-
-                    foreach (var element in simulation.AvailableBlocks[r].CanvasChildren)
-                    {
-                        element.Y = _canvasHeight- simulation.CurrentHeight - (simulation.AvailableBlocks[r].Height+1.5)*Block.SingleTileWidth + element.Y;
-                        simulation.CanvasChildren.Add(element);
-                    }
-                    simulation.CurrentHeight += simulation.AvailableBlocks[r].Height * Block.SingleTileWidth;
-                    simulation.AvailableBlocks.RemoveAt(r);
-                }
-
-                
-            });
+            _dispatcherThread.Invoke(() => { Simulations = Algorithm.Execute(Simulations, _canvasHeight); });
         }
     }
 }

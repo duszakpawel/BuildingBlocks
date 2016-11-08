@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Shapes;
 using BuildingBlocks.Models.Annotations;
 
 namespace BuildingBlocks.Models
@@ -11,10 +9,15 @@ namespace BuildingBlocks.Models
     public class RectItem
     {
         public double X { get; set; }
+
         public double Y { get; set; }
+
         public double Width { get; set; }
+
         public double Height { get; set; }
+
         public Brush FillColor { get; set; }
+
         public Brush StrokeColor { get; set; }
     }
 
@@ -36,10 +39,8 @@ namespace BuildingBlocks.Models
             }
             set
             {
-                if (value >= 0)
-                {
-                    _quantity = value;
-                }
+                _quantity = value;
+                OnPropertyChanged(nameof(Quantity));
             }
         }
 
@@ -58,22 +59,16 @@ namespace BuildingBlocks.Models
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        public static double SingleTileWidth { get; set; }
+
         private int _quantity;
 
         private bool _isquantityenabled = true;
-        public static double SingleTileWidth { get; set; }
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
 
         public void Preprocess(int maxEdgeLength, double singleTileWidth, Brush blockFillColor, Brush blockEdgeColor)
         {
             SingleTileWidth = singleTileWidth;
             var rectVerticalShift = (int)((double)(maxEdgeLength - Height) / 2 * singleTileWidth);
-
             for (var i = 0; i < Height; ++i)
             {
                 for (var j = 0; j < Width; ++j)
@@ -82,10 +77,8 @@ namespace BuildingBlocks.Models
                     {
                         continue;
                     }
-
                     var rectLeftPosition = j * singleTileWidth;
                     var topRectPosition = i * singleTileWidth + rectVerticalShift;
-
                     var rect = new RectItem
                     {
                         FillColor = blockFillColor,
@@ -95,10 +88,15 @@ namespace BuildingBlocks.Models
                         X = rectLeftPosition,
                         Y = topRectPosition
                     };
-
                     CanvasChildren.Add(rect);
                 }
             }
+        }
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

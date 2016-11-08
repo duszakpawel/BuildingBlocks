@@ -1,4 +1,6 @@
 ﻿using System.IO;
+using System.Linq;
+using System.Security.Permissions;
 using BuildingBlocks.BusinessLogic;
 using BuildingBlocks.Presentation.Common;
 using Caliburn.Micro;
@@ -18,35 +20,23 @@ namespace BuildingBlocks.Presentation.ViewModels
 
         public int Step { get; set; } = 1;
 
-        public bool IsStepEnabled
-        {
-            get
-            {
-                return _isStepEnabled;
+        public bool CanStart => K > 0 && Step > 0 && BoardWidth > 0 && !IsProcessing;
 
-            }
-            set
-            {
-                _isStepEnabled = value;
-                NotifyOfPropertyChange(nameof(IsStepEnabled));
-            }
-        }
+        public bool CanStop { get; set; }
 
-        public bool IsLoadFileEnabled { get; set; } = true;
+        public bool CanPause { get; set; }
 
-        public bool IsKEnabled { get; set; } = true;
+        public bool CanNext => K > 0 && Step > 0 && BoardWidth > 0 && !IsProcessing;
 
-        public bool IsStartEnabled { get; set; }
+        public bool CanLoadFile { get; set; } = true;
 
-        public bool IsStopEnabled { get; set; }
-
-        public bool IsPauseEnabled { get; set; }
-
-        public bool IsNextEnabled { get; set; }
+        public bool IsProcessing { get; set; }
 
         public bool IsExpanded { get; set; } = true;
 
-        private bool _isStepEnabled = true;
+        public bool IsKEnabled { get; set; } = true;
+
+        public bool IsStepEnabled { get; set; } = true;
 
         public async void LoadFile(string name)
         {
@@ -54,59 +44,43 @@ namespace BuildingBlocks.Presentation.ViewModels
             {
                 Filter = "txt files (*.txt)|*.txt"
             };
-
             if (openFileDialog.ShowDialog() != true)
             {
                 return;
             }
-
             var blocks = await new BlocksParser().LoadData(new StreamReader(openFileDialog.FileName));
             BlocksBrowserViewViewModel = new BlocksBrowserViewModel(blocks.Blocks);
-            BoardWidth = blocks.WellWidth;
-
-            IsStartEnabled = true;
-            IsPauseEnabled = false;
-            IsStopEnabled = false;
-            IsStepEnabled = true;
-            IsKEnabled = true;
-            IsNextEnabled = true;
+            BoardWidth = blocks.WellWidth;     
         }
 
         public void Start(string name)
         {
-            BlocksBrowserViewViewModel.UpdateBrowserView(DisplayMode.Selected);
-
-            IsStartEnabled = false;
-            IsStopEnabled = true;
-            IsPauseEnabled = true;
-            IsKEnabled = false;
-            IsLoadFileEnabled = false;
+            IsProcessing = true;
+            CanLoadFile = false;
             IsExpanded = false;
-            IsNextEnabled = false;
+            CanStop = true;
+            CanPause = true;
+            IsKEnabled = false;
             IsStepEnabled = false;
-
+            BlocksBrowserViewViewModel.UpdateBrowserView(DisplayMode.Selected);
             if (AlgorithmSimulationViewViewModel == null)
             {
                 AlgorithmSimulationViewViewModel = new AlgorithmSimulationViewModel(BlocksBrowserViewViewModel.DisplayedBlocks, BoardWidth, K, Step);
                 BlocksBrowserViewViewModel.DisableQuantity();
             }
-
-            AlgorithmSimulationViewViewModel.Start();
+            AlgorithmSimulationViewViewModel.Start(Step);
         }
 
         public void Stop(string name)
         {
-            BlocksBrowserViewViewModel.UpdateBrowserView(DisplayMode.All);
-
-            IsStartEnabled = true;
-            IsStopEnabled = false;
-            IsPauseEnabled = false;
-            IsKEnabled = true;
-            IsLoadFileEnabled = true;
+            IsProcessing = false;
+            CanLoadFile = true;
             IsExpanded = true;
+            CanStop = false;
+            CanPause = false;
+            IsKEnabled = true;
             IsStepEnabled = true;
-            IsNextEnabled = true;
-
+            BlocksBrowserViewViewModel.UpdateBrowserView(DisplayMode.All);
             AlgorithmSimulationViewViewModel.Stop();
             AlgorithmSimulationViewViewModel = null;
             BlocksBrowserViewViewModel.EnableQuantity();
@@ -114,26 +88,28 @@ namespace BuildingBlocks.Presentation.ViewModels
 
         public void Pause(string name)
         {
-
-            IsStartEnabled = true;
-            IsPauseEnabled = false;
+            IsProcessing = false;
+            CanStop = true;
+            CanPause = false;
+            IsKEnabled = false;
             IsStepEnabled = true;
-            IsNextEnabled = true;
             AlgorithmSimulationViewViewModel.Pause();
         }
 
         public void Next(string name)
         {
+            CanLoadFile = false;
+            IsExpanded = false;
+            CanStop = true;
+            CanPause = false;
+            IsKEnabled = false;
+            IsStepEnabled = true;
             if (AlgorithmSimulationViewViewModel == null)
             {
                 AlgorithmSimulationViewViewModel = new AlgorithmSimulationViewModel(BlocksBrowserViewViewModel.DisplayedBlocks, BoardWidth, K, Step);
                 BlocksBrowserViewViewModel.DisableQuantity();
             }
-
-            AlgorithmSimulationViewViewModel.Next();
-            IsStopEnabled = true;
+            AlgorithmSimulationViewViewModel.Next(Step);    
         }
-
-
     }
 }

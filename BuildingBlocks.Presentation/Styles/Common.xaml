@@ -3,13 +3,9 @@
                     xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls">
     <Style TargetType="{x:Type controls:NumericUpDown}">
         <Style.Triggers>
-            <Trigger Property="IsReadOnly"
-                                 Value="True">
-                <Setter Property="HideUpDownButtons"
-                                    Value="True" />
+            <Trigger Property="IsReadOnly" Value="True">
+                <Setter Property="HideUpDownButtons" Value="True" />
             </Trigger>
         </Style.Triggers>
     </Style>
-
-
 </ResourceDictionary>

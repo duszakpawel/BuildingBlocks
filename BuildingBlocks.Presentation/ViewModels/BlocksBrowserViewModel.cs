@@ -10,29 +10,20 @@ namespace BuildingBlocks.Presentation.ViewModels
     public class BlocksBrowserViewModel : Screen
     {
         public List<Block> DisplayedBlocks { get; set; }
+
         public List<Block> LoadedBlocks { get; set; }
 
         private const int CanvasWidth = 100;
 
-        private static readonly Brush blockFillColor = Brushes.DeepSkyBlue;
-        private static readonly Brush blockEdgeColor = Brushes.Black;
+        private static readonly Brush BlockFillColor = Brushes.DeepSkyBlue;
+
+        private static readonly Brush BlockEdgeColor = Brushes.Black;
 
         public BlocksBrowserViewModel(List<Block> blocks)
         {
             PreprocessBlocks(blocks);
-
             DisplayedBlocks = blocks;
             LoadedBlocks = blocks;
-        }
-
-        private void PreprocessBlocks(List<Block> Blocks)
-        {
-            var maxBlockWidth = Blocks.Max(item => item.Width);
-            var maxBlockHeight = Blocks.Max(item => item.Height);
-            var maxEdgeLength = maxBlockHeight > maxBlockWidth ? maxBlockHeight : maxBlockWidth;
-            var singleTileWidth = CanvasWidth/((double)maxEdgeLength);
-
-            Blocks.ForEach(x => x.Preprocess(maxEdgeLength, singleTileWidth, blockFillColor, blockEdgeColor));
         }
 
         public void DisableQuantity()
@@ -56,8 +47,16 @@ namespace BuildingBlocks.Presentation.ViewModels
             {
                 DisplayedBlocks = LoadedBlocks;
             }
-
             NotifyOfPropertyChange(nameof(DisplayedBlocks));
+        }
+
+        private static void PreprocessBlocks(List<Block> blocks)
+        {
+            var maxBlockWidth = blocks.Max(item => item.Width);
+            var maxBlockHeight = blocks.Max(item => item.Height);
+            var maxEdgeLength = maxBlockHeight > maxBlockWidth ? maxBlockHeight : maxBlockWidth;
+            var singleTileWidth = CanvasWidth / (double)maxEdgeLength;
+            blocks.ForEach(x => x.Preprocess(maxEdgeLength, singleTileWidth, BlockFillColor, BlockEdgeColor));
         }
     }
 }

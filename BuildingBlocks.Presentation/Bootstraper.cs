@@ -34,13 +34,10 @@ namespace BuildingBlocks.Presentation
             {
                 baseAssemblies.Add(thisAssembly);
             }
-
             foreach (var assembly in baseAssemblies.ToList().Where(newAssembly => AssemblySource.Instance.Contains(newAssembly)))
             {
                 baseAssemblies.Remove(assembly);
             }
-
-
             return baseAssemblies;
         }
 
