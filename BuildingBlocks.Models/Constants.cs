@@ -9,7 +9,9 @@ namespace BuildingBlocks.Models
         public static readonly Brush OldBlockEdgeColor = Brushes.Gray;
 
         public const int SingleTileWidth = 25;
-        public const int SimulationHeight = 800;
+        public const int SimulationStartHeight = 400;
+        public const int CompulsoryFreeSpaceInWellHeight = 8; // in bool[,] size 
+
 
 
     }

@@ -10,7 +10,7 @@ namespace BuildingBlocks.Models
     {
         public ObservableCollection<RectItem> CanvasChildren { get; set; } = new ObservableCollection<RectItem>();
         public List<Block> AvailableBlocks { get; set; } = new List<Block>();
-        public int CurrentHeight { get; set; }
+        public int WellHeight { get; set; }
         public bool[,] Content { get; set; }
         public bool[,] LastBlock { get; set; }
 
