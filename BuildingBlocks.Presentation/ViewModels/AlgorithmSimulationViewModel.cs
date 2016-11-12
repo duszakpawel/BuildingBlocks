@@ -11,17 +11,21 @@ namespace BuildingBlocks.Presentation.ViewModels
     public class AlgorithmSimulationViewModel : Screen
     {
         public ObservableCollection<Simulation> Simulations { get; set; }
+        public int WellWidth { get; set; } = 100;
 
         private readonly DispatcherTimer dispatcherTimer;
         private int step;
+        private int k;
 
 
         public AlgorithmSimulationViewModel(List<Block> blocks, int boardWidth, int k, int step)
         {
             this.step = step;
+            this.k = k;
+            WellWidth = boardWidth * Constants.SingleTileWidth;
 
             dispatcherTimer = new DispatcherTimer();
-            dispatcherTimer.Interval = new TimeSpan(0,0,0,1);
+            dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 1);
             dispatcherTimer.Tick += DispatcherTimerOnTick;
 
             Simulations = new ObservableCollection<Simulation>();
@@ -32,7 +36,7 @@ namespace BuildingBlocks.Presentation.ViewModels
                     AvailableBlocks = new List<Block>(blocks),
                     CanvasChildren = new ObservableCollection<RectItem>(),
                     CurrentHeight = Constants.SimulationHeight,
-                    Content = new bool[boardWidth,Constants.SimulationHeight / Constants.SingleTileWidth]
+                    Content = new bool[boardWidth, Constants.SimulationHeight / Constants.SingleTileWidth]
                 });
             }
         }
@@ -68,7 +72,7 @@ namespace BuildingBlocks.Presentation.ViewModels
         {
             for (int i = 0; i < step; i++)
             {
-                Algorithm.Execute(Simulations, Constants.SimulationHeight);
+                Simulations = Algorithm.Execute(Simulations, Constants.SimulationHeight, k);
             }
         }
 

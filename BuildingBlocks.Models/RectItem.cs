@@ -24,7 +24,7 @@ namespace BuildingBlocks.Models
             Y = y;
             Height = Constants.SingleTileWidth;
             Width = Constants.SingleTileWidth;
-            FillColor = Constants.BlockFillColor;
+            FillColor = Constants.OldBlockEdgeColor;
             StrokeColor = Constants.BlockEdgeColor;
         }
 

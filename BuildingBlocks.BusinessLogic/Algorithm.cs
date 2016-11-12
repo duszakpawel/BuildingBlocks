@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
@@ -9,25 +10,46 @@ namespace BuildingBlocks.BusinessLogic
 {
     public static class Algorithm
     {
-        private static int yy = 25;
-        public static void Execute(ObservableCollection<Simulation> simulations, int canvasHeight)
+        public static ObservableCollection<Simulation> Execute(ObservableCollection<Simulation> simulations, int canvasHeight, int k)
         {
+            var dict = new Dictionary<Simulation,int>();
             foreach (var simulation in simulations)
             {
-                int rnd = new Random().Next(0, simulation.AvailableBlocks.Count - 1);
-                var block = simulation.AvailableBlocks[rnd];
-                AddBlockToSimulation(block, simulation, 0, yy);
-                yy -= 10;
+                foreach (var block in simulation.AvailableBlocks)
+                {
+                    foreach (var b in BlockLogic.RotateBlock(block))
+                    {
+                        var xy = BlockLogic.FindBestPlaceForBlock(simulation.Content, b.Content);
+                        var sim = AddBlockToSimulation(block, simulation, xy.Item1,xy.Item2);
+                        var score = EvaluateFunction.Evaluate(sim.Content);
+                        dict.Add(sim,score);
+                    }
+                }
             }
+
+            var bestScores = dict.Values.OrderByDescending(v => v).Take(k).Distinct().ToList();
+            var ret = new ObservableCollection<Simulation>(dict.Where(d => bestScores.Contains(d.Value)).Select(p => p.Key).Take(k));
+
+            foreach (var sim in ret)
+            {
+                SyncCanvasWithContent(sim);
+            }
+
+            return ret;
         }
 
         // x and y are coordinates of top left corner of block
-        private static void AddBlockToSimulation(Block block, Simulation simulation, int x, int y)
+        private static Simulation AddBlockToSimulation(Block block, Simulation simulation, int x, int y)
         {
-            foreach (var canvasChild in simulation.CanvasChildren)
+            var sim = new Simulation()
             {
-                canvasChild.FillColor = Constants.OldBlockEdgeColor;
-            }
+                Content = (bool[,]) simulation.Content.Clone(),
+                AvailableBlocks = new List<Block>(simulation.AvailableBlocks),
+                CurrentHeight = simulation.CurrentHeight,
+                LastBlock = new bool[simulation.Content.GetLength(0), simulation.Content.GetLength(1)]
+            };
+
+            sim.AvailableBlocks.Remove(block);
 
             for (int i = 0; i < block.Height; i++)
             {
@@ -35,13 +57,14 @@ namespace BuildingBlocks.BusinessLogic
                 {
                     if (block.Content[i, j])
                     {
-                        if (simulation.Content[x + i, y + j])
+                        if (sim.Content[x + i, y + j])
                             throw new ArgumentException("This place in simulation is already filled");
-                        simulation.Content[x + i, y + j] = true;
-                        simulation.CanvasChildren.Add(new RectItem((x+i) * Constants.SingleTileWidth, (y+j) * Constants.SingleTileWidth));
+                        sim.Content[x + i, y + j] = true;
+                        sim.LastBlock[x + i, y + j] = true;
                     }
                 }
             }
+            return sim;
         }
 
         private static void SyncCanvasWithContent(Simulation simulation)
@@ -51,8 +74,15 @@ namespace BuildingBlocks.BusinessLogic
             {
                 for (int j = 0; j < simulation.Content.GetLength(1); j++)
                 {
-                    if (simulation.Content[i, j])
+                    if (simulation.LastBlock[i, j])
+                        children.Add(new RectItem(i * Constants.SingleTileWidth, j * Constants.SingleTileWidth)
+                        {
+                            FillColor = Constants.BlockFillColor
+                        });
+                    else
+                        if (simulation.Content[i, j])
                         children.Add(new RectItem(i * Constants.SingleTileWidth, j * Constants.SingleTileWidth));
+
                 }
             }
             simulation.CanvasChildren = children;

@@ -12,6 +12,8 @@ namespace BuildingBlocks.Models
         public List<Block> AvailableBlocks { get; set; } = new List<Block>();
         public int CurrentHeight { get; set; }
         public bool[,] Content { get; set; }
+        public bool[,] LastBlock { get; set; }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]

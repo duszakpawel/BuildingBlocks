@@ -23,12 +23,13 @@
             </ItemsControl.Template>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Border BorderThickness="1 0 1 1" BorderBrush="Black" Margin="10" Padding="1" Width="602" Height="802" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <Border BorderThickness="1 0 1 1" BorderBrush="Black" Margin="10" Padding="1" VerticalAlignment="Center" HorizontalAlignment="Center">
                         <WrapPanel Orientation="Horizontal" Margin="0">
                             <ItemsControl ItemsSource="{Binding CanvasChildren}">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
-                                        <Canvas Width="600" Height="800" VerticalAlignment="Center" Background="Beige" HorizontalAlignment="Center" />
+                                        <Canvas Width="{Binding DataContext.WellWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" 
+                                                Height="800" VerticalAlignment="Center" Background="Beige" HorizontalAlignment="Center" />
                                     </ItemsPanelTemplate>
                                 </ItemsControl.ItemsPanel>
                                 <ItemsControl.ItemContainerStyle>
