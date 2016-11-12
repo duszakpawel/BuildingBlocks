@@ -8,19 +8,20 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
 {
     public static class Algorithm
     {
-        public static ObservableCollection<Simulation> Execute(ObservableCollection<Simulation> simulations, int canvasHeight, int k)
+        public static ObservableCollection<Simulation> Execute(ObservableCollection<Simulation> simulations, int k)
         {
-            var dict = new Dictionary<Simulation,int>();
+            var dict = new Dictionary<Simulation, int>();
             foreach (var simulation in simulations)
             {
+                CheckAndCorrectSimulationHeight(simulation);
                 foreach (var block in simulation.AvailableBlocks)
                 {
                     foreach (var b in BlockLogic.RotateBlock(block))
                     {
                         var xy = BlockLogic.FindBestPlaceForBlock(simulation.Content, b.Content);
-                        var sim = AddBlockToSimulation(block, simulation, xy.Item1,xy.Item2);
+                        var sim = AddBlockToSimulation(block, simulation, xy.Item1, xy.Item2);
                         var score = EvaluateFunction.Evaluate(sim.Content);
-                        dict.Add(sim,score);
+                        dict.Add(sim, score);
                     }
                 }
             }
@@ -41,9 +42,9 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
         {
             var sim = new Simulation()
             {
-                Content = (bool[,]) simulation.Content.Clone(),
+                Content = (bool[,])simulation.Content.Clone(),
                 AvailableBlocks = new List<Block>(simulation.AvailableBlocks),
-                CurrentHeight = simulation.CurrentHeight,
+                WellHeight = simulation.WellHeight,
                 LastBlock = new bool[simulation.Content.GetLength(0), simulation.Content.GetLength(1)]
             };
 
@@ -84,6 +85,37 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
                 }
             }
             simulation.CanvasChildren = children;
+        }
+
+        private static void CheckAndCorrectSimulationHeight(Simulation simulation)
+        {
+            for (int j = 0; j < Constants.CompulsoryFreeSpaceInWellHeight; j++)
+            {
+                bool free = true;
+                for (int i = 0; i < simulation.Content.GetLength(0); i++)
+                {
+                    if (simulation.Content[i,j])
+                    {
+                        free = false;
+                        break;
+                    }
+                }
+                if (!free)
+                {
+                    // make well bigger: 
+                    simulation.WellHeight += Constants.CompulsoryFreeSpaceInWellHeight*Constants.SingleTileWidth;
+                    bool[,] newContent = new bool[simulation.Content.GetLength(0), simulation.Content.GetLength(1) + Constants.CompulsoryFreeSpaceInWellHeight];
+                    for (int ii = 0; ii < simulation.Content.GetLength(0); ii++)
+                    {
+                        for (int jj = 0; jj < simulation.Content.GetLength(1); jj++)
+                        {
+                            newContent[ii, jj + Constants.CompulsoryFreeSpaceInWellHeight] = simulation.Content[ii, jj];
+                        }
+                    }
+                    simulation.Content = newContent;
+                    return;
+                }
+            }
         }
     }
 }
