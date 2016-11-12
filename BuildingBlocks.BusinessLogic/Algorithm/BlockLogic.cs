@@ -1,19 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BuildingBlocks.Models;
 
-namespace BuildingBlocks.BusinessLogic
+namespace BuildingBlocks.BusinessLogic.Algorithm
 {
     public static class BlockLogic
     {
+
+        // TODO - zwrócić tutaj 4 obroty bloków (lub mniej jeżeli jest symetryczny w jakis sposób) 
         public static IEnumerable<Block> RotateBlock(Block block)
         {
             yield return block;
         }
 
+        // Obecnie znajduje położenie (x,y) - lewy górny róg,  które jest najniżej jak się da. Z tego wiersza wybiera pozycję najbardziej po lewo. 
+        // Do zmiany? Może czasami lepiej dać wyżej? Może zwracać IEnumerable<Tuple> i sprawdzać kilka? 
         public static Tuple<int, int> FindBestPlaceForBlock(bool[,] board, bool[,] block)
         {
             for (int j = board.GetLength(1) - 1; j >= 0; j--)

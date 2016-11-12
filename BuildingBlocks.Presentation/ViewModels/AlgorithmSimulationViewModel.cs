@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Threading;
 using BuildingBlocks.BusinessLogic;
+using BuildingBlocks.BusinessLogic.Algorithm;
 using BuildingBlocks.Models;
 using Caliburn.Micro;
 

@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading;
 using BuildingBlocks.Models;
-using System.Windows.Media;
 
-namespace BuildingBlocks.BusinessLogic
+namespace BuildingBlocks.BusinessLogic.Algorithm
 {
     public static class Algorithm
     {

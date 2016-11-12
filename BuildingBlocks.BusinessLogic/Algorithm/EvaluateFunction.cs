@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BuildingBlocks.BusinessLogic
+﻿namespace BuildingBlocks.BusinessLogic.Algorithm
 {
     public class EvaluateFunction
     {
-        // for now best score is biggest score - you may change it 
+        // Teraz najlepszy wynik oznacza największy wynik. Można zmienić, wtedy zmiana w Algorithm z OrderByDescending do OrderBy
+        // Teraz wynik to najwyżej wysunięty prostokąt 
+        // TODO Lepsza ocena położenia 
         public static int Evaluate(bool[,] content)
         {
             int height = 0;

@@ -64,10 +64,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Algorithm.cs" />
-    <Compile Include="BlockLogic.cs" />
+    <Compile Include="Algorithm\Algorithm.cs" />
+    <Compile Include="Algorithm\BlockLogic.cs" />
     <Compile Include="BlocksParser.cs" />
-    <Compile Include="EvaluateFunction.cs" />
+    <Compile Include="Algorithm\EvaluateFunction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
