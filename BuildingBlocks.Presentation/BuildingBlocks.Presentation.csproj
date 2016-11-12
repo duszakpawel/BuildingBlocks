@@ -89,6 +89,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Bootstraper.cs" />
+    <Compile Include="Common\Constants.cs" />
     <Compile Include="Common\DisplayMode.cs" />
     <Compile Include="ShowShellEvent.cs" />
     <Compile Include="ViewModels\AlgorithmSimulationViewModel.cs" />

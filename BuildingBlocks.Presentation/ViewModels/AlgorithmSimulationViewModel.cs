@@ -12,96 +12,66 @@ namespace BuildingBlocks.Presentation.ViewModels
     {
         public ObservableCollection<Simulation> Simulations { get; set; }
 
-        private readonly int _canvasWidth;
+        private readonly DispatcherTimer dispatcherTimer;
+        private int step;
 
-        // TODO: it may change
-        private int _canvasHeight = 800;
-
-        private readonly int _blockWidth;
-
-        private readonly int _k;
-
-        private int _step;
-
-        private readonly Dispatcher _dispatcherThread;
-
-        private readonly DispatcherTimer _dispatcherTimer = new DispatcherTimer();
 
         public AlgorithmSimulationViewModel(List<Block> blocks, int boardWidth, int k, int step)
         {
-            _dispatcherTimer.Tick += DispatcherTimer_Tick;
-            _dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 2);
-            _step = step;
-            _k = k;
-            _canvasWidth = 600;
-            if (boardWidth > 50)
-            {
-                _canvasWidth = boardWidth * 10;
-            }
-            _dispatcherThread = Dispatcher.CurrentDispatcher;
-            _blockWidth = _canvasWidth / boardWidth;
+            this.step = step;
+
+            dispatcherTimer = new DispatcherTimer();
+            dispatcherTimer.Interval = new TimeSpan(0,0,0,1);
+            dispatcherTimer.Tick += DispatcherTimerOnTick;
+
             Simulations = new ObservableCollection<Simulation>();
-            for (var i = 0; i < k; ++i)
+            for (int i = 0; i < k; i++)
             {
-                var blocksCopy = new List<Block>();
-                foreach (var element in blocks)
+                Simulations.Add(new Simulation()
                 {
-                    var b = new Block
-                    {
-                        Width = element.Width,
-                        Height = element.Height,
-                        Content = element.Content,
-                        Quantity = element.Quantity,
-                        IsQuantityEnabled = element.IsQuantityEnabled,
-                    };
-                    foreach (var el in element.CanvasChildren)
-                    {
-                        b.CanvasChildren.Add(new RectItem
-                        {
-                            Height = el.Height,
-                            Width = el.Width,
-                            Y = el.Y,
-                            X = el.X,
-                            FillColor = el.FillColor,
-                            StrokeColor = el.StrokeColor
-                        });
-                    }
-                    blocksCopy.Add(b);
-                }
-                Simulations.Add(new Simulation
-                {
+                    AvailableBlocks = new List<Block>(blocks),
                     CanvasChildren = new ObservableCollection<RectItem>(),
-                    AvailableBlocks = blocksCopy,
-                    CurrentHeight = 0
+                    CurrentHeight = Constants.SimulationHeight,
+                    Content = new bool[boardWidth,Constants.SimulationHeight / Constants.SingleTileWidth]
                 });
             }
         }
 
         public void Start(int step)
         {
-            _step = step;
-            _dispatcherTimer.Start();
+            this.step = step;
+            dispatcherTimer.Start();
         }
 
         public void Stop()
         {
-            _dispatcherTimer.Stop();
+            dispatcherTimer.Stop();
         }
 
         public void Pause()
         {
-            _dispatcherTimer.Stop();
+            dispatcherTimer.Stop();
         }
 
         public void Next(int step)
         {
-            _step = step;
-            _dispatcherThread.Invoke(() => { Simulations = Algorithm.Execute(Simulations, _canvasHeight); });
+            this.step = step;
+            ExecuteAlgoithmSteps();
         }
 
-        private void DispatcherTimer_Tick(object sender, EventArgs e)
+        private void DispatcherTimerOnTick(object sender, EventArgs eventArgs)
         {
-            _dispatcherThread.Invoke(() => { Simulations = Algorithm.Execute(Simulations, _canvasHeight); });
+            ExecuteAlgoithmSteps();
         }
+
+        private void ExecuteAlgoithmSteps()
+        {
+            for (int i = 0; i < step; i++)
+            {
+                Algorithm.Execute(Simulations, Constants.SimulationHeight);
+            }
+        }
+
+
     }
 }

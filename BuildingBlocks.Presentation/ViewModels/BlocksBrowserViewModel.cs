@@ -10,14 +10,8 @@ namespace BuildingBlocks.Presentation.ViewModels
     public class BlocksBrowserViewModel : Screen
     {
         public List<Block> DisplayedBlocks { get; set; }
-
         public List<Block> LoadedBlocks { get; set; }
-
         private const int CanvasWidth = 100;
-
-        private static readonly Brush BlockFillColor = Brushes.DeepSkyBlue;
-
-        private static readonly Brush BlockEdgeColor = Brushes.Black;
 
         public BlocksBrowserViewModel(List<Block> blocks)
         {
@@ -56,7 +50,7 @@ namespace BuildingBlocks.Presentation.ViewModels
             var maxBlockHeight = blocks.Max(item => item.Height);
             var maxEdgeLength = maxBlockHeight > maxBlockWidth ? maxBlockHeight : maxBlockWidth;
             var singleTileWidth = CanvasWidth / (double)maxEdgeLength;
-            blocks.ForEach(x => x.Preprocess(maxEdgeLength, singleTileWidth, BlockFillColor, BlockEdgeColor));
+            blocks.ForEach(x => x.Preprocess(maxEdgeLength, (int) singleTileWidth));
         }
     }
 }

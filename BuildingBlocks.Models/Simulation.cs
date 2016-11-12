@@ -1,16 +1,23 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using BuildingBlocks.Models.Annotations;
 
 namespace BuildingBlocks.Models
 {
-    public class Simulation
+    public class Simulation : INotifyPropertyChanged
     {
         public ObservableCollection<RectItem> CanvasChildren { get; set; } = new ObservableCollection<RectItem>();
-
-        public List<Block> UsedBlocks { get; set; } = new List<Block>();
-
         public List<Block> AvailableBlocks { get; set; } = new List<Block>();
+        public int CurrentHeight { get; set; }
+        public bool[,] Content { get; set; }
+        public event PropertyChangedEventHandler PropertyChanged;
 
-        public double CurrentHeight { get; set; }
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }
