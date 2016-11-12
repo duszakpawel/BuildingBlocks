@@ -6,6 +6,8 @@ namespace BuildingBlocks.Models
     {
         public static readonly Brush BlockFillColor = Brushes.DeepSkyBlue;
         public static readonly Brush BlockEdgeColor = Brushes.Black;
+        public static readonly Brush OldBlockEdgeColor = Brushes.Gray;
+
         public const int SingleTileWidth = 25;
         public const int SimulationHeight = 800;
 

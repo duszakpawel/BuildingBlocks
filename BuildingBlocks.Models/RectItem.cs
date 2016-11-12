@@ -1,8 +1,11 @@
-﻿using System.Windows.Media;
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Windows.Media;
+using BuildingBlocks.Models.Annotations;
 
 namespace BuildingBlocks.Models
 {
-    public class RectItem
+    public class RectItem : INotifyPropertyChanged
     {
         public int X { get; set; }
         public int Y { get; set; }
@@ -23,6 +26,14 @@ namespace BuildingBlocks.Models
             Width = Constants.SingleTileWidth;
             FillColor = Constants.BlockFillColor;
             StrokeColor = Constants.BlockEdgeColor;
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

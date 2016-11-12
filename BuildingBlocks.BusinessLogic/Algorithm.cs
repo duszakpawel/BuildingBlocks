@@ -24,6 +24,11 @@ namespace BuildingBlocks.BusinessLogic
         // x and y are coordinates of top left corner of block
         private static void AddBlockToSimulation(Block block, Simulation simulation, int x, int y)
         {
+            foreach (var canvasChild in simulation.CanvasChildren)
+            {
+                canvasChild.FillColor = Constants.OldBlockEdgeColor;
+            }
+
             for (int i = 0; i < block.Height; i++)
             {
                 for (int j = 0; j < block.Width; j++)
@@ -33,10 +38,10 @@ namespace BuildingBlocks.BusinessLogic
                         if (simulation.Content[x + i, y + j])
                             throw new ArgumentException("This place in simulation is already filled");
                         simulation.Content[x + i, y + j] = true;
+                        simulation.CanvasChildren.Add(new RectItem((x+i) * Constants.SingleTileWidth, (y+j) * Constants.SingleTileWidth));
                     }
                 }
             }
-            SyncCanvasWithContent(simulation);
         }
 
         private static void SyncCanvasWithContent(Simulation simulation)
