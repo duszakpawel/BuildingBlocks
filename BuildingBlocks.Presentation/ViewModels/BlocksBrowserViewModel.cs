@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Media;
 using BuildingBlocks.Models;
 using BuildingBlocks.Presentation.Common;
 using Caliburn.Micro;
@@ -10,7 +9,9 @@ namespace BuildingBlocks.Presentation.ViewModels
     public class BlocksBrowserViewModel : Screen
     {
         public List<Block> DisplayedBlocks { get; set; }
+
         public List<Block> LoadedBlocks { get; set; }
+
         private const int CanvasWidth = 100;
 
         public BlocksBrowserViewModel(List<Block> blocks)
@@ -50,7 +51,7 @@ namespace BuildingBlocks.Presentation.ViewModels
             var maxBlockHeight = blocks.Max(item => item.Height);
             var maxEdgeLength = maxBlockHeight > maxBlockWidth ? maxBlockHeight : maxBlockWidth;
             var singleTileWidth = CanvasWidth / (double)maxEdgeLength;
-            blocks.ForEach(x => x.Preprocess(maxEdgeLength, (int) singleTileWidth));
+            blocks.ForEach(x => x.Preprocess(maxEdgeLength, (int)singleTileWidth));
         }
     }
 }

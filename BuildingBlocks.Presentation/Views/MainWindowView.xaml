@@ -47,8 +47,8 @@
             <Button x:Name="Pause" Content="Pause" Style="{StaticResource ButtonStyle}" />
             <Button x:Name="Stop" Content="Stop" Style="{StaticResource ButtonStyle}" />
             <Button x:Name="Next" Content="Next" Style="{StaticResource ButtonStyle}" />
-            <Button x:Name="Save" Content="Save" Style="{StaticResource ButtonStyle}" IsEnabled="False" />
-            <Button x:Name="Load" Content="Load" Style="{StaticResource ButtonStyle}" IsEnabled="False" />
+            <Button x:Name="Save" Content="Save" Style="{StaticResource ButtonStyle}" />
+            <Button x:Name="Load" Content="Load" Style="{StaticResource ButtonStyle}" />
         </StackPanel>
         <ScrollViewer Grid.Row="2" Grid.Column="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
             <local:AlgorithmSimulationView DataContext="{Binding AlgorithmSimulationViewViewModel}" />

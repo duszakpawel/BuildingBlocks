@@ -53,7 +53,6 @@ namespace BuildingBlocks.BusinessLogic
                     }
                     gd.Blocks.Add(b);
                 }
-
                 return gd;
             });
         }

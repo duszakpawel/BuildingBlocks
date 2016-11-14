@@ -8,14 +8,20 @@ namespace BuildingBlocks.Models
     public class RectItem : INotifyPropertyChanged
     {
         public int X { get; set; }
+
         public int Y { get; set; }
+
         public int Width { get; set; }
+
         public int Height { get; set; }
+
         public Brush FillColor { get; set; }
+
         public Brush StrokeColor { get; set; }
 
         public RectItem()
         {
+
         }
 
         public RectItem(int x, int y)

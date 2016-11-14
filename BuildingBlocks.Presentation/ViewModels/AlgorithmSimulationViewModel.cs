@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Threading;
-using BuildingBlocks.BusinessLogic;
 using BuildingBlocks.BusinessLogic.Algorithm;
 using BuildingBlocks.Models;
 using Caliburn.Micro;
@@ -12,27 +11,26 @@ namespace BuildingBlocks.Presentation.ViewModels
     public class AlgorithmSimulationViewModel : Screen
     {
         public ObservableCollection<Simulation> Simulations { get; set; }
+
         public int WellWidth { get; set; }
 
-        private readonly DispatcherTimer dispatcherTimer;
-        private int step;
-        private int k;
+        private readonly DispatcherTimer _dispatcherTimer;
 
+        private int _step;
+
+        private readonly int _k;
 
         public AlgorithmSimulationViewModel(List<Block> blocks, int boardWidth, int k, int step)
         {
-            this.step = step;
-            this.k = k;
+            _step = step;
+            _k = k;
             WellWidth = boardWidth * Constants.SingleTileWidth;
-
-            dispatcherTimer = new DispatcherTimer();
-            dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 1);
-            dispatcherTimer.Tick += DispatcherTimerOnTick;
-
+            _dispatcherTimer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 0, 1) };
+            _dispatcherTimer.Tick += DispatcherTimerOnTick;
             Simulations = new ObservableCollection<Simulation>();
-            for (int i = 0; i < k; i++)
+            for (var i = 0; i < k; i++)
             {
-                Simulations.Add(new Simulation()
+                Simulations.Add(new Simulation
                 {
                     AvailableBlocks = new List<Block>(blocks),
                     CanvasChildren = new ObservableCollection<RectItem>(),
@@ -44,23 +42,23 @@ namespace BuildingBlocks.Presentation.ViewModels
 
         public void Start(int step)
         {
-            this.step = step;
-            dispatcherTimer.Start();
+            _step = step;
+            _dispatcherTimer.Start();
         }
 
         public void Stop()
         {
-            dispatcherTimer.Stop();
+            _dispatcherTimer.Stop();
         }
 
         public void Pause()
         {
-            dispatcherTimer.Stop();
+            _dispatcherTimer.Stop();
         }
 
         public void Next(int step)
         {
-            this.step = step;
+            _step = step;
             ExecuteAlgoithmSteps();
         }
 
@@ -71,12 +69,10 @@ namespace BuildingBlocks.Presentation.ViewModels
 
         private void ExecuteAlgoithmSteps()
         {
-            for (int i = 0; i < step; i++)
+            for (var i = 0; i < _step; i++)
             {
-                Simulations = Algorithm.Execute(Simulations, k);
+                Simulations = Algorithm.Execute(Simulations, _k);
             }
         }
-
-
     }
 }

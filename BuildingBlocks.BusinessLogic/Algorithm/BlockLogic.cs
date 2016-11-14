@@ -6,7 +6,6 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
 {
     public static class BlockLogic
     {
-
         // TODO - zwrócić tutaj 4 obroty bloków (lub mniej jeżeli jest symetryczny w jakis sposób) 
         public static IEnumerable<Block> RotateBlock(Block block)
         {
@@ -17,9 +16,9 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
         // Do zmiany? Może czasami lepiej dać wyżej? Może zwracać IEnumerable<Tuple> i sprawdzać kilka? 
         public static Tuple<int, int> FindBestPlaceForBlock(bool[,] board, bool[,] block)
         {
-            for (int j = board.GetLength(1) - 1; j >= 0; j--)
+            for (var j = board.GetLength(1) - 1; j >= 0; j--)
             {
-                for (int i = 0; i <= board.GetLength(0); i++)
+                for (var i = 0; i <= board.GetLength(0); i++)
                 {
                     if (CanBlockBePutInXy(board, block, i, j))
                     {
@@ -32,19 +31,16 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
 
         private static bool CanBlockBePutInXy(bool[,] board, bool[,] block, int x, int y)
         {
-            for (int i = 0; i < block.GetLength(0); i++)
+            for (var i = 0; i < block.GetLength(0); i++)
             {
-                for (int j = 0; j < block.GetLength(1); j++)
+                for (var j = 0; j < block.GetLength(1); j++)
                 {
-                    if (block[i, j])
-                    {
-                        if (x + i >= board.GetLength(0) || y + j >= board.GetLength(1) || board[x + i, y + j])
-                            return false;
-                    }
+                    if (!block[i, j]) continue;
+                    if (x + i >= board.GetLength(0) || y + j >= board.GetLength(1) || board[x + i, y + j])
+                        return false;
                 }
             }
             return true;
         }
-
     }
 }
