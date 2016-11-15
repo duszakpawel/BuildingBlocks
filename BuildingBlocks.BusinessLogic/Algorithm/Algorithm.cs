@@ -19,7 +19,7 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
                     foreach (var b in BlockLogic.RotateBlock(block))
                     {
                         var xy = BlockLogic.FindBestPlaceForBlock(simulation.Content, b.Content);
-                        var sim = AddBlockToSimulation(block, simulation, xy.Item1, xy.Item2);
+                        var sim = AddBlockToSimulation(b, simulation, xy.Item1, xy.Item2);
                         var score = EvaluateFunction.Evaluate(sim.Content);
                         dict.Add(sim, score);
                     }
@@ -44,7 +44,7 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
                 WellHeight = simulation.WellHeight,
                 LastBlock = new bool[simulation.Content.GetLength(0), simulation.Content.GetLength(1)]
             };
-            sim.AvailableBlocks.Remove(block);
+            sim.AvailableBlocks.RemoveAll(b => b.Id == block.Id);
             for (var i = 0; i < block.Height; i++)
             {
                 for (var j = 0; j < block.Width; j++)

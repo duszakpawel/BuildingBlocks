@@ -7,22 +7,21 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
     public static class BlockLogic
     {
         // TODO - zwrócić tutaj 4 obroty bloków (lub mniej jeżeli jest symetryczny w jakis sposób) 
-        public static IEnumerable<Block> RotateBlock(Block block)
+        public static IList<Block> RotateBlock(Block block)
         {
-            //var ret = new List<Block> { block };
-            //for (var i = 1; i < 4; ++i)
-            //    ret.Add(new Block
-            //    {
-            //        Height = ret[i - 1].Height,
-            //        Width = ret[i - 1].Width,
-            //        Content = RotateMatrixClockwise(ret[i - 1].Content),
-            //        IsQuantityEnabled = block.IsQuantityEnabled,
-            //        Quantity = block.Quantity,
-            //        CanvasChildren = block.CanvasChildren
-            //    });
-            //return ret;
-
-            yield return block;
+            var ret = new List<Block> { block };
+            for (var i = 1; i < 4; ++i)
+                ret.Add(new Block
+                {
+                    Height = ret[i - 1].Width,
+                    Width = ret[i - 1].Height,
+                    Content = RotateMatrixClockwise(ret[i - 1].Content),
+                    IsQuantityEnabled = block.IsQuantityEnabled, 
+                    Quantity = block.Quantity,
+                 //   CanvasChildren = block.CanvasChildren, // no need to copy this...
+                    Id = block.Id
+                });
+            return ret;
         }
 
         // Obecnie znajduje położenie (x,y) - lewy górny róg,  które jest najniżej jak się da. Z tego wiersza wybiera pozycję najbardziej po lewo. 

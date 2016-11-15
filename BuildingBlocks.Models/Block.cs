@@ -7,6 +7,9 @@ namespace BuildingBlocks.Models
 {
     public class Block : INotifyPropertyChanged
     {
+        private static int idCounter = 0;
+
+        public int Id;
         public int Width { get; set; }
 
         public int Height { get; set; }
@@ -20,6 +23,11 @@ namespace BuildingBlocks.Models
         public bool IsQuantityEnabled { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public Block()
+        {
+            Id = idCounter++;
+        }
 
         public void Preprocess(int maxEdgeLength, int singleTileWidth)
         {
