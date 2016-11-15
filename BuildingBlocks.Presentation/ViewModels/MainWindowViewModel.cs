@@ -145,18 +145,22 @@ namespace BuildingBlocks.Presentation.ViewModels
                     WellHeight = item.WellHeight,
                     CanvasChildren = new RectItemSerializer[item.CanvasChildren.Count],
                     AvailableBlocks = new BlockSerializer[item.AvailableBlocks.Count],
-                    Content = new bool[item.Content.Length]
+                    Content = new bool[item.Content.Length],
+                    LastBlock = new bool[item.LastBlock.Length]
                 };
-                var l = 0;
-                foreach (var c in item.Content)
+                for (var k = 0; k < BoardWidth; ++k)
                 {
-                    a.Simulations[i].Content[l++] = c;
+                    for (var j = 0; j < item.WellHeight / Constants.SingleTileWidth; ++j)
+                    {
+                        a.Simulations[i].Content[j * BoardWidth + k] = item.Content[k, j];
+                    }
                 }
-                a.Simulations[i].LastBlock = new bool[item.LastBlock.Length];
-                l = 0;
-                foreach (var c in item.LastBlock)
+                for (var k = 0; k < BoardWidth; ++k)
                 {
-                    a.Simulations[i].LastBlock[l++] = c;
+                    for (var j = 0; j < item.WellHeight / Constants.SingleTileWidth; ++j)
+                    {
+                        a.Simulations[i].LastBlock[j * BoardWidth + k] = item.LastBlock[k, j];
+                    }
                 }
                 for (var j = 0; j < item.CanvasChildren.Count; ++j)
                 {
@@ -176,13 +180,15 @@ namespace BuildingBlocks.Presentation.ViewModels
                         Height = item.AvailableBlocks[j].Height,
                         IsQuantityEnabled = item.AvailableBlocks[j].IsQuantityEnabled,
                         Quantity = item.AvailableBlocks[j].Quantity,
-                        CanvasChildren = new RectItemSerializer[item.AvailableBlocks[j].CanvasChildren.Count]
+                        CanvasChildren = new RectItemSerializer[item.AvailableBlocks[j].CanvasChildren.Count],
+                        Content = new bool[item.AvailableBlocks[j].Content.Length]
                     };
-                    a.Simulations[i].AvailableBlocks[j].Content = new bool[item.AvailableBlocks[j].Content.Length];
-                    l = 0;
-                    foreach (var c in item.AvailableBlocks[j].Content)
+                    for (var k = 0; k < item.AvailableBlocks[j].Width; ++k)
                     {
-                        a.Simulations[i].AvailableBlocks[j].Content[l++] = c;
+                        for (var m = 0; m < item.AvailableBlocks[j].Height; ++m)
+                        {
+                            a.Simulations[i].AvailableBlocks[j].Content[m * item.AvailableBlocks[j].Width + k] = item.AvailableBlocks[j].Content[m, k];
+                        }
                     }
                     for (var k = 0; k < item.AvailableBlocks[j].CanvasChildren.Count; ++k)
                     {
