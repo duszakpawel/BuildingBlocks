@@ -37,14 +37,24 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
         // x and y are coordinates of top left corner of block
         private static Simulation AddBlockToSimulation(Block block, Simulation simulation, int x, int y)
         {
+            var list = new List<Block>();
+            foreach (var b in simulation.AvailableBlocks)
+            {
+                list.Add(new Block(b));
+            }
             var sim = new Simulation
             {
                 Content = (bool[,])simulation.Content.Clone(),
-                AvailableBlocks = new List<Block>(simulation.AvailableBlocks),
+                AvailableBlocks = list,
                 WellHeight = simulation.WellHeight,
                 LastBlock = new bool[simulation.Content.GetLength(0), simulation.Content.GetLength(1)]
             };
-            sim.AvailableBlocks.RemoveAll(b => b.Id == block.Id);
+
+            var bl = sim.AvailableBlocks.Single(b => b.Id == block.Id);
+            bl.Quantity--;
+            if (bl.Quantity == 0)
+                sim.AvailableBlocks.Remove(bl);
+            
             for (var i = 0; i < block.Height; i++)
             {
                 for (var j = 0; j < block.Width; j++)

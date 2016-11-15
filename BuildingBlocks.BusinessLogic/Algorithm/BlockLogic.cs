@@ -9,7 +9,7 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
         // TODO - zwrócić tutaj 4 obroty bloków (lub mniej jeżeli jest symetryczny w jakis sposób) 
         public static IList<Block> RotateBlock(Block block)
         {
-            var ret = new List<Block> { block };
+            var ret = new List<Block> { new Block(block) };
             for (var i = 1; i < 4; ++i)
                 ret.Add(new Block
                 {

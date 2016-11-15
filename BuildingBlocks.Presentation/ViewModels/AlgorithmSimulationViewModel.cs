@@ -30,9 +30,14 @@ namespace BuildingBlocks.Presentation.ViewModels
             Simulations = new ObservableCollection<Simulation>();
             for (var i = 0; i < k; i++)
             {
+                var list = new List<Block>();
+                foreach (var block in blocks)
+                {
+                    list.Add(new Block(block));
+                }
                 Simulations.Add(new Simulation
                 {
-                    AvailableBlocks = new List<Block>(blocks),
+                    AvailableBlocks = list,
                     CanvasChildren = new ObservableCollection<RectItem>(),
                     WellHeight = Constants.SimulationStartHeight,
                     Content = new bool[boardWidth, Constants.SimulationStartHeight / Constants.SingleTileWidth]

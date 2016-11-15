@@ -29,6 +29,15 @@ namespace BuildingBlocks.Models
             Id = idCounter++;
         }
 
+        public Block(Block block)
+        {
+            Id = block.Id;
+            Width = block.Width;
+            Height = block.Height;
+            Content = (bool[,]) block.Content.Clone();
+            Quantity = block.Quantity;
+        }
+
         public void Preprocess(int maxEdgeLength, int singleTileWidth)
         {
             var rectVerticalShift = (int)((double)(maxEdgeLength - Height) / 2 * singleTileWidth);
