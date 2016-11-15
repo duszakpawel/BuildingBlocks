@@ -9,6 +9,19 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
         // TODO - zwrócić tutaj 4 obroty bloków (lub mniej jeżeli jest symetryczny w jakis sposób) 
         public static IEnumerable<Block> RotateBlock(Block block)
         {
+            //var ret = new List<Block> { block };
+            //for (var i = 1; i < 4; ++i)
+            //    ret.Add(new Block
+            //    {
+            //        Height = ret[i - 1].Height,
+            //        Width = ret[i - 1].Width,
+            //        Content = RotateMatrixClockwise(ret[i - 1].Content),
+            //        IsQuantityEnabled = block.IsQuantityEnabled,
+            //        Quantity = block.Quantity,
+            //        CanvasChildren = block.CanvasChildren
+            //    });
+            //return ret;
+
             yield return block;
         }
 
@@ -41,6 +54,23 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
                 }
             }
             return true;
+        }
+
+        private static bool[,] RotateMatrixClockwise(bool[,] oldMatrix)
+        {
+            var newMatrix = new bool[oldMatrix.GetLength(1), oldMatrix.GetLength(0)];
+            var newRow = 0;
+            for (var oldColumn = oldMatrix.GetLength(1) - 1; oldColumn >= 0; oldColumn--)
+            {
+                var newColumn = 0;
+                for (var oldRow = 0; oldRow < oldMatrix.GetLength(0); oldRow++)
+                {
+                    newMatrix[newRow, newColumn] = oldMatrix[oldRow, oldColumn];
+                    newColumn++;
+                }
+                newRow++;
+            }
+            return newMatrix;
         }
     }
 }
