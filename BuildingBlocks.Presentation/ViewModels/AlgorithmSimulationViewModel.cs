@@ -20,6 +20,8 @@ namespace BuildingBlocks.Presentation.ViewModels
 
         private readonly int _k;
 
+        private bool _simulationFinished = false;
+
         public AlgorithmSimulationViewModel(List<Block> blocks, int boardWidth, int k, int step)
         {
             _step = step;
@@ -63,12 +65,22 @@ namespace BuildingBlocks.Presentation.ViewModels
 
         public void Next(int step)
         {
+            if (_simulationFinished)
+            {
+                return;
+            }
+
             _step = step;
             ExecuteAlgoithmSteps();
         }
 
         private void DispatcherTimerOnTick(object sender, EventArgs eventArgs)
         {
+            if (_simulationFinished)
+            {
+                return;
+            }
+
             ExecuteAlgoithmSteps();
         }
 
@@ -85,6 +97,7 @@ namespace BuildingBlocks.Presentation.ViewModels
                 else
                 {
                     Pause();
+                    _simulationFinished = true;
                 }
             }
         }
