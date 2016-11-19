@@ -30,7 +30,10 @@ namespace BuildingBlocks.Presentation.ViewModels
         /// <param name="blocks">Blocks collection</param>
         public BlocksBrowserViewModel(List<Block> blocks)
         {
-            PreprocessBlocks(blocks);
+            if(blocks?.Count > 0)
+            {
+                PreprocessBlocks(blocks);
+            }
             DisplayedBlocks = blocks;
             LoadedBlocks = blocks;
         }
@@ -72,6 +75,7 @@ namespace BuildingBlocks.Presentation.ViewModels
         private void PreprocessBlocks(List<Block> blocks)
         {
             var blocksPreprocessor = new BlocksPreprocessor(blocks, CanvasWidth);
+
             blocksPreprocessor.Preprocess();            
         }
     }

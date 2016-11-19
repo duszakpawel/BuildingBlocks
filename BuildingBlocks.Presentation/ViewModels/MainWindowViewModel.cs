@@ -124,6 +124,10 @@ namespace BuildingBlocks.Presentation.ViewModels
             CanPause = true;
             IsKEnabled = false;
             IsStepEnabled = false;
+            if(BlocksBrowserViewViewModel == null)
+            {
+                BlocksBrowserViewViewModel = new BlocksBrowserViewModel(new List<Block>());
+            }
             BlocksBrowserViewViewModel.UpdateBrowserView(DisplayMode.Selected);
             if (AlgorithmSimulationViewViewModel == null)
             {
@@ -216,7 +220,6 @@ namespace BuildingBlocks.Presentation.ViewModels
             {
                 return;
             }
-
             // TODO: DI
             var computationsSerializer = new ComputationsSerializer();
             var result = computationsSerializer.Deserialize(openFileDialog.FileName);
@@ -224,10 +227,10 @@ namespace BuildingBlocks.Presentation.ViewModels
             var boardWidth = result.Item1;
             var k = result.Item2;
             var Simulations = result.Item3;
+            BoardWidth = boardWidth;
+            K = k;
 
             AlgorithmSimulationViewViewModel = new AlgorithmSimulationViewModel(new List<Block>(), BoardWidth, K, Step);
-            BoardWidth = BoardWidth;
-            K = k;
 
             AlgorithmSimulationViewViewModel.Simulations = new ObservableCollection<Simulation>(Simulations);
             Start();
