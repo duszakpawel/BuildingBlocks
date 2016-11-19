@@ -16,7 +16,7 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
         private int _k;
         private BlockLogicProvider _blockLogicProvider;
         private EvaluateFunctionProvider _evaluateFunctionProvider;
-
+        private bool computationsTerminated = false;
         /// <summary>
         /// constructor
         /// </summary>
@@ -46,6 +46,11 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
 
             for (int i = 0; i < step; i++)
             {
+                if(computationsTerminated == true)
+                {
+                    break;
+                }
+
                 var dict = new Dictionary<Simulation, int>();
                 foreach (var simulation in simulations)
                 {
@@ -69,6 +74,7 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
 
                 if (simulations.FirstOrDefault()?.AvailableBlocks.Count == 0)
                 {
+                    computationsTerminated = true;
                     break;
                 }
             }

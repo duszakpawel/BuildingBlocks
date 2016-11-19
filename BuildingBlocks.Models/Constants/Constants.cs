@@ -50,7 +50,17 @@ namespace BuildingBlocks.Models.Constants
             Brushes.Purple,
             Brushes.DeepPink,
             Brushes.Gold,
-            Brushes.YellowGreen
-};
+            Brushes.YellowGreen,
+            Brushes.DeepSkyBlue,
+            Brushes.Fuchsia,
+            Brushes.Indigo,
+            Brushes.Magenta,
+            Brushes.Maroon,
+            Brushes.Cyan,
+            Brushes.Tomato,
+            Brushes.Peru,
+            Brushes.Azure,
+            Brushes.Aqua
+        };
     }
 }
