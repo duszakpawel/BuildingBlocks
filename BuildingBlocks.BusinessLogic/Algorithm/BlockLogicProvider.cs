@@ -1,32 +1,47 @@
 ﻿using System;
 using System.Collections.Generic;
-using BuildingBlocks.Models;
+using BuildingBlocks.Models.Models;
 
 namespace BuildingBlocks.BusinessLogic.Algorithm
 {
-    public static class BlockLogic
+    /// <summary>
+    /// Block logic class provider
+    /// </summary>
+    public class BlockLogicProvider
     {
-        // TODO - zwrócić tutaj 4 obroty bloków (lub mniej jeżeli jest symetryczny w jakis sposób) 
-        public static IList<Block> RotateBlock(Block block)
+        /// <summary>
+        /// Returns collection of rotated block
+        /// TODO: zwrócić tutaj 4 obroty bloków (lub mniej jeżeli jest symetryczny w jakis sposób) 
+        /// </summary>
+        /// <param name="block">Block conntent</param>
+        /// <returns>collection of rotated block</returns>
+        public IList<Block> RotateBlock(Block block)
         {
             var ret = new List<Block> { new Block(block) };
             for (var i = 1; i < 4; ++i)
+            {
                 ret.Add(new Block
                 {
                     Height = ret[i - 1].Width,
                     Width = ret[i - 1].Height,
                     Content = RotateMatrixClockwise(ret[i - 1].Content),
-                    IsQuantityEnabled = block.IsQuantityEnabled, 
+                    IsQuantityEnabled = block.IsQuantityEnabled,
                     Quantity = block.Quantity,
-                 //   CanvasChildren = block.CanvasChildren, // no need to copy this...
                     Id = block.Id
                 });
+            }
+
             return ret;
         }
 
-        // Obecnie znajduje położenie (x,y) - lewy górny róg,  które jest najniżej jak się da. Z tego wiersza wybiera pozycję najbardziej po lewo. 
-        // Do zmiany? Może czasami lepiej dać wyżej? Może zwracać IEnumerable<Tuple> i sprawdzać kilka? 
-        public static Tuple<int, int> FindBestPlaceForBlock(bool[,] board, bool[,] block)
+        /// <summary>
+        /// Obecnie znajduje położenie (x,y) - lewy górny róg,  które jest najniżej jak się da. Z tego wiersza wybiera pozycję najbardziej po lewo. 
+        /// TODO: Do zmiany? Może czasami lepiej dać wyżej? Może zwracać IEnumerable<Tuple> i sprawdzać kilka? 
+        /// </summary>
+        /// <param name="board">Board content</param>
+        /// <param name="block">Block conntent</param>
+        /// <returns>Best position (x,y) for block</returns>
+        public Tuple<int, int> FindBestPlaceForBlock(bool[,] board, bool[,] block)
         {
             for (var j = board.GetLength(1) - 1; j >= 0; j--)
             {
@@ -41,7 +56,7 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
             throw new Exception("Block cannot be put in any place on board");
         }
 
-        private static bool CanBlockBePutInXy(bool[,] board, bool[,] block, int x, int y)
+        private bool CanBlockBePutInXy(bool[,] board, bool[,] block, int x, int y)
         {
             for (var i = 0; i < block.GetLength(0); i++)
             {
@@ -55,7 +70,7 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
             return true;
         }
 
-        private static bool[,] RotateMatrixClockwise(bool[,] oldMatrix)
+        private bool[,] RotateMatrixClockwise(bool[,] oldMatrix)
         {
             var newMatrix = new bool[oldMatrix.GetLength(1), oldMatrix.GetLength(0)];
             var newRow = 0;

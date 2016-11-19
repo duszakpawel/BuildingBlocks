@@ -2,50 +2,80 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using BuildingBlocks.Models;
+using BuildingBlocks.Models.Models;
+using BuildingBlocks.Models.Constants;
 
 namespace BuildingBlocks.BusinessLogic.Algorithm
 {
+    /// <summary>
+    /// Algorithm solver
+    /// </summary>
     public class AlgorithmSolver
     {
-        private ObservableCollection<Simulation> simulations;
+        private IEnumerable<Simulation> simulations;
         private int _k;
+        private BlockLogicProvider _blockLogicProvider;
+        private EvaluateFunctionProvider _evaluateFunctionProvider;
 
-        public AlgorithmSolver(ObservableCollection<Simulation> simulations, int _k)
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="simulations">simulations collection</param>
+        /// <param name="_k">k parameter</param>
+        public AlgorithmSolver(IEnumerable<Simulation> simulations, int _k)
         {
             this.simulations = simulations;
             this._k = _k;
+            _blockLogicProvider = new BlockLogicProvider();
+            _evaluateFunctionProvider = new EvaluateFunctionProvider();
         }
 
-        public ObservableCollection<Simulation> Execute(ObservableCollection<Simulation> simulations, int _k)
+        /// <summary>
+        /// For each of simulations, executes one step and takes the best k simulations at the end.
+        /// </summary>
+        /// <param name="simulations">simulations collection</param>
+        /// <param name="_k">k parameter</param>
+        /// <returns></returns>
+        public List<Simulation> Execute(IEnumerable<Simulation> simulations, int _k)
         {
-            var dict = new Dictionary<Simulation, int>();
+            var simulationScoreDictionary = new Dictionary<Simulation, int>();
+
             foreach (var simulation in simulations)
             {
                 CheckAndCorrectSimulationHeight(simulation);
+
                 foreach (var block in simulation.AvailableBlocks)
                 {
-                    foreach (var b in BlockLogic.RotateBlock(block))
+                    foreach (var rotatedBlock in _blockLogicProvider.RotateBlock(block))
                     {
-                        var xy = BlockLogic.FindBestPlaceForBlock(simulation.Content, b.Content);
-                        var sim = AddBlockToSimulation(b, simulation, xy.Item1, xy.Item2);
-                        var score = EvaluateFunction.Evaluate(sim.Content);
-                        dict.Add(sim, score);
+                        var xy = _blockLogicProvider.FindBestPlaceForBlock(simulation.Content, rotatedBlock.Content);
+                        var sim = AddBlockToSimulation(rotatedBlock, simulation, xy.Item1, xy.Item2);
+                        var score = _evaluateFunctionProvider.Evaluate(sim.Content);
+                        simulationScoreDictionary.Add(sim, score);
                     }
                 }
             }
-            dict = dict.Distinct(new SimulationEqualityComparer()).ToDictionary(x => x.Key, x => x.Value);
+            simulationScoreDictionary = simulationScoreDictionary.Distinct(new SimulationEqualityComparer()).ToDictionary(x => x.Key, x => x.Value);
 
-            var bestScores = dict.Values.OrderByDescending(v => v).Take(_k).Distinct().ToList();
-            var ret = new ObservableCollection<Simulation>(dict.Where(d => bestScores.Contains(d.Value)).Select(p => p.Key).Take(_k));
-            foreach (var sim in ret)
+            var bestScores = simulationScoreDictionary.Values.OrderByDescending(v => v).Take(_k).Distinct().ToList();
+            var result = new ObservableCollection<Simulation>(simulationScoreDictionary.Where(d => bestScores.Contains(d.Value)).Select(p => p.Key).Take(_k));
+
+            foreach (var sim in result)
             {
                 SyncCanvasWithContent(sim);
             }
-            return ret;
+
+            return result.ToList();
         }
 
-        // x and y are coordinates of top left corner of block
+        /// <summary>
+        /// Adds new block to simulation. x and y are coordinates of top left corner of block
+        /// </summary>
+        /// <param name="block">Block to add</param>
+        /// <param name="simulation">Simulation object</param>
+        /// <param name="x">X - coordinate</param>
+        /// <param name="y">Y - coordinate</param>
+        /// <returns></returns>
         private Simulation AddBlockToSimulation(Block block, Simulation simulation, int x, int y)
         {
             var list = new List<Block>();
@@ -80,25 +110,39 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
             return sim;
         }
 
+        /// <summary>
+        /// Updates colors of blocks and produces new rectangle items collection to be displayed
+        /// </summary>
+        /// <param name="simulation">simulation object</param>
         private void SyncCanvasWithContent(Simulation simulation)
         {
             var children = new ObservableCollection<RectItem>();
+
             for (var i = 0; i < simulation.Content.GetLength(0); i++)
             {
                 for (var j = 0; j < simulation.Content.GetLength(1); j++)
                 {
                     if (simulation.LastBlock[i, j])
+                    {
                         children.Add(new RectItem(i * Constants.SingleTileWidth, j * Constants.SingleTileWidth)
                         {
                             FillColor = Constants.BlockFillColor
                         });
+                    }
                     else if (simulation.Content[i, j])
+                    {
                         children.Add(new RectItem(i * Constants.SingleTileWidth, j * Constants.SingleTileWidth));
+                    }
                 }
             }
+
             simulation.CanvasChildren = children;
         }
 
+        /// <summary>
+        /// corrects simulation height
+        /// </summary>
+        /// <param name="simulation">simulation object</param>
         private void CheckAndCorrectSimulationHeight(Simulation simulation)
         {
             for (var j = 0; j < Constants.CompulsoryFreeSpaceInWellHeight; j++)
@@ -111,14 +155,15 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
                     break;
                 }
                 if (free) continue;
+
                 // make well bigger: 
                 simulation.WellHeight += Constants.CompulsoryFreeSpaceInWellHeight * Constants.SingleTileWidth;
                 var newContent = new bool[simulation.Content.GetLength(0), simulation.Content.GetLength(1) + Constants.CompulsoryFreeSpaceInWellHeight];
-                for (var ii = 0; ii < simulation.Content.GetLength(0); ii++)
+                for (var i = 0; i < simulation.Content.GetLength(0); i++)
                 {
-                    for (var jj = 0; jj < simulation.Content.GetLength(1); jj++)
+                    for (var k = 0; k < simulation.Content.GetLength(1); k++)
                     {
-                        newContent[ii, jj + Constants.CompulsoryFreeSpaceInWellHeight] = simulation.Content[ii, jj];
+                        newContent[i, k + Constants.CompulsoryFreeSpaceInWellHeight] = simulation.Content[i, k];
                     }
                 }
                 simulation.Content = newContent;

@@ -6,6 +6,7 @@ using BuildingBlocks.Presentation.Common;
 using Caliburn.Micro;
 using Microsoft.Win32;
 using BuildingBlocks.Models;
+using BuildingBlocks.Models.Models;
 
 namespace BuildingBlocks.Presentation.ViewModels
 {

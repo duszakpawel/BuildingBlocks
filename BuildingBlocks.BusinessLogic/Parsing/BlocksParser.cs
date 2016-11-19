@@ -1,22 +1,30 @@
 ﻿using BuildingBlocks.Models;
+using BuildingBlocks.Models.Models;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 
 namespace BuildingBlocks.BusinessLogic
 {
+    /// <summary>
+    /// Blocks parser class
+    /// </summary>
     public class BlocksParser
     {
         private const char Separator = ' ';
 
-        public async Task<GameData> LoadData(TextReader file)
+        /// <summary>
+        /// Loads data from TextReader stream
+        /// </summary>
+        /// <param name="fileStream">file stream</param>
+        /// <returns></returns>
+        public async Task<GameData> LoadData(TextReader fileStream)
         {
             return await Task.Run(() =>
             {
                 var gd = new GameData();
 
-                var line = file.ReadLine();
+                var line = fileStream.ReadLine();
                 if (line == null)
                 {
                     return gd;
@@ -47,7 +55,7 @@ namespace BuildingBlocks.BusinessLogic
                 }
 
                 var counter = 1;
-                while ((line = file.ReadLine()) != null)
+                while ((line = fileStream.ReadLine()) != null)
                 {
                     parts = line.Split(Separator);
 
@@ -76,7 +84,7 @@ namespace BuildingBlocks.BusinessLogic
 
                     for (var i = 0; i < block.Height; ++i)
                     {
-                        line = file.ReadLine();
+                        line = fileStream.ReadLine();
                         if (line == null)
                         {
                             continue;

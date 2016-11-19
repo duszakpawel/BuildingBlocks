@@ -5,6 +5,8 @@ using System.Windows.Threading;
 using BuildingBlocks.BusinessLogic.Algorithm;
 using BuildingBlocks.Models;
 using Caliburn.Micro;
+using BuildingBlocks.Models.Models;
+using BuildingBlocks.Models.Constants;
 
 namespace BuildingBlocks.Presentation.ViewModels
 {
@@ -133,7 +135,7 @@ namespace BuildingBlocks.Presentation.ViewModels
 
                 if(result.Count > 0)
                 {
-                    Simulations = result;
+                    Simulations = new ObservableCollection<Simulation>(result);
                 }
                 else
                 {

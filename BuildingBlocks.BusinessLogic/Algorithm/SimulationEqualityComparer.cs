@@ -1,14 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BuildingBlocks.Models;
+﻿using System.Collections.Generic;
+using BuildingBlocks.Models.Models;
 
 namespace BuildingBlocks.BusinessLogic
 {
+    /// <summary>
+    /// Simulation equality provider class
+    /// </summary>
     public class SimulationEqualityComparer : IEqualityComparer<KeyValuePair<Simulation, int>>
     {
+        /// <summary>
+        /// Returns information whether two simulations are equal or not
+        /// </summary>
+        /// <param name="x">first simulation</param>
+        /// <param name="y">second simulation</param>
+        /// <returns></returns>
         public bool Equals(KeyValuePair<Simulation, int> x, KeyValuePair<Simulation, int> y)
         {
             var contentEquality = x.Key.Content.HasEqualContent(y.Key.Content);
@@ -18,6 +23,11 @@ namespace BuildingBlocks.BusinessLogic
             return information;
         }
 
+        /// <summary>
+        /// GetHashCode method required by IEqualityComparer interface
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public int GetHashCode(KeyValuePair<Simulation, int> obj)
         {
             var array = obj.Key.Content;

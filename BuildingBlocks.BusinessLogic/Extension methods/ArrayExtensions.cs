@@ -1,13 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
-namespace BuildingBlocks.Models
+namespace BuildingBlocks.BusinessLogic
 {
+    /// <summary>
+    /// Array extension methods
+    /// </summary>
     public static class ArrayExtensions
     {
+        /// <summary>
+        /// Compares content of two two-dimensional arrays and returns information whether the content is equal or not.
+        /// </summary>
+        /// <typeparam name="T">Type of element which is stored in arrays</typeparam>
+        /// <param name="a1">First array</param>
+        /// <param name="a2">Second array</param>
+        /// <returns></returns>
         public static bool HasEqualContent<T>(this T[,] a1, T[,] a2)
         {
             if (ReferenceEquals(a1, a2))

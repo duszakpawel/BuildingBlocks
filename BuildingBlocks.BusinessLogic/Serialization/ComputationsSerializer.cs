@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 using System.Collections.ObjectModel;
+using BuildingBlocks.Models.Models;
+using BuildingBlocks.Models.Constants;
 
 namespace BuildingBlocks.BusinessLogic
 {
@@ -28,18 +30,18 @@ namespace BuildingBlocks.BusinessLogic
             {
                 BoardWidth = BoardWidth,
                 K = K,
-                Simulations = new SimulationSerializer[K]
+                Simulations = new SimulationData[K]
             };
 
             var i = 0;
 
             foreach (var item in Simulations)
             {
-                computationsData.Simulations[i] = new SimulationSerializer
+                computationsData.Simulations[i] = new SimulationData
                 {
                     WellHeight = item.WellHeight,
-                    CanvasChildren = new RectItemSerializer[item.CanvasChildren.Count],
-                    AvailableBlocks = new BlockSerializer[item.AvailableBlocks.Count],
+                    CanvasChildren = new RectItemData[item.CanvasChildren.Count],
+                    AvailableBlocks = new BlockData[item.AvailableBlocks.Count],
                     Content = new bool[item.Content.Length],
                     LastBlock = new bool[item.LastBlock.Length]
                 };
@@ -62,7 +64,7 @@ namespace BuildingBlocks.BusinessLogic
 
                 for (var j = 0; j < item.CanvasChildren.Count; ++j)
                 {
-                    computationsData.Simulations[i].CanvasChildren[j] = new RectItemSerializer
+                    computationsData.Simulations[i].CanvasChildren[j] = new RectItemData
                     {
                         Width = item.CanvasChildren[j].Width,
                         Height = item.CanvasChildren[j].Height,
@@ -73,13 +75,13 @@ namespace BuildingBlocks.BusinessLogic
 
                 for (var j = 0; j < item.AvailableBlocks.Count; ++j)
                 {
-                    computationsData.Simulations[i].AvailableBlocks[j] = new BlockSerializer
+                    computationsData.Simulations[i].AvailableBlocks[j] = new BlockData
                     {
                         Width = item.AvailableBlocks[j].Width,
                         Height = item.AvailableBlocks[j].Height,
                         IsQuantityEnabled = item.AvailableBlocks[j].IsQuantityEnabled,
                         Quantity = item.AvailableBlocks[j].Quantity,
-                        CanvasChildren = new RectItemSerializer[item.AvailableBlocks[j].CanvasChildren.Count],
+                        CanvasChildren = new RectItemData[item.AvailableBlocks[j].CanvasChildren.Count],
                         Content = new bool[item.AvailableBlocks[j].Content.Length]
                     };
 
@@ -93,7 +95,7 @@ namespace BuildingBlocks.BusinessLogic
 
                     for (var k = 0; k < item.AvailableBlocks[j].CanvasChildren.Count; ++k)
                     {
-                        computationsData.Simulations[i].AvailableBlocks[j].CanvasChildren[k] = new RectItemSerializer
+                        computationsData.Simulations[i].AvailableBlocks[j].CanvasChildren[k] = new RectItemData
                         {
                             Height = item.AvailableBlocks[j].CanvasChildren[k].Height,
                             Width = item.AvailableBlocks[j].CanvasChildren[k].Width,

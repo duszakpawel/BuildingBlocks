@@ -4,6 +4,7 @@ using BuildingBlocks.Models;
 using BuildingBlocks.Presentation.Common;
 using Caliburn.Micro;
 using BuildingBlocks.BusinessLogic;
+using BuildingBlocks.Models.Models;
 
 namespace BuildingBlocks.Presentation.ViewModels
 {
@@ -75,8 +76,6 @@ namespace BuildingBlocks.Presentation.ViewModels
         private void PreprocessBlocks(List<Block> blocks)
         {
             var blocksPreprocessor = new BlocksPreprocessor(blocks, CanvasWidth);
-
-            blocksPreprocessor.Preprocess();            
         }
     }
 }
