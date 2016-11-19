@@ -43,6 +43,7 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
                 simulation.LastBlock = new int[simulation.Content.GetLength(0), simulation.Content.GetLength(1)];
             }
             var ret = new ObservableCollection<Simulation>();
+
             for (int i = 0; i < step; i++)
             {
                 var dict = new Dictionary<Simulation, int>();
@@ -65,6 +66,11 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
                 var bestScores = dict.Values.OrderByDescending(v => v).Take(_k).Distinct().ToList();
                 ret = new ObservableCollection<Simulation>(dict.Where(d => bestScores.Contains(d.Value)).Select(p => p.Key).Take(_k));
                 simulations = ret;
+
+                if (simulations.FirstOrDefault()?.AvailableBlocks.Count == 0)
+                {
+                    break;
+                }
             }
             foreach (var sim in ret)
             {
