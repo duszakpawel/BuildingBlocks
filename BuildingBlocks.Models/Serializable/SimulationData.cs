@@ -37,6 +37,6 @@ namespace BuildingBlocks.Models.Models
         /// Last block content array
         /// </summary>
         [DataMember]
-        public bool[] LastBlock { get; set; }
+        public int[] LastBlock { get; set; }
     }
 }

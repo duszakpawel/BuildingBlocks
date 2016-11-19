@@ -34,7 +34,7 @@ namespace BuildingBlocks.Models.Models
         /// <summary>
         /// Last block content array
         /// </summary>
-        public bool[,] LastBlock { get; set; }
+        public int[,] LastBlock { get; set; }
 
         /// <summary>
         /// Property changed event, required by INotiftyPropertyChanged interface

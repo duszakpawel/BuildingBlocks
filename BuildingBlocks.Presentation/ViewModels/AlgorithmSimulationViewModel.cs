@@ -129,19 +129,16 @@ namespace BuildingBlocks.Presentation.ViewModels
 
         private void ExecuteAlgorithmSteps()
         {
-            for (var i = 0; i < _step; i++)
-            {
-                var result = _algorithmSolver.Execute(Simulations, _k);
+            var result = _algorithmSolver.Execute(Simulations, _k, _step);
 
-                if(result.Count > 0)
-                {
-                    Simulations = new ObservableCollection<Simulation>(result);
-                }
-                else
-                {
-                    Pause();
-                    _simulationFinished = true;
-                }
+            if (result.Count > 0)
+            {
+                Simulations = new ObservableCollection<Simulation>(result);
+            }
+            else
+            {
+                Pause();
+                _simulationFinished = true;
             }
         }
     }

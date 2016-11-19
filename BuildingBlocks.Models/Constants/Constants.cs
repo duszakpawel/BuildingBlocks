@@ -1,4 +1,5 @@
-﻿using System.Windows.Media;
+﻿using System.Collections.Generic;
+using System.Windows.Media;
 
 namespace BuildingBlocks.Models.Constants
 {
@@ -35,6 +36,21 @@ namespace BuildingBlocks.Models.Constants
         /// <summary>
         /// Compulsory free space in well height
         /// </summary>
-        public const int CompulsoryFreeSpaceInWellHeight = 8; 
+        public const int CompulsoryFreeSpaceInWellHeight = 8;
+
+        /// <summary>
+        /// Sample Brushes
+        /// </summary>
+        public static List<Brush> FillBrushes { get; } = new List<Brush>
+        {
+            Brushes.Blue,
+            Brushes.Green,
+            Brushes.Red,
+            Brushes.Orange,
+            Brushes.Purple,
+            Brushes.DeepPink,
+            Brushes.Gold,
+            Brushes.YellowGreen
+};
     }
 }
