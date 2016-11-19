@@ -33,7 +33,7 @@ namespace BuildingBlocks.BusinessLogic
                     {
                         Width = int.Parse(parts[0]),
                         Height = int.Parse(parts[1]),
-                        Quantity = 1,
+                        Quantity = 0,
                         IsQuantityEnabled = true
                     };
                     b.Content = new bool[b.Height, b.Width];
