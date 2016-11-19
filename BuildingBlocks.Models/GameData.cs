@@ -8,6 +8,6 @@ namespace BuildingBlocks.Models
 
         public int? BlocksCount { get; set; }
 
-        public List<Block> Blocks { get; set; }
+        public List<Block> Blocks { get; set; } = new List<Block>();
     }
 }
