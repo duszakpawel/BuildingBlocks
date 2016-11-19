@@ -1,14 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
 using BuildingBlocks.BusinessLogic;
 using BuildingBlocks.Presentation.Common;
 using Caliburn.Micro;
 using Microsoft.Win32;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Xml;
 using BuildingBlocks.Models;
 
 namespace BuildingBlocks.Presentation.ViewModels

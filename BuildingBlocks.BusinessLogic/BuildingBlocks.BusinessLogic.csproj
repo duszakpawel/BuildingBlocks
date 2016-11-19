@@ -67,6 +67,7 @@
   <ItemGroup>
     <Compile Include="Algorithm\Algorithm.cs" />
     <Compile Include="Algorithm\BlockLogic.cs" />
+    <Compile Include="BlocksPreprocessor.cs" />
     <Compile Include="BlocksParser.cs" />
     <Compile Include="Algorithm\EvaluateFunction.cs" />
     <Compile Include="ComputationsSerializer.cs" />

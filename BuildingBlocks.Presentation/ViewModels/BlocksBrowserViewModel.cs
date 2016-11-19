@@ -3,17 +3,31 @@ using System.Linq;
 using BuildingBlocks.Models;
 using BuildingBlocks.Presentation.Common;
 using Caliburn.Micro;
+using BuildingBlocks.BusinessLogic;
 
 namespace BuildingBlocks.Presentation.ViewModels
 {
+    /// <summary>
+    /// Blocks browser view model
+    /// </summary>
     public class BlocksBrowserViewModel : Screen
     {
+        /// <summary>
+        /// Displayed (selected) blocks
+        /// </summary>
         public List<Block> DisplayedBlocks { get; set; }
 
+        /// <summary>
+        /// Loaded blocks from file
+        /// </summary>
         public List<Block> LoadedBlocks { get; set; }
 
         private const int CanvasWidth = 100;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="blocks">Blocks collection</param>
         public BlocksBrowserViewModel(List<Block> blocks)
         {
             PreprocessBlocks(blocks);
@@ -21,16 +35,26 @@ namespace BuildingBlocks.Presentation.ViewModels
             LoadedBlocks = blocks;
         }
 
+        /// <summary>
+        /// Disables quantity control for each of loaded blocks
+        /// </summary>
         public void DisableQuantity()
         {
             LoadedBlocks.ForEach(x => x.IsQuantityEnabled = false);
         }
 
+        /// <summary>
+        /// Enables quantity control for each of loaded blocks
+        /// </summary>
         public void EnableQuantity()
         {
             LoadedBlocks.ForEach(x => x.IsQuantityEnabled = true);
         }
 
+        /// <summary>
+        /// Switches between selected blocks and loaded blocks in browser view
+        /// </summary>
+        /// <param name="mode">display view mode</param>
         public void UpdateBrowserView(DisplayMode mode)
         {
             if (mode == DisplayMode.Selected)
@@ -45,13 +69,10 @@ namespace BuildingBlocks.Presentation.ViewModels
             NotifyOfPropertyChange(nameof(DisplayedBlocks));
         }
 
-        private static void PreprocessBlocks(List<Block> blocks)
+        private void PreprocessBlocks(List<Block> blocks)
         {
-            var maxBlockWidth = blocks.Max(item => item.Width);
-            var maxBlockHeight = blocks.Max(item => item.Height);
-            var maxEdgeLength = maxBlockHeight > maxBlockWidth ? maxBlockHeight : maxBlockWidth;
-            var singleTileWidth = CanvasWidth / (double)maxEdgeLength;
-            blocks.ForEach(x => x.Preprocess(maxEdgeLength, (int)singleTileWidth));
+            var blocksPreprocessor = new BlocksPreprocessor(blocks, CanvasWidth);
+            blocksPreprocessor.Preprocess();            
         }
     }
 }
