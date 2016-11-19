@@ -76,7 +76,16 @@ namespace BuildingBlocks.Presentation.ViewModels
         {
             for (var i = 0; i < _step; i++)
             {
-                Simulations = Algorithm.Execute(Simulations, _k);
+                var result = Algorithm.Execute(Simulations, _k);
+
+                if(result.Count > 0)
+                {
+                    Simulations = Algorithm.Execute(Simulations, _k);
+                }
+                else
+                {
+                    Pause();
+                }
             }
         }
     }

@@ -18,7 +18,7 @@ namespace BuildingBlocks.Models
 
         public List<RectItem> CanvasChildren { get; set; } = new List<RectItem>();
 
-        public int Quantity { get; set; }
+        public int Quantity { get; set; } = 0;
 
         public bool IsQuantityEnabled { get; set; }
 
