@@ -8,18 +8,19 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
 {
     public class AlgorithmSolver
     {
-        private IEnumerable<Simulation> _simulations;
+        private ObservableCollection<Simulation> simulations;
         private int _k;
 
-        public AlgorithmSolver(IEnumerable<Simulation> simulations, int k)
+        public AlgorithmSolver(ObservableCollection<Simulation> simulations, int _k)
         {
-            _simulations = simulations;
-            _k = k;
+            this.simulations = simulations;
+            this._k = _k;
         }
-        public ObservableCollection<Simulation> Execute()
+
+        public ObservableCollection<Simulation> Execute(ObservableCollection<Simulation> simulations, int _k)
         {
             var dict = new Dictionary<Simulation, int>();
-            foreach (var simulation in _simulations)
+            foreach (var simulation in simulations)
             {
                 CheckAndCorrectSimulationHeight(simulation);
                 foreach (var block in simulation.AvailableBlocks)
