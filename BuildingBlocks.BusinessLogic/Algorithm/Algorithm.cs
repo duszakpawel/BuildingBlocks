@@ -25,6 +25,8 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
                     }
                 }
             }
+            dict = dict.Distinct(new SimulationEqualityComparer()).ToDictionary(x => x.Key, x => x.Value);
+
             var bestScores = dict.Values.OrderByDescending(v => v).Take(k).Distinct().ToList();
             var ret = new ObservableCollection<Simulation>(dict.Where(d => bestScores.Contains(d.Value)).Select(p => p.Key).Take(k));
             foreach (var sim in ret)

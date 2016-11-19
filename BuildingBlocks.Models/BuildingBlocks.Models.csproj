@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AlgorithmSerializer.cs" />
+    <Compile Include="ArrayExtensions.cs" />
     <Compile Include="Block.cs" />
     <Compile Include="BlockSerializer.cs" />
     <Compile Include="Constants.cs" />

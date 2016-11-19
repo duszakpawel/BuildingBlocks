@@ -69,6 +69,7 @@
     <Compile Include="BlocksParser.cs" />
     <Compile Include="Algorithm\EvaluateFunction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SimulationEqualityComparer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BuildingBlocks.Models\BuildingBlocks.Models.csproj">
