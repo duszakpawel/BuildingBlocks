@@ -11,10 +11,16 @@ using IContainer = Autofac.IContainer;
 
 namespace BuildingBlocks.Presentation
 {
+    /// <summary>
+    /// Autofac class configuration
+    /// </summary>
     public class Bootstrapper : BootstrapperBase
     {
         private IContainer _container;
 
+        /// <summary>
+        /// Constructor of class
+        /// </summary>
         public Bootstrapper()
         {
             Initialize();

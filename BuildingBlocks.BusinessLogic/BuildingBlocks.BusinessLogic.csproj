@@ -44,6 +44,7 @@
       <HintPath>..\packages\Microsoft.Xaml.4.0.0.1\lib\System.Design.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xaml">
       <HintPath>..\packages\Microsoft.Xaml.4.0.0.1\lib\System.Xaml.dll</HintPath>
       <Private>True</Private>
@@ -68,6 +69,7 @@
     <Compile Include="Algorithm\BlockLogic.cs" />
     <Compile Include="BlocksParser.cs" />
     <Compile Include="Algorithm\EvaluateFunction.cs" />
+    <Compile Include="ComputationsSerializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SimulationEqualityComparer.cs" />
   </ItemGroup>

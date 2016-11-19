@@ -3,7 +3,7 @@
 namespace BuildingBlocks.Models
 {
     [DataContract]
-    public class AlgorithmSerializer
+    public class ComputationsData
     {
         [DataMember]
         public int K { get; set; }
