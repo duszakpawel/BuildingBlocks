@@ -9,7 +9,7 @@ namespace BuildingBlocks.BusinessLogic
     /// <summary>
     /// Blocks parser class
     /// </summary>
-    public class BlocksParser
+    public class BlocksParser : IBlocksParser
     {
         private const char Separator = ' ';
 

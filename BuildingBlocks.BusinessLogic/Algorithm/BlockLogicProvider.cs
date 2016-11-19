@@ -7,7 +7,7 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
     /// <summary>
     /// Block logic class provider
     /// </summary>
-    public class BlockLogicProvider
+    public class BlockLogicProvider : IBlockLogicProvider
     {
         /// <summary>
         /// Returns collection of rotated block

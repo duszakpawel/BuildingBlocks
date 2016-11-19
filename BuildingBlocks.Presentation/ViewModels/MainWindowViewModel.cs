@@ -14,7 +14,7 @@ namespace BuildingBlocks.Presentation.ViewModels
     /// Main window view model class.
     /// </summary>
     public class MainWindowViewModel : Screen
-    {
+    {      
         /// <summary>
         /// Reference to blocks browser view model
         /// </summary>
@@ -108,7 +108,7 @@ namespace BuildingBlocks.Presentation.ViewModels
             {
                 return;
             }
-            var blocks = await new BlocksParser().LoadData(new StreamReader(openFileDialog.FileName));
+            var blocks = await IoC.Get<IBlocksParser>().LoadData(new StreamReader(openFileDialog.FileName));
             BlocksBrowserViewViewModel = new BlocksBrowserViewModel(blocks.Blocks);
             BoardWidth = blocks.WellWidth;
         }

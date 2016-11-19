@@ -8,6 +8,8 @@ using Autofac;
 using BuildingBlocks.Presentation.ViewModels;
 using Caliburn.Micro;
 using IContainer = Autofac.IContainer;
+using BuildingBlocks.BusinessLogic.Algorithm;
+using BuildingBlocks.BusinessLogic;
 
 namespace BuildingBlocks.Presentation
 {
@@ -97,6 +99,12 @@ namespace BuildingBlocks.Presentation
                 .InstancePerLifetimeScope();
             builder.Register<IEventAggregator>(c => new EventAggregator())
                 .SingleInstance();
+            builder.Register<IBlockLogicProvider>(c => new BlockLogicProvider())
+                .InstancePerLifetimeScope();
+            builder.Register<IEvaluateFunctionProvider>(c => new EvaluateFunctionProvider())
+                .InstancePerLifetimeScope();
+            builder.Register<IBlocksParser>(c => new BlocksParser())
+                .InstancePerDependency();
 
             _container = builder.Build();
         }

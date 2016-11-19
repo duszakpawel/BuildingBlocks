@@ -3,7 +3,7 @@
     /// <summary>
     /// Evaluate function provider
     /// </summary>
-    public class EvaluateFunctionProvider
+    public class EvaluateFunctionProvider : IEvaluateFunctionProvider
     {
         /// <summary>
         /// Evaluation function. Returns score.

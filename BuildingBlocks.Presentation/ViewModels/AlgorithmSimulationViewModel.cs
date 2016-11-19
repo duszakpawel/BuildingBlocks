@@ -25,7 +25,7 @@ namespace BuildingBlocks.Presentation.ViewModels
         /// </summary>
         public int WellWidth { get; set; }
 
-        private AlgorithmSolver _algorithmSolver;
+        private IAlgorithmSolver _algorithmSolver;
 
         private readonly DispatcherTimer _dispatcherTimer;
 
@@ -34,6 +34,7 @@ namespace BuildingBlocks.Presentation.ViewModels
         private readonly int _k;
 
         private bool _simulationFinished = false;
+
 
         /// <summary>
         /// constructor
@@ -73,7 +74,7 @@ namespace BuildingBlocks.Presentation.ViewModels
                 });
             }
 
-            _algorithmSolver = new AlgorithmSolver(Simulations, _k);
+            _algorithmSolver = new AlgorithmSolver(IoC.Get<IBlockLogicProvider>(), IoC.Get<IEvaluateFunctionProvider>(), Simulations, _k);
         }
 
         /// <summary>

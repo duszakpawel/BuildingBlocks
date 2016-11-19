@@ -10,24 +10,25 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
     /// <summary>
     /// Algorithm solver
     /// </summary>
-    public class AlgorithmSolver
+    public class AlgorithmSolver : IAlgorithmSolver
     {
         private IEnumerable<Simulation> simulations;
         private int _k;
-        private BlockLogicProvider _blockLogicProvider;
-        private EvaluateFunctionProvider _evaluateFunctionProvider;
+        private IBlockLogicProvider _blockLogicProvider;
+        private IEvaluateFunctionProvider _evaluateFunctionProvider;
         private bool computationsTerminated = false;
+
         /// <summary>
         /// constructor
         /// </summary>
         /// <param name="simulations">simulations collection</param>
         /// <param name="_k">k parameter</param>
-        public AlgorithmSolver(IEnumerable<Simulation> simulations, int _k)
+        public AlgorithmSolver(IBlockLogicProvider blockLogicProvider, IEvaluateFunctionProvider evaluateFunctionProvider, IEnumerable<Simulation> simulations, int _k)
         {
+            _blockLogicProvider = blockLogicProvider;
+            _evaluateFunctionProvider = evaluateFunctionProvider;
             this.simulations = simulations;
             this._k = _k;
-            _blockLogicProvider = new BlockLogicProvider();
-            _evaluateFunctionProvider = new EvaluateFunctionProvider();
         }
 
         /// <summary>

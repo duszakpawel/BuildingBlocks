@@ -67,10 +67,14 @@
   <ItemGroup>
     <Compile Include="Algorithm\AlgorithmSolver.cs" />
     <Compile Include="Algorithm\BlockLogicProvider.cs" />
+    <Compile Include="Interfaces\IAlgorithmSolver.cs" />
+    <Compile Include="Interfaces\IEvaluateFunctionProvider.cs" />
+    <Compile Include="Interfaces\IBlockLogicProvider.cs" />
     <Compile Include="Extension methods\ArrayExtensions.cs" />
     <Compile Include="Parsing\BlocksPreprocessor.cs" />
     <Compile Include="Parsing\BlocksParser.cs" />
     <Compile Include="Algorithm\EvaluateFunctionProvider.cs" />
+    <Compile Include="Interfaces\IBlockParser.cs" />
     <Compile Include="Serialization\ComputationsSerializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Algorithm\SimulationEqualityComparer.cs" />
