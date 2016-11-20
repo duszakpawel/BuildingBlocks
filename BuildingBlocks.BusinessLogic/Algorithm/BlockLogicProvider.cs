@@ -1,23 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using BuildingBlocks.BusinessLogic.Interfaces;
 using BuildingBlocks.Models.Models;
 
 namespace BuildingBlocks.BusinessLogic.Algorithm
 {
     /// <summary>
-    /// Block logic class provider
+    ///     Block logic class provider
     /// </summary>
     public class BlockLogicProvider : IBlockLogicProvider
     {
         /// <summary>
-        /// Returns collection of rotated block
-        /// TODO: zwrócić tutaj 4 obroty bloków (lub mniej jeżeli jest symetryczny w jakis sposób) 
+        ///     Returns collection of rotated block
+        ///     TODO: zwrócić tutaj 4 obroty bloków (lub mniej jeżeli jest symetryczny w jakis sposób)
         /// </summary>
         /// <param name="block">Block conntent</param>
         /// <returns>collection of rotated block</returns>
         public IList<Block> RotateBlock(Block block)
         {
-            var ret = new List<Block> { new Block(block) };
+            var ret = new List<Block> {new Block(block)};
             for (var i = 1; i < 4; ++i)
             {
                 ret.Add(new Block
@@ -35,8 +36,9 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
         }
 
         /// <summary>
-        /// Obecnie znajduje położenie (x,y) - lewy górny róg,  które jest najniżej jak się da. Z tego wiersza wybiera pozycję najbardziej po lewo. 
-        /// TODO: Do zmiany? Może czasami lepiej dać wyżej? Może zwracać IEnumerable<Tuple> i sprawdzać kilka? 
+        ///     Obecnie znajduje położenie (x,y) - lewy górny róg,  które jest najniżej jak się da. Z tego wiersza wybiera pozycję
+        ///     najbardziej po lewo.
+        ///     TODO: Do zmiany? Może czasami lepiej dać wyżej? Może zwracać IEnumerable<Tuple> i sprawdzać kilka?
         /// </summary>
         /// <param name="board">Board content</param>
         /// <param name="block">Block conntent</param>

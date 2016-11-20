@@ -1,27 +1,27 @@
-﻿using System.IO;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using BuildingBlocks.BusinessLogic;
+﻿using System;
+using System.IO;
 using System.Threading.Tasks;
-using System;
+using BuildingBlocks.BusinessLogic.Parsing;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BuildingBlocks.UnitTests
 {
     /// <summary>
-    /// Tests for blocks parser logic.
+    ///     Tests for blocks parser logic.
     /// </summary>
     [TestClass]
     public class BlocksParserTest
     {
-        private BlocksParser parser = new BlocksParser();
+        private readonly BlocksParser _parser = new BlocksParser();
 
         /// <summary>
-        /// Parser test for different widths of blocks.
+        ///     Parser test for different widths of blocks.
         /// </summary>
         [TestMethod]
         public async Task ParserTest_ForDifferentWidthBlocks()
         {
-            const string text = 
-@"8 2
+            const string text =
+                @"8 2
 2 3
 0 1
 0 1
@@ -32,7 +32,7 @@ namespace BuildingBlocks.UnitTests
 1 1 1 1";
 
             var file = new StringReader(text);
-            var result = await parser.LoadData(file);
+            var result = await _parser.LoadData(file);
 
             Assert.AreEqual(result.WellWidth, 8);
             Assert.AreEqual(result.BlocksCount, 2);
@@ -62,13 +62,13 @@ namespace BuildingBlocks.UnitTests
         }
 
         /// <summary>
-        /// Parser test for different widths of blocks.
+        ///     Parser test for different widths of blocks.
         /// </summary>
         [TestMethod]
         public async Task ParserTest_ForDifferentWidthBlocks2()
         {
             const string text =
-@"8 2
+                @"8 2
 4 3
 1 0 0 1
 1 0 0 1
@@ -79,7 +79,7 @@ namespace BuildingBlocks.UnitTests
 1 1";
 
             var file = new StringReader(text);
-            var result = await parser.LoadData(file);
+            var result = await _parser.LoadData(file);
 
             Assert.AreEqual(result.WellWidth, 8);
             Assert.AreEqual(result.BlocksCount, 2);
@@ -109,13 +109,13 @@ namespace BuildingBlocks.UnitTests
         }
 
         /// <summary>
-        /// Parser test for different heights of blocks.
+        ///     Parser test for different heights of blocks.
         /// </summary>
         [TestMethod]
         public async Task ParserTest_ForDifferentHeightBlocks()
         {
             const string text =
-@"8 2
+                @"8 2
 2 4
 0 1
 0 1
@@ -127,7 +127,7 @@ namespace BuildingBlocks.UnitTests
 1 1";
 
             var file = new StringReader(text);
-            var result = await parser.LoadData(file);
+            var result = await _parser.LoadData(file);
 
             Assert.AreEqual(result.WellWidth, 8);
             Assert.AreEqual(result.BlocksCount, 2);
@@ -153,13 +153,13 @@ namespace BuildingBlocks.UnitTests
         }
 
         /// <summary>
-        /// Parser test for different heights of blocks.
+        ///     Parser test for different heights of blocks.
         /// </summary>
         [TestMethod]
         public async Task ParserTest_ForDifferentHeightBlocks2()
         {
             const string text =
-@"8 2
+                @"8 2
 2 3
 1 0
 1 0
@@ -171,7 +171,7 @@ namespace BuildingBlocks.UnitTests
 0 1";
 
             var file = new StringReader(text);
-            var result = await parser.LoadData(file);
+            var result = await _parser.LoadData(file);
 
             Assert.AreEqual(result.WellWidth, 8);
             Assert.AreEqual(result.BlocksCount, 2);
@@ -197,13 +197,13 @@ namespace BuildingBlocks.UnitTests
         }
 
         /// <summary>
-        /// Parser test for equal sizes of blocks.
+        ///     Parser test for equal sizes of blocks.
         /// </summary>
         [TestMethod]
         public async Task ParserTest_ForEqualSizeBlocks()
         {
             const string text =
-@"8 2
+                @"8 2
 2 3
 0 1
 0 1
@@ -213,7 +213,7 @@ namespace BuildingBlocks.UnitTests
 1 1";
 
             var file = new StringReader(text);
-            var result = await parser.LoadData(file);
+            var result = await _parser.LoadData(file);
 
             Assert.AreEqual(result.WellWidth, 8);
             Assert.AreEqual(result.BlocksCount, 2);
@@ -235,13 +235,13 @@ namespace BuildingBlocks.UnitTests
         }
 
         /// <summary>
-        /// Parser test for not equal sizes of blocks.
+        ///     Parser test for not equal sizes of blocks.
         /// </summary>
         [TestMethod]
         public async Task ParserTest_ForNotEqualSizeBlocks()
         {
             const string text =
-@"8 2
+                @"8 2
 2 3
 0 1
 0 1
@@ -253,7 +253,7 @@ namespace BuildingBlocks.UnitTests
 1 1 1";
 
             var file = new StringReader(text);
-            var result = await parser.LoadData(file);
+            var result = await _parser.LoadData(file);
 
             Assert.AreEqual(result.WellWidth, 8);
             Assert.AreEqual(result.BlocksCount, 2);
@@ -283,37 +283,37 @@ namespace BuildingBlocks.UnitTests
         }
 
         /// <summary>
-        /// Parser test for no blocks in file.
+        ///     Parser test for no blocks in file.
         /// </summary>
         [TestMethod]
         public async Task ParserTest_ForNoBlocks()
         {
             const string text =
-@"8 0";
+                @"8 0";
 
             var file = new StringReader(text);
-            var result = await parser.LoadData(file);
+            var result = await _parser.LoadData(file);
 
             Assert.AreEqual(result.WellWidth, 8);
             Assert.AreEqual(result.BlocksCount, 0);
-            Assert.AreEqual(result.Blocks.Count, 0);           
+            Assert.AreEqual(result.Blocks.Count, 0);
         }
 
         /// <summary>
-        /// Parser test for empty file.
+        ///     Parser test for empty file.
         /// </summary>
         [TestMethod]
         public async Task ParserTest_ForEmptyFile()
         {
-            const string text =@"";
+            const string text = @"";
 
             var file = new StringReader(text);
-            var result = await parser.LoadData(file);
+            var result = await _parser.LoadData(file);
             // should not throw an exception
         }
 
         /// <summary>
-        /// Parser test for bad file.
+        ///     Parser test for bad file.
         /// </summary>
         [ExpectedException(typeof(ArgumentException))]
         [TestMethod]
@@ -322,18 +322,18 @@ namespace BuildingBlocks.UnitTests
             const string text = @"!@#$%^&*()";
 
             var file = new StringReader(text);
-            var result = await parser.LoadData(file);
+            var result = await _parser.LoadData(file);
         }
 
         /// <summary>
-        /// Parser test for not correct file.
+        ///     Parser test for not correct file.
         /// </summary>
         [ExpectedException(typeof(ArgumentException))]
         [TestMethod]
         public async Task ParserTest_ForNotCorrectFile()
         {
             const string text =
-@"8 2
+                @"8 2
 2 test
 0 1
 0 1
@@ -345,7 +345,7 @@ namespace BuildingBlocks.UnitTests
 1 1 1";
 
             var file = new StringReader(text);
-            var result = await parser.LoadData(file);
+            var result = await _parser.LoadData(file);
         }
     }
 }

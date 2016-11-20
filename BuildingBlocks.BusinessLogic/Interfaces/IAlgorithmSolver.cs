@@ -1,15 +1,15 @@
-﻿using BuildingBlocks.Models.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using BuildingBlocks.Models.Models;
 
-namespace BuildingBlocks.BusinessLogic.Algorithm
+namespace BuildingBlocks.BusinessLogic.Interfaces
 {
     public interface IAlgorithmSolver
     {
         /// <summary>
-        /// For each of simulations, executes one step and takes the best k simulations at the end.
+        ///     For each of simulations, executes one step and takes the best k simulations at the end.
         /// </summary>
         /// <param name="simulations">simulations collection</param>
-        /// <param name="_k">k parameter</param>
-        List<Simulation> Execute(IEnumerable<Simulation> simulations, int _k, int step);
+        /// <param name="k">k parameter</param>
+        List<Simulation> Execute(IEnumerable<Simulation> simulations, int k, int step);
     }
 }

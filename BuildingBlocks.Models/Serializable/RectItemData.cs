@@ -1,33 +1,33 @@
 ﻿using System.Runtime.Serialization;
 
-namespace BuildingBlocks.Models
+namespace BuildingBlocks.Models.Serializable
 {
     /// <summary>
-    /// Rectangle item data
+    ///     Rectangle item data
     /// </summary>
     [DataContract]
     public class RectItemData
     {
         /// <summary>
-        /// X - coordinate
+        ///     X - coordinate
         /// </summary>
         [DataMember]
         public int X { get; set; }
 
         /// <summary>
-        /// Y - coordinate
+        ///     Y - coordinate
         /// </summary>
         [DataMember]
         public int Y { get; set; }
 
         /// <summary>
-        /// Width
+        ///     Width
         /// </summary>
         [DataMember]
         public int Width { get; set; }
 
         /// <summary>
-        /// Height
+        ///     Height
         /// </summary>
         [DataMember]
         public int Height { get; set; }

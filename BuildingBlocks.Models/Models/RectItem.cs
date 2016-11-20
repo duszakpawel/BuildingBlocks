@@ -1,52 +1,24 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Media;
-using BuildingBlocks.Models.Annotations;
+using BuildingBlocks.Models.Properties;
 
 namespace BuildingBlocks.Models.Models
 {
     /// <summary>
-    /// Rectangle item class
+    ///     Rectangle item class
     /// </summary>
     public class RectItem : INotifyPropertyChanged
     {
         /// <summary>
-        /// X- coordinate
+        ///     Default constructor
         /// </summary>
-        public int X { get; set; }
+        public RectItem()
+        {
+        }
 
         /// <summary>
-        /// Y - coordinate
-        /// </summary>
-        public int Y { get; set; }
-
-        /// <summary>
-        /// Width
-        /// </summary>
-        public int Width { get; set; }
-
-        /// <summary>
-        /// Height
-        /// </summary>
-        public int Height { get; set; }
-
-        /// <summary>
-        /// Fill color
-        /// </summary>
-        public Brush FillColor { get; set; }
-
-        /// <summary>
-        /// Stroke color
-        /// </summary>
-        public Brush StrokeColor { get; set; }
-
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        public RectItem(){}
-
-        /// <summary>
-        /// Constructor
+        ///     Constructor
         /// </summary>
         /// <param name="x">X - coordinate</param>
         /// <param name="y">Y - coordinate</param>
@@ -61,12 +33,42 @@ namespace BuildingBlocks.Models.Models
         }
 
         /// <summary>
-        /// Property changed event
+        ///     X- coordinate
+        /// </summary>
+        public int X { get; set; }
+
+        /// <summary>
+        ///     Y - coordinate
+        /// </summary>
+        public int Y { get; set; }
+
+        /// <summary>
+        ///     Width
+        /// </summary>
+        public int Width { get; set; }
+
+        /// <summary>
+        ///     Height
+        /// </summary>
+        public int Height { get; set; }
+
+        /// <summary>
+        ///     Fill color
+        /// </summary>
+        public Brush FillColor { get; set; }
+
+        /// <summary>
+        ///     Stroke color
+        /// </summary>
+        public Brush StrokeColor { get; set; }
+
+        /// <summary>
+        ///     Property changed event
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
-        /// Property changed event handler
+        ///     Property changed event handler
         /// </summary>
         /// <param name="propertyName"></param>
         [NotifyPropertyChangedInvocator]

@@ -1,37 +1,25 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using BuildingBlocks.Models;
+using BuildingBlocks.BusinessLogic.Parsing;
+using BuildingBlocks.Models.Models;
 using BuildingBlocks.Presentation.Common;
 using Caliburn.Micro;
-using BuildingBlocks.BusinessLogic;
-using BuildingBlocks.Models.Models;
 
 namespace BuildingBlocks.Presentation.ViewModels
 {
     /// <summary>
-    /// Blocks browser view model
+    ///     Blocks browser view model
     /// </summary>
     public class BlocksBrowserViewModel : Screen
     {
-        /// <summary>
-        /// Displayed (selected) blocks
-        /// </summary>
-        public List<Block> DisplayedBlocks { get; set; }
-
-        /// <summary>
-        /// Loaded blocks from file
-        /// </summary>
-        public List<Block> LoadedBlocks { get; set; }
-
         private const int CanvasWidth = 100;
 
         /// <summary>
-        /// Constructor
+        ///     Constructor
         /// </summary>
         /// <param name="blocks">Blocks collection</param>
         public BlocksBrowserViewModel(List<Block> blocks)
         {
-            if(blocks?.Count > 0)
+            if (blocks?.Count > 0)
             {
                 PreprocessBlocks(blocks);
             }
@@ -40,7 +28,17 @@ namespace BuildingBlocks.Presentation.ViewModels
         }
 
         /// <summary>
-        /// Disables quantity control for each of loaded blocks
+        ///     Displayed (selected) blocks
+        /// </summary>
+        public List<Block> DisplayedBlocks { get; set; }
+
+        /// <summary>
+        ///     Loaded blocks from file
+        /// </summary>
+        public List<Block> LoadedBlocks { get; set; }
+
+        /// <summary>
+        ///     Disables quantity control for each of loaded blocks
         /// </summary>
         public void DisableQuantity()
         {
@@ -48,7 +46,7 @@ namespace BuildingBlocks.Presentation.ViewModels
         }
 
         /// <summary>
-        /// Enables quantity control for each of loaded blocks
+        ///     Enables quantity control for each of loaded blocks
         /// </summary>
         public void EnableQuantity()
         {
@@ -56,7 +54,7 @@ namespace BuildingBlocks.Presentation.ViewModels
         }
 
         /// <summary>
-        /// Switches between selected blocks and loaded blocks in browser view
+        ///     Switches between selected blocks and loaded blocks in browser view
         /// </summary>
         /// <param name="mode">display view mode</param>
         public void UpdateBrowserView(DisplayMode mode)

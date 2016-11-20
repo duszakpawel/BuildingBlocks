@@ -5,24 +5,25 @@ using System.Linq;
 using System.Reflection;
 using System.Windows;
 using Autofac;
+using BuildingBlocks.BusinessLogic.Algorithm;
+using BuildingBlocks.BusinessLogic.Interfaces;
+using BuildingBlocks.BusinessLogic.Parsing;
+using BuildingBlocks.Presentation.Common;
 using BuildingBlocks.Presentation.ViewModels;
 using Caliburn.Micro;
 using IContainer = Autofac.IContainer;
-using BuildingBlocks.BusinessLogic.Algorithm;
-using BuildingBlocks.BusinessLogic;
-using BuildingBlocks.Presentation.Common;
 
 namespace BuildingBlocks.Presentation
 {
     /// <summary>
-    /// Autofac class configuration
+    ///     Autofac class configuration
     /// </summary>
     public class Bootstrapper : BootstrapperBase
     {
         private IContainer _container;
 
         /// <summary>
-        /// Constructor of class
+        ///     Constructor of class
         /// </summary>
         public Bootstrapper()
         {
@@ -43,7 +44,9 @@ namespace BuildingBlocks.Presentation
             {
                 baseAssemblies.Add(thisAssembly);
             }
-            foreach (var assembly in baseAssemblies.ToList().Where(newAssembly => AssemblySource.Instance.Contains(newAssembly)))
+            foreach (
+                var assembly in
+                    baseAssemblies.ToList().Where(newAssembly => AssemblySource.Instance.Contains(newAssembly)))
             {
                 baseAssemblies.Remove(assembly);
             }

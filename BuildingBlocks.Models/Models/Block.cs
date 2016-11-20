@@ -1,67 +1,32 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using BuildingBlocks.Models.Annotations;
+using BuildingBlocks.Models.Properties;
 
 namespace BuildingBlocks.Models.Models
 {
     /// <summary>
-    /// Block class
+    ///     Block class
     /// </summary>
     public class Block : INotifyPropertyChanged
     {
-        private static int idCounter = 0;
+        private static int _idCounter;
 
         /// <summary>
-        /// Block Id
+        ///     Block Id
         /// </summary>
         public int Id;
 
         /// <summary>
-        /// Block width
-        /// </summary>
-        public int Width { get; set; }
-
-        /// <summary>
-        /// Block height
-        /// </summary>
-        public int Height { get; set; }
-
-        /// <summary>
-        /// Block array content
-        /// </summary>
-        public bool[,] Content { get; set; }
-
-        /// <summary>
-        /// Rectangle collection representing tiles
-        /// </summary>
-        public List<RectItem> CanvasChildren { get; set; } = new List<RectItem>();
-
-        /// <summary>
-        /// Block quantity
-        /// </summary>
-        public int Quantity { get; set; } = 0;
-
-        /// <summary>
-        /// Returns information whether quantity manipulation is enabled or disabled for this block
-        /// </summary>
-        public bool IsQuantityEnabled { get; set; }
-
-        /// <summary>
-        /// Event required by INotifyPropertyChanged interface
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        /// <summary>
-        /// constructor
+        ///     constructor
         /// </summary>
         public Block()
         {
-            Id = idCounter++;
+            Id = _idCounter++;
         }
 
         /// <summary>
-        /// Copying constructor
+        ///     Copying constructor
         /// </summary>
         /// <param name="block">Another block</param>
         public Block(Block block)
@@ -74,7 +39,42 @@ namespace BuildingBlocks.Models.Models
         }
 
         /// <summary>
-        /// property changed event handler
+        ///     Block width
+        /// </summary>
+        public int Width { get; set; }
+
+        /// <summary>
+        ///     Block height
+        /// </summary>
+        public int Height { get; set; }
+
+        /// <summary>
+        ///     Block array content
+        /// </summary>
+        public bool[,] Content { get; set; }
+
+        /// <summary>
+        ///     Rectangle collection representing tiles
+        /// </summary>
+        public List<RectItem> CanvasChildren { get; set; } = new List<RectItem>();
+
+        /// <summary>
+        ///     Block quantity
+        /// </summary>
+        public int Quantity { get; set; }
+
+        /// <summary>
+        ///     Returns information whether quantity manipulation is enabled or disabled for this block
+        /// </summary>
+        public bool IsQuantityEnabled { get; set; }
+
+        /// <summary>
+        ///     Event required by INotifyPropertyChanged interface
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        ///     property changed event handler
         /// </summary>
         [NotifyPropertyChangedInvocator]
         public virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)

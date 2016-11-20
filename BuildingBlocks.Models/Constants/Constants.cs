@@ -4,42 +4,42 @@ using System.Windows.Media;
 namespace BuildingBlocks.Models.Constants
 {
     /// <summary>
-    /// Contains common const values to share
+    ///     Contains common const values to share
     /// </summary>
     public static class Constants
     {
         /// <summary>
-        /// Recently inserted block color
-        /// </summary>
-        public static readonly Brush BlockFillColor = Brushes.DeepSkyBlue;
-
-        /// <summary>
-        /// Block edge color
-        /// </summary>
-        public static readonly Brush BlockEdgeColor = Brushes.Black;
-
-        /// <summary>
-        /// Inserted block color
-        /// </summary>
-        public static readonly Brush OldBlockEdgeColor = Brushes.Gray;
-
-        /// <summary>
-        /// Width of single tile
+        ///     Width of single tile
         /// </summary>
         public const int SingleTileWidth = 25;
 
         /// <summary>
-        /// Canvas start height
+        ///     Canvas start height
         /// </summary>
         public const int SimulationStartHeight = 400;
 
         /// <summary>
-        /// Compulsory free space in well height
+        ///     Compulsory free space in well height
         /// </summary>
         public const int CompulsoryFreeSpaceInWellHeight = 8;
 
         /// <summary>
-        /// Sample Brushes
+        ///     Recently inserted block color
+        /// </summary>
+        public static readonly Brush BlockFillColor = Brushes.DeepSkyBlue;
+
+        /// <summary>
+        ///     Block edge color
+        /// </summary>
+        public static readonly Brush BlockEdgeColor = Brushes.Black;
+
+        /// <summary>
+        ///     Inserted block color
+        /// </summary>
+        public static readonly Brush OldBlockEdgeColor = Brushes.Gray;
+
+        /// <summary>
+        ///     Sample Brushes
         /// </summary>
         public static List<Brush> FillBrushes { get; } = new List<Brush>
         {

@@ -1,7 +1,7 @@
 namespace BuildingBlocks.Presentation.Common
 {
     /// <summary>
-    /// Blocks display mode
+    ///     Blocks display mode
     /// </summary>
     public enum DisplayMode
     {

@@ -1,11 +1,11 @@
 ﻿<UserControl x:Class="BuildingBlocks.Presentation.Views.MainWindowView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:BuildingBlocks.Presentation.Views"
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
         <Style x:Key="ButtonStyle" TargetType="Button">
@@ -18,31 +18,33 @@
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" MaxHeight="400">
-            <Expander Header="Select Data" IsExpanded="{Binding IsExpanded}" >
+            <Expander Header="Select Data" IsExpanded="{Binding IsExpanded}">
                 <StackPanel>
                     <StackPanel Orientation="Horizontal">
-                            <Button Content="Load File" x:Name="LoadFile" Style="{StaticResource ButtonStyle}" />
+                        <Button Content="Load File" x:Name="LoadFile" Style="{StaticResource ButtonStyle}" />
                         <Label Width="20" Height="30" Margin="60,0,0,0" Content="K:" />
-                        <controls:NumericUpDown Minimum="1" Interval="1" x:Name="K" Value="{Binding K}" IsEnabled="{Binding IsKEnabled}" Width="80" Height="30" />
+                        <controls:NumericUpDown Minimum="1" Interval="1" x:Name="K" Value="{Binding K}"
+                                                IsEnabled="{Binding IsKEnabled}" Width="80" Height="30" />
                         <Label Width="80" Height="30" Margin="0,0,0,0" Content="Board Width:" />
-                        <TextBox x:Name="BoardWidth" Width="80" Height="30" IsEnabled="False"/>
+                        <TextBox x:Name="BoardWidth" Width="80" Height="30" IsEnabled="False" />
                     </StackPanel>
                     <ScrollViewer VerticalScrollBarVisibility="Auto" MaxHeight="350">
                         <StackPanel>
-                        <local:BlocksBrowserView DataContext="{Binding BlocksBrowserViewViewModel}" />
-                    </StackPanel>
+                            <local:BlocksBrowserView DataContext="{Binding BlocksBrowserViewViewModel}" />
+                        </StackPanel>
                     </ScrollViewer>
                 </StackPanel>
             </Expander>
         </StackPanel>
-        <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal"> 
+        <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
             <Label Width="40" Height="30" Margin="40,0,0,0" Content="Step:" />
-            <controls:NumericUpDown Minimum="1" Interval="1" Value="{Binding Step}" IsEnabled="{Binding IsStepEnabled}" Width="80" Height="30" />
+            <controls:NumericUpDown Minimum="1" Interval="1" Value="{Binding Step}" IsEnabled="{Binding IsStepEnabled}"
+                                    Width="80" Height="30" />
             <Button x:Name="Start" Content="Start" Style="{StaticResource ButtonStyle}" />
             <Button x:Name="Pause" Content="Pause" Style="{StaticResource ButtonStyle}" />
             <Button x:Name="Stop" Content="Stop" Style="{StaticResource ButtonStyle}" />
@@ -50,7 +52,8 @@
             <Button x:Name="Save" Content="Save" Style="{StaticResource ButtonStyle}" />
             <Button x:Name="Load" Content="Load" Style="{StaticResource ButtonStyle}" />
         </StackPanel>
-        <ScrollViewer Grid.Row="2" Grid.Column="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+        <ScrollViewer Grid.Row="2" Grid.Column="0" HorizontalScrollBarVisibility="Auto"
+                      VerticalScrollBarVisibility="Auto">
             <local:AlgorithmSimulationView DataContext="{Binding AlgorithmSimulationViewViewModel}" />
         </ScrollViewer>
     </Grid>

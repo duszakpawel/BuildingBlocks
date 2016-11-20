@@ -1,15 +1,18 @@
-﻿namespace BuildingBlocks.BusinessLogic.Algorithm
+﻿using BuildingBlocks.BusinessLogic.Interfaces;
+
+namespace BuildingBlocks.BusinessLogic.Algorithm
 {
     /// <summary>
-    /// Evaluate function provider
+    ///     Evaluate function provider
     /// </summary>
     public class EvaluateFunctionProvider : IEvaluateFunctionProvider
     {
         /// <summary>
-        /// Evaluation function. Returns score.
-        /// Teraz najlepszy wynik oznacza największy wynik. Można zmienić, wtedy zmiana w Algorithm z OrderByDescending do OrderBy
-        /// Teraz wynik to najwyżej wysunięty prostokąt 
-        /// TODO: Lepsza ocena położenia 
+        ///     Evaluation function. Returns score.
+        ///     Teraz najlepszy wynik oznacza największy wynik. Można zmienić, wtedy zmiana w Algorithm z OrderByDescending do
+        ///     OrderBy
+        ///     Teraz wynik to najwyżej wysunięty prostokąt
+        ///     TODO: Lepsza ocena położenia
         /// </summary>
         /// <param name="content">content array</param>
         /// <returns></returns>
@@ -22,7 +25,7 @@
             {
                 for (var i = 0; i < width; i++)
                 {
-                    if (content[i, j] == true)
+                    if (content[i, j])
                     {
                         return j;
                     }

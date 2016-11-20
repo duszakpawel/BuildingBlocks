@@ -1,54 +1,61 @@
 ﻿<UserControl x:Class="BuildingBlocks.Presentation.Views.AlgorithmSimulationView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="6*"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="6*" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <ItemsControl Name="AlgorithmSimulationListView" ItemsSource="{Binding Simulations}" Grid.Row="1" Grid.Column="0">
+        <ItemsControl Name="AlgorithmSimulationListView" ItemsSource="{Binding Simulations}" Grid.Row="1"
+                      Grid.Column="0">
             <ItemsControl.Template>
                 <ControlTemplate>
-                    <StackPanel Orientation="Horizontal" IsItemsHost="true" Margin="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" IsItemsHost="true" Margin="5" VerticalAlignment="Stretch"
+                                HorizontalAlignment="Stretch" />
                 </ControlTemplate>
             </ItemsControl.Template>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Vertical">
-                        <Border BorderThickness="1 0 1 1" BorderBrush="Black" Margin="10" Padding="1" VerticalAlignment="Center" HorizontalAlignment="Center">
-                        <WrapPanel Orientation="Horizontal" Margin="0">
+                        <Border BorderThickness="1 0 1 1" BorderBrush="Black" Margin="10" Padding="1"
+                                VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <WrapPanel Orientation="Horizontal" Margin="0">
                                 <ItemsControl ItemsSource="{Binding CanvasChildren}">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
-                                            <Canvas Width="{Binding DataContext.WellWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" 
+                                            <Canvas
+                                                Width="{Binding DataContext.WellWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
                                                 Height="{Binding WellHeight}"
-                                                VerticalAlignment="Center" Background="Beige" HorizontalAlignment="Center" />
+                                                VerticalAlignment="Center" Background="Beige"
+                                                HorizontalAlignment="Center" />
                                         </ItemsPanelTemplate>
                                     </ItemsControl.ItemsPanel>
                                     <ItemsControl.ItemContainerStyle>
                                         <Style TargetType="ContentPresenter">
-                                            <Setter Property="Canvas.Left" Value="{Binding X}"/>
-                                            <Setter Property="Canvas.Top" Value="{Binding Y}"/>
+                                            <Setter Property="Canvas.Left" Value="{Binding X}" />
+                                            <Setter Property="Canvas.Top" Value="{Binding Y}" />
                                         </Style>
                                     </ItemsControl.ItemContainerStyle>
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
-                                            <Rectangle Width="{Binding Width}" Height="{Binding Height}" Fill="{Binding FillColor}" Stroke="{Binding StrokeColor}" Margin="0"/>
+                                            <Rectangle Width="{Binding Width}" Height="{Binding Height}"
+                                                       Fill="{Binding FillColor}" Stroke="{Binding StrokeColor}"
+                                                       Margin="0" />
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
                             </WrapPanel>
-                    </Border>
-                        <TextBlock FontSize="20" FontFamily="TimesNewRoman" HorizontalAlignment="Stretch" TextAlignment="Center">
+                        </Border>
+                        <TextBlock FontSize="20" FontFamily="TimesNewRoman" HorizontalAlignment="Stretch"
+                                   TextAlignment="Center">
                             <TextBlock.Inlines>
                                 <Run Text="Height: " />
                                 <Run FontWeight="Bold" Text="{Binding Height}" />
@@ -62,3 +69,33 @@
         </ItemsControl>
     </Grid>
 </UserControl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

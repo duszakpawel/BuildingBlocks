@@ -3,41 +3,31 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Threading;
 using BuildingBlocks.BusinessLogic.Algorithm;
-using BuildingBlocks.Models;
-using Caliburn.Micro;
-using BuildingBlocks.Models.Models;
+using BuildingBlocks.BusinessLogic.Interfaces;
 using BuildingBlocks.Models.Constants;
+using BuildingBlocks.Models.Models;
+using Caliburn.Micro;
 
 namespace BuildingBlocks.Presentation.ViewModels
 {
     /// <summary>
-    /// Algorithm simulation view model
+    ///     Algorithm simulation view model
     /// </summary>
     public class AlgorithmSimulationViewModel : Screen
     {
-        /// <summary>
-        /// simulations collection
-        /// </summary>
-        public ObservableCollection<Simulation> Simulations { get; set; }
-
-        /// <summary>
-        /// well width
-        /// </summary>
-        public int WellWidth { get; set; }
-
-        private IAlgorithmSolver _algorithmSolver;
+        private readonly IAlgorithmSolver _algorithmSolver;
 
         private readonly DispatcherTimer _dispatcherTimer;
 
-        private int _step;
-
         private readonly int _k;
 
-        private bool _simulationFinished = false;
+        private bool _simulationFinished;
+
+        private int _step;
 
 
         /// <summary>
-        /// constructor
+        ///     constructor
         /// </summary>
         /// <param name="blocks">blocks collection</param>
         /// <param name="boardWidth">board width</param>
@@ -47,7 +37,7 @@ namespace BuildingBlocks.Presentation.ViewModels
         {
             _step = step;
             _k = k;
-            WellWidth = boardWidth * Constants.SingleTileWidth;
+            WellWidth = boardWidth*Constants.SingleTileWidth;
 
             _dispatcherTimer = new DispatcherTimer
             {
@@ -70,15 +60,26 @@ namespace BuildingBlocks.Presentation.ViewModels
                     AvailableBlocks = list,
                     CanvasChildren = new ObservableCollection<RectItem>(),
                     WellHeight = Constants.SimulationStartHeight,
-                    Content = new bool[boardWidth, Constants.SimulationStartHeight / Constants.SingleTileWidth]
+                    Content = new bool[boardWidth, Constants.SimulationStartHeight/Constants.SingleTileWidth]
                 });
             }
 
-            _algorithmSolver = new AlgorithmSolver(IoC.Get<IBlockLogicProvider>(), IoC.Get<IEvaluateFunctionProvider>(), Simulations, _k);
+            _algorithmSolver = new AlgorithmSolver(IoC.Get<IBlockLogicProvider>(), IoC.Get<IEvaluateFunctionProvider>(),
+                Simulations, _k);
         }
 
         /// <summary>
-        /// Start command
+        ///     simulations collection
+        /// </summary>
+        public ObservableCollection<Simulation> Simulations { get; set; }
+
+        /// <summary>
+        ///     well width
+        /// </summary>
+        public int WellWidth { get; set; }
+
+        /// <summary>
+        ///     Start command
         /// </summary>
         /// <param name="step">step value</param>
         public void Start(int step)
@@ -88,7 +89,7 @@ namespace BuildingBlocks.Presentation.ViewModels
         }
 
         /// <summary>
-        /// Stop command
+        ///     Stop command
         /// </summary>
         public void Stop()
         {
@@ -96,7 +97,7 @@ namespace BuildingBlocks.Presentation.ViewModels
         }
 
         /// <summary>
-        /// Pause command
+        ///     Pause command
         /// </summary>
         public void Pause()
         {
@@ -104,7 +105,7 @@ namespace BuildingBlocks.Presentation.ViewModels
         }
 
         /// <summary>
-        /// Next computations command
+        ///     Next computations command
         /// </summary>
         /// <param name="step">step value</param>
         public void Next(int step)

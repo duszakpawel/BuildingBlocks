@@ -1,15 +1,16 @@
 ﻿using System.Collections.Generic;
+using BuildingBlocks.BusinessLogic.Extension_methods;
 using BuildingBlocks.Models.Models;
 
-namespace BuildingBlocks.BusinessLogic
+namespace BuildingBlocks.BusinessLogic.Algorithm
 {
     /// <summary>
-    /// Simulation equality provider class
+    ///     Simulation equality provider class
     /// </summary>
     public class SimulationEqualityComparer : IEqualityComparer<KeyValuePair<Simulation, int>>
     {
         /// <summary>
-        /// Returns information whether two simulations are equal or not
+        ///     Returns information whether two simulations are equal or not
         /// </summary>
         /// <param name="x">first simulation</param>
         /// <param name="y">second simulation</param>
@@ -24,7 +25,7 @@ namespace BuildingBlocks.BusinessLogic
         }
 
         /// <summary>
-        /// GetHashCode method required by IEqualityComparer interface
+        ///     GetHashCode method required by IEqualityComparer interface
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
@@ -32,11 +33,11 @@ namespace BuildingBlocks.BusinessLogic
         {
             var array = obj.Key.Content;
             var constValue = 314159;
-            int hc = array.Length;
+            var hc = array.Length;
             foreach (var element in array)
             {
                 // not very clever but for this purpose should be enough
-                hc = unchecked(hc * constValue + (element ? 1 : 0));
+                hc = unchecked(hc*constValue + (element ? 1 : 0));
             }
 
             return hc;

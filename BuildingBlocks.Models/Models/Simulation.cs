@@ -2,50 +2,50 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using BuildingBlocks.Models.Annotations;
+using BuildingBlocks.Models.Properties;
 
 namespace BuildingBlocks.Models.Models
 {
     /// <summary>
-    /// Simulation class
+    ///     Simulation class
     /// </summary>
     public class Simulation : INotifyPropertyChanged
     {
+        private int _height;
+
+        private int _score;
+
         /// <summary>
-        /// Rectangles representing blocks
+        ///     Rectangles representing blocks
         /// </summary>
         public ObservableCollection<RectItem> CanvasChildren { get; set; } = new ObservableCollection<RectItem>();
 
         /// <summary>
-        /// Available blocks to add to simulation
+        ///     Available blocks to add to simulation
         /// </summary>
         public List<Block> AvailableBlocks { get; set; } = new List<Block>();
 
         /// <summary>
-        /// Well width
+        ///     Well width
         /// </summary>
         public int WellHeight { get; set; }
 
         /// <summary>
-        /// Simulation content aray
+        ///     Simulation content aray
         /// </summary>
         public bool[,] Content { get; set; }
 
         /// <summary>
-        /// Last block content array
+        ///     Last block content array
         /// </summary>
         public int[,] LastBlock { get; set; }
 
-        private int _score = 0;
         /// <summary>
-        /// Simulation score
+        ///     Simulation score
         /// </summary>
         public int Score
         {
-            get
-            {
-                return _score;
-            }
+            get { return _score; }
             set
             {
                 _score = value;
@@ -53,13 +53,9 @@ namespace BuildingBlocks.Models.Models
             }
         }
 
-        private int _height = 0;
         public int Height
         {
-            get
-            {
-                return _height;
-            }
+            get { return _height; }
             set
             {
                 _height = value;
@@ -68,7 +64,7 @@ namespace BuildingBlocks.Models.Models
         }
 
         /// <summary>
-        /// Property changed event, required by INotiftyPropertyChanged interface
+        ///     Property changed event, required by INotiftyPropertyChanged interface
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 

@@ -2,42 +2,47 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using BuildingBlocks.Models.Models;
+using BuildingBlocks.BusinessLogic.Interfaces;
 using BuildingBlocks.Models.Constants;
+using BuildingBlocks.Models.Models;
 
 namespace BuildingBlocks.BusinessLogic.Algorithm
 {
     /// <summary>
-    /// Algorithm solver
+    ///     Algorithm solver
     /// </summary>
     public class AlgorithmSolver : IAlgorithmSolver
     {
-        private IEnumerable<Simulation> simulations;
+        private readonly IBlockLogicProvider _blockLogicProvider;
+        private readonly IEvaluateFunctionProvider _evaluateFunctionProvider;
+        private bool _computationsTerminated;
         private int _k;
-        private IBlockLogicProvider _blockLogicProvider;
-        private IEvaluateFunctionProvider _evaluateFunctionProvider;
-        private bool computationsTerminated = false;
+        private IEnumerable<Simulation> _simulations;
 
         /// <summary>
-        /// constructor
+        ///     constructor
         /// </summary>
+        /// <param name="evaluateFunctionProvider"></param>
         /// <param name="simulations">simulations collection</param>
-        /// <param name="_k">k parameter</param>
-        public AlgorithmSolver(IBlockLogicProvider blockLogicProvider, IEvaluateFunctionProvider evaluateFunctionProvider, IEnumerable<Simulation> simulations, int _k)
+        /// <param name="k">k parameter</param>
+        /// <param name="blockLogicProvider"></param>
+        public AlgorithmSolver(IBlockLogicProvider blockLogicProvider,
+            IEvaluateFunctionProvider evaluateFunctionProvider, IEnumerable<Simulation> simulations, int k)
         {
             _blockLogicProvider = blockLogicProvider;
             _evaluateFunctionProvider = evaluateFunctionProvider;
-            this.simulations = simulations;
-            this._k = _k;
+            _simulations = simulations;
+            _k = k;
         }
 
         /// <summary>
-        /// For each of simulations, executes one step and takes the best k simulations at the end.
+        ///     For each of simulations, executes one step and takes the best k simulations at the end.
         /// </summary>
         /// <param name="simulations">simulations collection</param>
-        /// <param name="_k">k parameter</param>
+        /// <param name="k">k parameter</param>
+        /// <param name="step"></param>
         /// <returns></returns>
-        public List<Simulation> Execute(IEnumerable<Simulation> simulations, int _k, int step)
+        public List<Simulation> Execute(IEnumerable<Simulation> simulations, int k, int step)
         {
             foreach (var simulation in simulations)
             {
@@ -45,9 +50,9 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
             }
             var ret = new List<Simulation>();
 
-            for (int i = 0; i < step; i++)
+            for (var i = 0; i < step; i++)
             {
-                if(computationsTerminated == true)
+                if (_computationsTerminated)
                 {
                     break;
                 }
@@ -71,13 +76,13 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
                     }
                 }
                 dict = dict.Distinct(new SimulationEqualityComparer()).ToDictionary(x => x.Key, x => x.Value);
-                var bestScores = dict.Values.OrderByDescending(v => v).Take(_k).Distinct().ToList();
-                ret = dict.Where(d => bestScores.Contains(d.Value)).Select(p => p.Key).Take(_k).ToList();
+                var bestScores = dict.Values.OrderByDescending(v => v).Take(k).Distinct().ToList();
+                ret = dict.Where(d => bestScores.Contains(d.Value)).Select(p => p.Key).Take(k).ToList();
                 simulations = ret;
 
                 if (simulations.FirstOrDefault()?.AvailableBlocks.Count == 0)
                 {
-                    computationsTerminated = true;
+                    _computationsTerminated = true;
                     break;
                 }
             }
@@ -91,7 +96,7 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
         }
 
         /// <summary>
-        /// Adds new block to simulation. x and y are coordinates of top left corner of block
+        ///     Adds new block to simulation. x and y are coordinates of top left corner of block
         /// </summary>
         /// <param name="block">Block to add</param>
         /// <param name="simulation">Simulation object</param>
@@ -107,10 +112,10 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
             }
             var sim = new Simulation
             {
-                Content = (bool[,])simulation.Content.Clone(),
+                Content = (bool[,]) simulation.Content.Clone(),
                 AvailableBlocks = list,
                 WellHeight = simulation.WellHeight,
-                LastBlock = (int[,])simulation.LastBlock.Clone()
+                LastBlock = (int[,]) simulation.LastBlock.Clone()
             };
 
             var bl = sim.AvailableBlocks.Single(b => b.Id == block.Id);
@@ -144,7 +149,7 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
         }
 
         /// <summary>
-        /// Updates colors of blocks and produces new rectangle items collection to be displayed
+        ///     Updates colors of blocks and produces new rectangle items collection to be displayed
         /// </summary>
         /// <param name="simulation">simulation object</param>
         private void SyncCanvasWithContent(Simulation simulation)
@@ -156,14 +161,14 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
                 {
                     if (simulation.LastBlock[i, j] > 0)
                     {
-                        children.Add(new RectItem(i * Constants.SingleTileWidth, j * Constants.SingleTileWidth)
+                        children.Add(new RectItem(i*Constants.SingleTileWidth, j*Constants.SingleTileWidth)
                         {
-                            FillColor = Constants.FillBrushes[simulation.LastBlock[i, j] % Constants.FillBrushes.Count]
+                            FillColor = Constants.FillBrushes[simulation.LastBlock[i, j]%Constants.FillBrushes.Count]
                         });
                     }
                     else if (simulation.Content[i, j])
                     {
-                        children.Add(new RectItem(i * Constants.SingleTileWidth, j * Constants.SingleTileWidth));
+                        children.Add(new RectItem(i*Constants.SingleTileWidth, j*Constants.SingleTileWidth));
                     }
                 }
             }
@@ -172,7 +177,7 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
         }
 
         /// <summary>
-        /// corrects simulation height
+        ///     corrects simulation height
         /// </summary>
         /// <param name="simulation">simulation object</param>
         private void CheckAndCorrectSimulationHeight(Simulation simulation)
@@ -196,9 +201,13 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
                     continue;
                 }
                 // make well bigger: 
-                simulation.WellHeight += Constants.CompulsoryFreeSpaceInWellHeight * Constants.SingleTileWidth;
-                var newContent = new bool[simulation.Content.GetLength(0), simulation.Content.GetLength(1) + Constants.CompulsoryFreeSpaceInWellHeight];
-                var newLastBlocks = new int[simulation.Content.GetLength(0), simulation.Content.GetLength(1) + Constants.CompulsoryFreeSpaceInWellHeight];
+                simulation.WellHeight += Constants.CompulsoryFreeSpaceInWellHeight*Constants.SingleTileWidth;
+                var newContent =
+                    new bool[simulation.Content.GetLength(0),
+                        simulation.Content.GetLength(1) + Constants.CompulsoryFreeSpaceInWellHeight];
+                var newLastBlocks =
+                    new int[simulation.Content.GetLength(0),
+                        simulation.Content.GetLength(1) + Constants.CompulsoryFreeSpaceInWellHeight];
 
                 for (var i = 0; i < simulation.Content.GetLength(0); i++)
                 {

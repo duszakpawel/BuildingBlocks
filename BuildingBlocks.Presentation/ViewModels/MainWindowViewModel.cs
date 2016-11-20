@@ -1,102 +1,103 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
-using BuildingBlocks.BusinessLogic;
+using BuildingBlocks.BusinessLogic.Interfaces;
+using BuildingBlocks.BusinessLogic.Serialization;
+using BuildingBlocks.Models.Models;
 using BuildingBlocks.Presentation.Common;
 using Caliburn.Micro;
 using Microsoft.Win32;
-using BuildingBlocks.Models.Models;
-using System;
 
 namespace BuildingBlocks.Presentation.ViewModels
 {
     /// <summary>
-    /// Main window view model class.
+    ///     Main window view model class.
     /// </summary>
     public class MainWindowViewModel : Screen
     {
         /// <summary>
-        /// Reference to blocks browser view model
+        ///     Reference to blocks browser view model
         /// </summary>
         public BlocksBrowserViewModel BlocksBrowserViewViewModel { get; set; }
 
         /// <summary>
-        /// Reference to algorithms simulation view model
+        ///     Reference to algorithms simulation view model
         /// </summary>
         public AlgorithmSimulationViewModel AlgorithmSimulationViewViewModel { get; set; }
 
         /// <summary>
-        /// Board width
+        ///     Board width
         /// </summary>
         public int BoardWidth { get; set; }
 
         /// <summary>
-        /// K parameter
+        ///     K parameter
         /// </summary>
         public int K { get; set; } = 1;
 
         /// <summary>
-        /// Step value
+        ///     Step value
         /// </summary>
         public int Step { get; set; } = 1;
 
         /// <summary>
-        /// Returns information whether Start button is enabled or disabled
+        ///     Returns information whether Start button is enabled or disabled
         /// </summary>
         public bool CanStart => K > 0 && Step > 0 && BoardWidth > 0 && !IsProcessing;
 
         /// <summary>
-        /// Returns information whether Stop button is enabled or disabled
+        ///     Returns information whether Stop button is enabled or disabled
         /// </summary>
         public bool CanStop { get; set; }
 
         /// <summary>
-        /// Returns information whether Pause button is enabled or disabled
+        ///     Returns information whether Pause button is enabled or disabled
         /// </summary>
         public bool CanPause { get; set; }
 
         /// <summary>
-        /// Returns information whether Next button is enabled or disabled
+        ///     Returns information whether Next button is enabled or disabled
         /// </summary>
         public bool CanNext => K > 0 && Step > 0 && BoardWidth > 0 && !IsProcessing;
 
         /// <summary>
-        /// Returns information whether LoadFile button is enabled or disabled
+        ///     Returns information whether LoadFile button is enabled or disabled
         /// </summary>
         public bool CanLoadFile { get; set; } = true;
 
         /// <summary>
-        /// Returns information whether Save button is enabled or disabled
+        ///     Returns information whether Save button is enabled or disabled
         /// </summary>
         public bool CanSave => AlgorithmSimulationViewViewModel != null;
 
         /// <summary>
-        /// Returns information whether Load button is enabled or disabled
+        ///     Returns information whether Load button is enabled or disabled
         /// </summary>
         public bool CanLoad => AlgorithmSimulationViewViewModel == null;
 
         /// <summary>
-        /// Returns information whether computations are in progress or not
+        ///     Returns information whether computations are in progress or not
         /// </summary>
         public bool IsProcessing { get; set; }
 
         /// <summary>
-        /// Returns information whether top menu is collapsed or not
+        ///     Returns information whether top menu is collapsed or not
         /// </summary>
         public bool IsExpanded { get; set; } = true;
 
         /// <summary>
-        /// Returns information whether K input is enabled or disabled
+        ///     Returns information whether K input is enabled or disabled
         /// </summary>
         public bool IsKEnabled { get; set; } = true;
 
         /// <summary>
-        /// Returns information whether Step control is enabled or disabled
+        ///     Returns information whether Step control is enabled or disabled
         /// </summary>
         public bool IsStepEnabled { get; set; } = true;
 
         /// <summary>
-        /// Load file button onclick handler
+        ///     Load file button onclick handler
         /// </summary>
         public async void LoadFile()
         {
@@ -118,12 +119,14 @@ namespace BuildingBlocks.Presentation.ViewModels
             catch (Exception details)
             {
                 var dialogManager = IoC.Get<ICustomDialogManager>();
-                await dialogManager.DisplayMessageBox("Information", $"The file is incorrect. Operation terminated. {details.Message}");
+                await
+                    dialogManager.DisplayMessageBox("Information",
+                        $"The file is incorrect. Operation terminated. {details.Message}");
             }
         }
 
         /// <summary>
-        /// Start button onclick handler
+        ///     Start button onclick handler
         /// </summary>
         public void Start()
         {
@@ -141,14 +144,15 @@ namespace BuildingBlocks.Presentation.ViewModels
             BlocksBrowserViewViewModel.UpdateBrowserView(DisplayMode.Selected);
             if (AlgorithmSimulationViewViewModel == null)
             {
-                AlgorithmSimulationViewViewModel = new AlgorithmSimulationViewModel(BlocksBrowserViewViewModel.DisplayedBlocks, BoardWidth, K, Step);
+                AlgorithmSimulationViewViewModel =
+                    new AlgorithmSimulationViewModel(BlocksBrowserViewViewModel.DisplayedBlocks, BoardWidth, K, Step);
                 BlocksBrowserViewViewModel.DisableQuantity();
             }
             AlgorithmSimulationViewViewModel.Start(Step);
         }
 
         /// <summary>
-        /// Stop button onclick handler
+        ///     Stop button onclick handler
         /// </summary>
         public void Stop()
         {
@@ -166,7 +170,7 @@ namespace BuildingBlocks.Presentation.ViewModels
         }
 
         /// <summary>
-        /// Pause button onclick handler
+        ///     Pause button onclick handler
         /// </summary>
         public void Pause()
         {
@@ -179,7 +183,7 @@ namespace BuildingBlocks.Presentation.ViewModels
         }
 
         /// <summary>
-        /// Next button onclick handler
+        ///     Next button onclick handler
         /// </summary>
         public void Next()
         {
@@ -191,7 +195,8 @@ namespace BuildingBlocks.Presentation.ViewModels
             IsStepEnabled = true;
             if (AlgorithmSimulationViewViewModel == null)
             {
-                AlgorithmSimulationViewViewModel = new AlgorithmSimulationViewModel(BlocksBrowserViewViewModel.DisplayedBlocks, BoardWidth, K, Step);
+                AlgorithmSimulationViewViewModel =
+                    new AlgorithmSimulationViewModel(BlocksBrowserViewViewModel.DisplayedBlocks, BoardWidth, K, Step);
                 BlocksBrowserViewViewModel.DisableQuantity();
             }
 
@@ -199,7 +204,7 @@ namespace BuildingBlocks.Presentation.ViewModels
         }
 
         /// <summary>
-        /// Save button onclick handler
+        ///     Save button onclick handler
         /// </summary>
         public void Save()
         {
@@ -216,7 +221,8 @@ namespace BuildingBlocks.Presentation.ViewModels
             try
             {
                 var computationsSerializer = new ComputationsSerializer();
-                computationsSerializer.Serialize(openFileDialog.FileName, BoardWidth, K, AlgorithmSimulationViewViewModel.Simulations);
+                computationsSerializer.Serialize(openFileDialog.FileName, BoardWidth, K,
+                    AlgorithmSimulationViewViewModel.Simulations);
             }
             catch (Exception)
             {
@@ -226,7 +232,7 @@ namespace BuildingBlocks.Presentation.ViewModels
         }
 
         /// <summary>
-        /// Load file onclick handler
+        ///     Load file onclick handler
         /// </summary>
         public void Load()
         {
@@ -247,13 +253,14 @@ namespace BuildingBlocks.Presentation.ViewModels
                 var result = computationsSerializer.Deserialize(openFileDialog.FileName);
                 var boardWidth = result.Item1;
                 var k = result.Item2;
-                var Simulations = result.Item3;
+                var simulations = result.Item3;
                 BoardWidth = boardWidth;
                 K = k;
 
-                AlgorithmSimulationViewViewModel = new AlgorithmSimulationViewModel(new List<Block>(), BoardWidth, K, Step);
+                AlgorithmSimulationViewViewModel = new AlgorithmSimulationViewModel(new List<Block>(), BoardWidth, K,
+                    Step);
 
-                AlgorithmSimulationViewViewModel.Simulations = new ObservableCollection<Simulation>(Simulations);
+                AlgorithmSimulationViewViewModel.Simulations = new ObservableCollection<Simulation>(simulations);
                 Start();
                 Pause();
             }

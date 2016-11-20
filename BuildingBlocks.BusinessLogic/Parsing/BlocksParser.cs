@@ -1,20 +1,21 @@
-﻿using BuildingBlocks.Models;
-using BuildingBlocks.Models.Models;
-using System;
+﻿using System;
 using System.IO;
 using System.Threading.Tasks;
+using BuildingBlocks.BusinessLogic.Interfaces;
+using BuildingBlocks.Models.Models;
+using BuildingBlocks.Models.Serializable;
 
-namespace BuildingBlocks.BusinessLogic
+namespace BuildingBlocks.BusinessLogic.Parsing
 {
     /// <summary>
-    /// Blocks parser class
+    ///     Blocks parser class
     /// </summary>
     public class BlocksParser : IBlocksParser
     {
         private const char Separator = ' ';
 
         /// <summary>
-        /// Loads data from TextReader stream
+        ///     Loads data from TextReader stream
         /// </summary>
         /// <param name="fileStream">file stream</param>
         /// <returns></returns>
@@ -32,7 +33,7 @@ namespace BuildingBlocks.BusinessLogic
                 var parts = line.Split(Separator);
 
                 int wellWidth;
-                if(int.TryParse(parts[0], out wellWidth))
+                if (int.TryParse(parts[0], out wellWidth))
                 {
                     gd.WellWidth = wellWidth;
                 }
@@ -97,7 +98,7 @@ namespace BuildingBlocks.BusinessLogic
                                 int val;
                                 if (int.TryParse(parts[j], out val))
                                 {
-                                    block.Content[i, j] = (val == 1);
+                                    block.Content[i, j] = val == 1;
                                 }
                                 else
                                 {
@@ -110,7 +111,7 @@ namespace BuildingBlocks.BusinessLogic
                         counter++;
                     }
                 }
-                catch(Exception)
+                catch (Exception)
                 {
                     throw new ArgumentException();
                 }

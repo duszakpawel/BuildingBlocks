@@ -3,14 +3,14 @@
 namespace BuildingBlocks.Presentation.ViewModels
 {
     /// <summary>
-    /// Shell view model class
+    ///     Shell view model class
     /// </summary>
     public class ShellViewModel : Conductor<object>.Collection.OneActive, IHandle<ShowShellEvent>
     {
         private readonly IEventAggregator _eventAggregator;
 
         /// <summary>
-        /// Constructor of the class
+        ///     Constructor of the class
         /// </summary>
         /// <param name="eventAggregator"></param>
         public ShellViewModel(IEventAggregator eventAggregator)
@@ -19,7 +19,7 @@ namespace BuildingBlocks.Presentation.ViewModels
         }
 
         /// <summary>
-        /// ShowShellEvent handler
+        ///     ShowShellEvent handler
         /// </summary>
         public void Handle(ShowShellEvent @event)
         {

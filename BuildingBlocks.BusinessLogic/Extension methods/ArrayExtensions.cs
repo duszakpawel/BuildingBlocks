@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 
-namespace BuildingBlocks.BusinessLogic
+namespace BuildingBlocks.BusinessLogic.Extension_methods
 {
     /// <summary>
-    /// Array extension methods
+    ///     Array extension methods
     /// </summary>
     public static class ArrayExtensions
     {
         /// <summary>
-        /// Compares content of two two-dimensional arrays and returns information whether the content is equal or not.
+        ///     Compares content of two two-dimensional arrays and returns information whether the content is equal or not.
         /// </summary>
         /// <typeparam name="T">Type of element which is stored in arrays</typeparam>
         /// <param name="a1">First array</param>
@@ -33,11 +33,11 @@ namespace BuildingBlocks.BusinessLogic
 
             var comparer = EqualityComparer<T>.Default;
 
-            for(int i=0; i< a1.GetLength(0); i++)
+            for (var i = 0; i < a1.GetLength(0); i++)
             {
-                for (int j = 0; j < a1.GetLength(1); j++)
+                for (var j = 0; j < a1.GetLength(1); j++)
                 {
-                    if (comparer.Equals(a1[i,j], a2[i,j]) == false)
+                    if (comparer.Equals(a1[i, j], a2[i, j]) == false)
                     {
                         return false;
                     }
