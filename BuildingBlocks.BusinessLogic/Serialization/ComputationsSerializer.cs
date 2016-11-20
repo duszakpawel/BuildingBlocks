@@ -122,7 +122,7 @@ namespace BuildingBlocks.BusinessLogic
         /// Deserializes computations data from specified XML file.
         /// </summary>
         /// <param name="filename">Name of XML file</param>
-        /// <returns></returns>
+        /// <returns>BoardWidth, K, Simulations</returns>
         public Tuple<int, int, IEnumerable<Simulation>> Deserialize(string filename)
         {
             var dcs = new DataContractSerializer(typeof(ComputationsData));
