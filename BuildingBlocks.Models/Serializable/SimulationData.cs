@@ -38,5 +38,17 @@ namespace BuildingBlocks.Models.Models
         /// </summary>
         [DataMember]
         public int[] LastBlock { get; set; }
+
+        /// <summary>
+        /// Score
+        /// </summary>
+        [DataMember]
+        public int Score { get; set; }
+
+        /// <summary>
+        /// Height
+        /// </summary>
+        [DataMember]
+        public int Height { get; set; }
     }
 }

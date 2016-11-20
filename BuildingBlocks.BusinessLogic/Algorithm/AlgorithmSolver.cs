@@ -64,6 +64,8 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
                             var xy = _blockLogicProvider.FindBestPlaceForBlock(simulation.Content, b.Content);
                             var sim = AddBlockToSimulation(b, simulation, xy.Item1, xy.Item2);
                             var score = _evaluateFunctionProvider.Evaluate(sim.Content);
+                            sim.Score = score;
+                            sim.Height = sim.Content.GetLength(1) - score;
                             dict.Add(sim, score);
                         }
                     }

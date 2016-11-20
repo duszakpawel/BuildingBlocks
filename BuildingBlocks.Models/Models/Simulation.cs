@@ -36,6 +36,37 @@ namespace BuildingBlocks.Models.Models
         /// </summary>
         public int[,] LastBlock { get; set; }
 
+        private int _score = 0;
+        /// <summary>
+        /// Simulation score
+        /// </summary>
+        public int Score
+        {
+            get
+            {
+                return _score;
+            }
+            set
+            {
+                _score = value;
+                OnPropertyChanged(nameof(Score));
+            }
+        }
+
+        private int _height = 0;
+        public int Height
+        {
+            get
+            {
+                return _height;
+            }
+            set
+            {
+                _height = value;
+                OnPropertyChanged(nameof(Height));
+            }
+        }
+
         /// <summary>
         /// Property changed event, required by INotiftyPropertyChanged interface
         /// </summary>

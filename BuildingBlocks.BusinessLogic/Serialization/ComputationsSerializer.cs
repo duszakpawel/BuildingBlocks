@@ -43,7 +43,9 @@ namespace BuildingBlocks.BusinessLogic
                     CanvasChildren = new RectItemData[item.CanvasChildren.Count],
                     AvailableBlocks = new BlockData[item.AvailableBlocks.Count],
                     Content = new bool[item.Content.Length],
-                    LastBlock = new int[item.LastBlock.Length]
+                    LastBlock = new int[item.LastBlock.Length],
+                    Score = item.Score,
+                    Height= item.Height
                 };
 
                 for (var k = 0; k < BoardWidth; ++k)
@@ -211,7 +213,9 @@ namespace BuildingBlocks.BusinessLogic
                     AvailableBlocks = blocks,
                     Content = content,
                     LastBlock = lastBlock,
-                    CanvasChildren = ris
+                    CanvasChildren = ris,
+                    Height = item.Height,
+                    Score = item.Score
                 });
             }
 
