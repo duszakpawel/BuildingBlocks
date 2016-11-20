@@ -45,6 +45,7 @@ namespace BuildingBlocks.BusinessLogic
                     {
                         continue;
                     }
+
                     var rectLeftPosition = j * singleTileWidth;
                     var topRectPosition = i * singleTileWidth + rectVerticalShift;
                     var rect = new RectItem
@@ -56,6 +57,7 @@ namespace BuildingBlocks.BusinessLogic
                         X = rectLeftPosition,
                         Y = topRectPosition
                     };
+
                     block.CanvasChildren.Add(rect);
                 }
             }

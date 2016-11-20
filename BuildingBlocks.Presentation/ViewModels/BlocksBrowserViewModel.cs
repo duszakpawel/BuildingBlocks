@@ -70,6 +70,7 @@ namespace BuildingBlocks.Presentation.ViewModels
             {
                 DisplayedBlocks = LoadedBlocks;
             }
+
             NotifyOfPropertyChange(nameof(DisplayedBlocks));
         }
 

@@ -43,7 +43,7 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
             {
                 simulation.LastBlock = new int[simulation.Content.GetLength(0), simulation.Content.GetLength(1)];
             }
-            var ret = new ObservableCollection<Simulation>();
+            var ret = new List<Simulation>();
 
             for (int i = 0; i < step; i++)
             {
@@ -72,7 +72,7 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
                 }
                 dict = dict.Distinct(new SimulationEqualityComparer()).ToDictionary(x => x.Key, x => x.Value);
                 var bestScores = dict.Values.OrderByDescending(v => v).Take(_k).Distinct().ToList();
-                ret = new ObservableCollection<Simulation>(dict.Where(d => bestScores.Contains(d.Value)).Select(p => p.Key).Take(_k));
+                ret = dict.Where(d => bestScores.Contains(d.Value)).Select(p => p.Key).Take(_k).ToList();
                 simulations = ret;
 
                 if (simulations.FirstOrDefault()?.AvailableBlocks.Count == 0)
@@ -81,11 +81,13 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
                     break;
                 }
             }
+
             foreach (var sim in ret)
             {
                 SyncCanvasWithContent(sim);
             }
-            return ret.ToList();
+
+            return ret;
         }
 
         /// <summary>
@@ -114,20 +116,30 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
             var bl = sim.AvailableBlocks.Single(b => b.Id == block.Id);
             bl.Quantity--;
             if (bl.Quantity == 0)
+            {
                 sim.AvailableBlocks.Remove(bl);
+            }
 
             var lastBlockCurrentId = sim.LastBlock.Cast<int>().Max();
             for (var i = 0; i < block.Height; i++)
             {
                 for (var j = 0; j < block.Width; j++)
                 {
-                    if (!block.Content[i, j]) continue;
+                    if (!block.Content[i, j])
+                    {
+                        continue;
+                    }
+
                     if (sim.Content[x + i, y + j])
+                    {
                         throw new ArgumentException("This place in simulation is already filled");
+                    }
+
                     sim.Content[x + i, y + j] = true;
                     sim.LastBlock[x + i, y + j] = lastBlockCurrentId + 1;
                 }
             }
+
             return sim;
         }
 
@@ -137,7 +149,7 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
         /// <param name="simulation">simulation object</param>
         private void SyncCanvasWithContent(Simulation simulation)
         {
-            var children = new ObservableCollection<RectItem>();
+            var children = new List<RectItem>();
             for (var i = 0; i < simulation.Content.GetLength(0); i++)
             {
                 for (var j = 0; j < simulation.Content.GetLength(1); j++)
@@ -150,10 +162,13 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
                         });
                     }
                     else if (simulation.Content[i, j])
+                    {
                         children.Add(new RectItem(i * Constants.SingleTileWidth, j * Constants.SingleTileWidth));
+                    }
                 }
             }
-            simulation.CanvasChildren = children;
+
+            simulation.CanvasChildren = new ObservableCollection<RectItem>(children);
         }
 
         /// <summary>
@@ -167,25 +182,36 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
                 var free = true;
                 for (var i = 0; i < simulation.Content.GetLength(0); i++)
                 {
-                    if (!simulation.Content[i, j]) continue;
+                    if (!simulation.Content[i, j])
+                    {
+                        continue;
+                    }
+
                     free = false;
                     break;
                 }
-                if (free) continue;
+
+                if (free)
+                {
+                    continue;
+                }
                 // make well bigger: 
                 simulation.WellHeight += Constants.CompulsoryFreeSpaceInWellHeight * Constants.SingleTileWidth;
                 var newContent = new bool[simulation.Content.GetLength(0), simulation.Content.GetLength(1) + Constants.CompulsoryFreeSpaceInWellHeight];
                 var newLastBlocks = new int[simulation.Content.GetLength(0), simulation.Content.GetLength(1) + Constants.CompulsoryFreeSpaceInWellHeight];
-                for (var ii = 0; ii < simulation.Content.GetLength(0); ii++)
+
+                for (var i = 0; i < simulation.Content.GetLength(0); i++)
                 {
-                    for (var jj = 0; jj < simulation.Content.GetLength(1); jj++)
+                    for (var k = 0; k < simulation.Content.GetLength(1); k++)
                     {
-                        newContent[ii, jj + Constants.CompulsoryFreeSpaceInWellHeight] = simulation.Content[ii, jj];
-                        newLastBlocks[ii, jj + Constants.CompulsoryFreeSpaceInWellHeight] = simulation.LastBlock[ii, jj];
+                        newContent[i, k + Constants.CompulsoryFreeSpaceInWellHeight] = simulation.Content[i, k];
+                        newLastBlocks[i, k + Constants.CompulsoryFreeSpaceInWellHeight] = simulation.LastBlock[i, k];
                     }
                 }
+
                 simulation.Content = newContent;
                 simulation.LastBlock = newLastBlocks;
+
                 return;
             }
         }

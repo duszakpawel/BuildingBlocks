@@ -107,6 +107,7 @@ namespace BuildingBlocks.BusinessLogic
                     gd.Blocks.Add(block);
                     counter++;
                 }
+
                 return gd;
             });
         }

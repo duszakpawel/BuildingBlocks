@@ -38,6 +38,7 @@ namespace BuildingBlocks.BusinessLogic
                 // not very clever but for this purpose should be enough
                 hc = unchecked(hc * constValue + (element ? 1 : 0));
             }
+
             return hc;
         }
     }

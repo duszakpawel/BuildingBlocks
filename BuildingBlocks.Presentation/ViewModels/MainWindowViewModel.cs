@@ -185,6 +185,7 @@ namespace BuildingBlocks.Presentation.ViewModels
                 AlgorithmSimulationViewViewModel = new AlgorithmSimulationViewModel(BlocksBrowserViewViewModel.DisplayedBlocks, BoardWidth, K, Step);
                 BlocksBrowserViewViewModel.DisableQuantity();
             }
+
             AlgorithmSimulationViewViewModel.Next(Step);
         }
 
@@ -203,7 +204,6 @@ namespace BuildingBlocks.Presentation.ViewModels
                 return;
             }
 
-            // TODO: DI
             var computationsSerializer = new ComputationsSerializer();
             computationsSerializer.Serialize(openFileDialog.FileName, BoardWidth, K, AlgorithmSimulationViewViewModel.Simulations);
         }
@@ -221,7 +221,7 @@ namespace BuildingBlocks.Presentation.ViewModels
             {
                 return;
             }
-            // TODO: DI
+
             var computationsSerializer = new ComputationsSerializer();
             var result = computationsSerializer.Deserialize(openFileDialog.FileName);
 

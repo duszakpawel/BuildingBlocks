@@ -62,11 +62,18 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
             {
                 for (var j = 0; j < block.GetLength(1); j++)
                 {
-                    if (!block[i, j]) continue;
+                    if (!block[i, j])
+                    {
+                        continue;
+                    }
+
                     if (x + i >= board.GetLength(0) || y + j >= board.GetLength(1) || board[x + i, y + j])
+                    {
                         return false;
+                    }
                 }
             }
+
             return true;
         }
 
@@ -84,6 +91,7 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
                 }
                 newRow++;
             }
+
             return newMatrix;
         }
     }
