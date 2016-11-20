@@ -90,7 +90,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Bootstraper.cs" />
+    <Compile Include="Common\CustomDialogManager.cs" />
     <Compile Include="Common\DisplayMode.cs" />
+    <Compile Include="Common\ICustomDialogManager.cs" />
     <Compile Include="ShowShellEvent.cs" />
     <Compile Include="ViewModels\AlgorithmSimulationViewModel.cs" />
     <Compile Include="ViewModels\BlocksBrowserViewModel.cs" />

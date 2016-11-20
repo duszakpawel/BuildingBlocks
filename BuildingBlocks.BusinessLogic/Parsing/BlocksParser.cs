@@ -55,57 +55,64 @@ namespace BuildingBlocks.BusinessLogic
                 }
 
                 var counter = 1;
-                while ((line = fileStream.ReadLine()) != null)
+                try
                 {
-                    parts = line.Split(Separator);
-
-                    int width;
-                    int height;
-
-                    if (int.TryParse(parts[0], out width) == false)
-                    {                    
-                        throw new ArgumentException($"Incorrect value of block width ({counter}).");
-                    }
-
-                    if (int.TryParse(parts[1], out height) == false)
-                    {                     
-                        throw new ArgumentException($"Incorrect value of block height ({counter}).");
-                    }
-
-                    var block = new Block
+                    while ((line = fileStream.ReadLine()) != null)
                     {
-                        Width = width,
-                        Height = height,
-                        Quantity = 0,
-                        IsQuantityEnabled = true
-                    };
-
-                    block.Content = new bool[block.Height, block.Width];
-
-                    for (var i = 0; i < block.Height; ++i)
-                    {
-                        line = fileStream.ReadLine();
-                        if (line == null)
-                        {
-                            continue;
-                        }
                         parts = line.Split(Separator);
-                        for (var j = 0; j < block.Width; ++j)
+
+                        int width;
+                        int height;
+
+                        if (int.TryParse(parts[0], out width) == false)
                         {
-                            int val;
-                            if (int.TryParse(parts[j], out val))
+                            throw new ArgumentException($"Incorrect value of block width ({counter}).");
+                        }
+
+                        if (int.TryParse(parts[1], out height) == false)
+                        {
+                            throw new ArgumentException($"Incorrect value of block height ({counter}).");
+                        }
+
+                        var block = new Block
+                        {
+                            Width = width,
+                            Height = height,
+                            Quantity = 0,
+                            IsQuantityEnabled = true
+                        };
+
+                        block.Content = new bool[block.Height, block.Width];
+
+                        for (var i = 0; i < block.Height; ++i)
+                        {
+                            line = fileStream.ReadLine();
+                            if (line == null)
                             {
-                                block.Content[i, j] = (val == 1);
+                                continue;
                             }
-                            else
+                            parts = line.Split(Separator);
+                            for (var j = 0; j < block.Width; ++j)
                             {
-                                throw new ArgumentException("Incorrect value of blocks count.");
+                                int val;
+                                if (int.TryParse(parts[j], out val))
+                                {
+                                    block.Content[i, j] = (val == 1);
+                                }
+                                else
+                                {
+                                    throw new ArgumentException("Incorrect value of blocks count.");
+                                }
                             }
                         }
-                    }
 
-                    gd.Blocks.Add(block);
-                    counter++;
+                        gd.Blocks.Add(block);
+                        counter++;
+                    }
+                }
+                catch(Exception)
+                {
+                    throw new ArgumentException();
                 }
 
                 return gd;

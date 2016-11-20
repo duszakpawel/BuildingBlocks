@@ -10,6 +10,7 @@ using Caliburn.Micro;
 using IContainer = Autofac.IContainer;
 using BuildingBlocks.BusinessLogic.Algorithm;
 using BuildingBlocks.BusinessLogic;
+using BuildingBlocks.Presentation.Common;
 
 namespace BuildingBlocks.Presentation
 {
@@ -105,6 +106,8 @@ namespace BuildingBlocks.Presentation
                 .InstancePerLifetimeScope();
             builder.Register<IBlocksParser>(c => new BlocksParser())
                 .InstancePerDependency();
+            builder.Register<ICustomDialogManager>(c => new CustomDialogManager())
+                .SingleInstance();
 
             _container = builder.Build();
         }

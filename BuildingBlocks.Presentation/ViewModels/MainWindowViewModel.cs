@@ -5,8 +5,8 @@ using BuildingBlocks.BusinessLogic;
 using BuildingBlocks.Presentation.Common;
 using Caliburn.Micro;
 using Microsoft.Win32;
-using BuildingBlocks.Models;
 using BuildingBlocks.Models.Models;
+using System;
 
 namespace BuildingBlocks.Presentation.ViewModels
 {
@@ -14,7 +14,7 @@ namespace BuildingBlocks.Presentation.ViewModels
     /// Main window view model class.
     /// </summary>
     public class MainWindowViewModel : Screen
-    {      
+    {
         /// <summary>
         /// Reference to blocks browser view model
         /// </summary>
@@ -108,9 +108,18 @@ namespace BuildingBlocks.Presentation.ViewModels
             {
                 return;
             }
-            var blocks = await IoC.Get<IBlocksParser>().LoadData(new StreamReader(openFileDialog.FileName));
-            BlocksBrowserViewViewModel = new BlocksBrowserViewModel(blocks.Blocks);
-            BoardWidth = blocks.WellWidth;
+
+            try
+            {
+                var blocks = await IoC.Get<IBlocksParser>().LoadData(new StreamReader(openFileDialog.FileName));
+                BlocksBrowserViewViewModel = new BlocksBrowserViewModel(blocks.Blocks);
+                BoardWidth = blocks.WellWidth;
+            }
+            catch (Exception details)
+            {
+                var dialogManager = IoC.Get<ICustomDialogManager>();
+                await dialogManager.DisplayMessageBox("Information", $"The file is incorrect. Operation terminated. {details.Message}");
+            }
         }
 
         /// <summary>
@@ -125,7 +134,7 @@ namespace BuildingBlocks.Presentation.ViewModels
             CanPause = true;
             IsKEnabled = false;
             IsStepEnabled = false;
-            if(BlocksBrowserViewViewModel == null)
+            if (BlocksBrowserViewViewModel == null)
             {
                 BlocksBrowserViewViewModel = new BlocksBrowserViewModel(new List<Block>());
             }
@@ -204,8 +213,16 @@ namespace BuildingBlocks.Presentation.ViewModels
                 return;
             }
 
-            var computationsSerializer = new ComputationsSerializer();
-            computationsSerializer.Serialize(openFileDialog.FileName, BoardWidth, K, AlgorithmSimulationViewViewModel.Simulations);
+            try
+            {
+                var computationsSerializer = new ComputationsSerializer();
+                computationsSerializer.Serialize(openFileDialog.FileName, BoardWidth, K, AlgorithmSimulationViewViewModel.Simulations);
+            }
+            catch (Exception)
+            {
+                var dialogManager = IoC.Get<ICustomDialogManager>();
+                dialogManager.DisplayMessageBox("Information", "An error occured. Saving to XML file terminated.");
+            }
         }
 
         /// <summary>
@@ -217,25 +234,34 @@ namespace BuildingBlocks.Presentation.ViewModels
             {
                 Filter = "xml files (*.xml)|*.xml"
             };
+
             if (openFileDialog.ShowDialog() != true)
             {
                 return;
             }
 
             var computationsSerializer = new ComputationsSerializer();
-            var result = computationsSerializer.Deserialize(openFileDialog.FileName);
 
-            var boardWidth = result.Item1;
-            var k = result.Item2;
-            var Simulations = result.Item3;
-            BoardWidth = boardWidth;
-            K = k;
+            try
+            {
+                var result = computationsSerializer.Deserialize(openFileDialog.FileName);
+                var boardWidth = result.Item1;
+                var k = result.Item2;
+                var Simulations = result.Item3;
+                BoardWidth = boardWidth;
+                K = k;
 
-            AlgorithmSimulationViewViewModel = new AlgorithmSimulationViewModel(new List<Block>(), BoardWidth, K, Step);
+                AlgorithmSimulationViewViewModel = new AlgorithmSimulationViewModel(new List<Block>(), BoardWidth, K, Step);
 
-            AlgorithmSimulationViewViewModel.Simulations = new ObservableCollection<Simulation>(Simulations);
-            Start();
-            Pause();
+                AlgorithmSimulationViewViewModel.Simulations = new ObservableCollection<Simulation>(Simulations);
+                Start();
+                Pause();
+            }
+            catch (Exception)
+            {
+                var dialogManager = IoC.Get<ICustomDialogManager>();
+                dialogManager.DisplayMessageBox("Information", "The file is incorrect. Operation terminated.");
+            }
         }
     }
 }
