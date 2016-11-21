@@ -32,7 +32,12 @@ namespace BuildingBlocks.Models.Constants
         ///     Column Height Difference Multiplier 
         /// </summary>
         public const double ColumnHeightDifferenceMultiplier = 1.0;
-
+        
+        /// <summary>
+        ///     Block positions counts
+        /// </summary>
+        public const int BlockPositionsCount = 1;
+        
         /// <summary>
         ///     Recently inserted block color
         /// </summary>

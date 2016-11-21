@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using BuildingBlocks.BusinessLogic.Interfaces;
+using BuildingBlocks.Models.Constants;
 using BuildingBlocks.Models.Models;
 
 namespace BuildingBlocks.BusinessLogic.Algorithm
@@ -37,24 +38,28 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
 
         /// <summary>
         ///     Obecnie znajduje położenie (x,y) - lewy górny róg,  które jest najniżej jak się da. Z tego wiersza wybiera pozycję
-        ///     najbardziej po lewo.
-        ///     TODO: Do zmiany? Może czasami lepiej dać wyżej? Może zwracać IEnumerable<Tuple> i sprawdzać kilka?
+        ///     najbardziej po lewo.     
         /// </summary>
         /// <param name="board">Board content</param>
         /// <param name="block">Block conntent</param>
         /// <returns>Best position (x,y) for block</returns>
-        public Tuple<int, int> FindBestPlaceForBlock(bool[,] board, bool[,] block)
+        public List<Tuple<int, int>> FindBestPlacesForBlock(bool[,] board, bool[,] block)
         {
+            var ret = new List<Tuple<int, int>>();
             for (var j = board.GetLength(1) - 1; j >= 0; j--)
             {
                 for (var i = 0; i <= board.GetLength(0); i++)
                 {
                     if (CanBlockBePutInXy(board, block, i, j))
                     {
-                        return new Tuple<int, int>(i, j);
+                        ret.Add(new Tuple<int, int>(i,j));
+                        if (ret.Count >= Constants.BlockPositionsCount)
+                            return ret;
                     }
                 }
             }
+            if (ret.Count > 0)
+                return ret;
             throw new Exception("Block cannot be put in any place on board");
         }
 
