@@ -24,6 +24,16 @@ namespace BuildingBlocks.Models.Constants
         public const int CompulsoryFreeSpaceInWellHeight = 8;
 
         /// <summary>
+        ///     Height for counting density 
+        /// </summary>
+        public const int HeightForCountingDensity = 10;
+
+        /// <summary>
+        ///     Column Height Difference Multiplier 
+        /// </summary>
+        public const double ColumnHeightDifferenceMultiplier = 1.5;
+
+        /// <summary>
         ///     Recently inserted block color
         /// </summary>
         public static readonly Brush BlockFillColor = Brushes.DeepSkyBlue;

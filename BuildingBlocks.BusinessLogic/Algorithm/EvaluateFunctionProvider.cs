@@ -1,4 +1,6 @@
 ﻿using BuildingBlocks.BusinessLogic.Interfaces;
+using BuildingBlocks.Models.Constants;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace BuildingBlocks.BusinessLogic.Algorithm
@@ -9,10 +11,14 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
     public class EvaluateFunctionProvider : IEvaluateFunctionProvider
     {
         /// <summary>
-        ///     Evaluation function. Returns score.        ///     
+        ///     Evaluation function. Score is: 
+        ///         (density (from 0 to 100) in area which bottom line is lowest column minus constant,
+        ///         upper line in each column is different and it is heighest filled cell) 
+        ///             minus 
+        ///         (difference between heighest and lowest column multiplied by constant) 
         /// </summary>
         /// <param name="content">content array</param>
-        /// <returns>Score, which is:   (density (from 0 to 100)) minus (difference between heighest and lowest column) </returns>
+        /// <returns>Score</returns>
         public int Evaluate(bool[,] content)
         {
             var simWidth = content.GetLength(0);
@@ -21,14 +27,28 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
             int maxColumnHeight = int.MinValue;
             int minColumnHeight = int.MaxValue;
 
+            var columnHeights = new Dictionary<int, int>();
+
             for (int i = 0; i < simWidth; i++)
             {
                 var columnHeight = GetColumnMaxY(content, i);
+
                 if (columnHeight > maxColumnHeight)
                     maxColumnHeight = columnHeight;
                 if (columnHeight < minColumnHeight)
                     minColumnHeight = columnHeight;
-                for (int j = content.GetLength(1) - 1; j >= columnHeight; j--)
+
+                columnHeights.Add(i, columnHeight);
+            }
+
+            var lowerBound = maxColumnHeight + Constants.HeightForCountingDensity;
+            if (lowerBound > content.GetLength(1) - 1)
+                lowerBound = content.GetLength(1) - 1;
+
+            for (int i = 0; i < simWidth; i++)
+            {
+                var columnHeight = columnHeights[i];
+                for (int j = lowerBound; j >= columnHeight; j--)
                 {
                     if (content[i, j])
                         full++;
@@ -37,7 +57,7 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
                 }
             }
 
-            return (100 * full / (empty + full)) - (maxColumnHeight - minColumnHeight);
+            return (int)((100 * full / (empty + full)) - ((maxColumnHeight - minColumnHeight) * Constants.ColumnHeightDifferenceMultiplier));
         }
 
         private int GetColumnMaxY(bool[,] content, int col)
@@ -52,8 +72,7 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
                 }
 
             }
-
-            return 0;
+            return simHeight - 1;
         }
     }
 }
