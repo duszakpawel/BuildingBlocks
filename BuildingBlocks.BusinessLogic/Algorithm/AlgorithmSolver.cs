@@ -70,7 +70,7 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
                             var sim = AddBlockToSimulation(b, simulation, xy.Item1, xy.Item2);
                             var score = _evaluateFunctionProvider.Evaluate(sim.Content);
                             sim.Score = score;
-                            sim.Height = sim.Content.GetLength(1) - score;
+                            sim.Height = GetSimulationHeight(sim.Content);
                             dict.Add(sim, score);
                         }
                     }
@@ -112,10 +112,10 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
             }
             var sim = new Simulation
             {
-                Content = (bool[,]) simulation.Content.Clone(),
+                Content = (bool[,])simulation.Content.Clone(),
                 AvailableBlocks = list,
                 WellHeight = simulation.WellHeight,
-                LastBlock = (int[,]) simulation.LastBlock.Clone()
+                LastBlock = (int[,])simulation.LastBlock.Clone()
             };
 
             var bl = sim.AvailableBlocks.Single(b => b.Id == block.Id);
@@ -161,14 +161,14 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
                 {
                     if (simulation.LastBlock[i, j] > 0)
                     {
-                        children.Add(new RectItem(i*Constants.SingleTileWidth, j*Constants.SingleTileWidth)
+                        children.Add(new RectItem(i * Constants.SingleTileWidth, j * Constants.SingleTileWidth)
                         {
-                            FillColor = Constants.FillBrushes[simulation.LastBlock[i, j]%Constants.FillBrushes.Count]
+                            FillColor = Constants.FillBrushes[simulation.LastBlock[i, j] % Constants.FillBrushes.Count]
                         });
                     }
                     else if (simulation.Content[i, j])
                     {
-                        children.Add(new RectItem(i*Constants.SingleTileWidth, j*Constants.SingleTileWidth));
+                        children.Add(new RectItem(i * Constants.SingleTileWidth, j * Constants.SingleTileWidth));
                     }
                 }
             }
@@ -201,7 +201,7 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
                     continue;
                 }
                 // make well bigger: 
-                simulation.WellHeight += Constants.CompulsoryFreeSpaceInWellHeight*Constants.SingleTileWidth;
+                simulation.WellHeight += Constants.CompulsoryFreeSpaceInWellHeight * Constants.SingleTileWidth;
                 var newContent =
                     new bool[simulation.Content.GetLength(0),
                         simulation.Content.GetLength(1) + Constants.CompulsoryFreeSpaceInWellHeight];
@@ -223,6 +223,25 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
 
                 return;
             }
+        }
+
+        private int GetSimulationHeight(bool[,] content)
+        {
+            var height = content.GetLength(1);
+            var width = content.GetLength(0);
+
+            for (var j = 0; j < height; j++)
+            {
+                for (var i = 0; i < width; i++)
+                {
+                    if (content[i, j])
+                    {
+                        return height - j;
+                    }
+                }
+            }
+
+            return 0;
         }
     }
 }
