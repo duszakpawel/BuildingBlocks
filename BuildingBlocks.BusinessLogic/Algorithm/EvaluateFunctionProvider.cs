@@ -1,4 +1,5 @@
 ﻿using BuildingBlocks.BusinessLogic.Interfaces;
+using System.Linq;
 
 namespace BuildingBlocks.BusinessLogic.Algorithm
 {
@@ -8,28 +9,48 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
     public class EvaluateFunctionProvider : IEvaluateFunctionProvider
     {
         /// <summary>
-        ///     Evaluation function. Returns score.
-        ///     Teraz najlepszy wynik oznacza największy wynik. Można zmienić, wtedy zmiana w Algorithm z OrderByDescending do
-        ///     OrderBy
-        ///     Teraz wynik to najwyżej wysunięty prostokąt
-        ///     TODO: Lepsza ocena położenia
+        ///     Evaluation function. Returns score.        ///     
         /// </summary>
         /// <param name="content">content array</param>
-        /// <returns></returns>
+        /// <returns>Score, which is:   (density (from 0 to 100)) minus (difference between heighest and lowest column) </returns>
         public int Evaluate(bool[,] content)
         {
-            var height = content.GetLength(1);
-            var width = content.GetLength(0);
+            var simWidth = content.GetLength(0);
+            int full = 0;
+            int empty = 0;
+            int maxColumnHeight = int.MinValue;
+            int minColumnHeight = int.MaxValue;
 
-            for (var j = 0; j < height; j++)
+            for (int i = 0; i < simWidth; i++)
             {
-                for (var i = 0; i < width; i++)
+                var columnHeight = GetColumnMaxY(content, i);
+                if (columnHeight > maxColumnHeight)
+                    maxColumnHeight = columnHeight;
+                if (columnHeight < minColumnHeight)
+                    minColumnHeight = columnHeight;
+                for (int j = content.GetLength(1) - 1; j >= columnHeight; j--)
                 {
                     if (content[i, j])
-                    {
-                        return j;
-                    }
+                        full++;
+                    else
+                        empty++;
                 }
+            }
+
+            return (100 * full / (empty + full)) - (maxColumnHeight - minColumnHeight);
+        }
+
+        private int GetColumnMaxY(bool[,] content, int col)
+        {
+            var simHeight = content.GetLength(1);
+
+            for (var j = 0; j < simHeight; j++)
+            {
+                if (content[col, j])
+                {
+                    return j;
+                }
+
             }
 
             return 0;
