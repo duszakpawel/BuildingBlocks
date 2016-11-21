@@ -31,7 +31,7 @@ namespace BuildingBlocks.Models.Constants
         /// <summary>
         ///     Column Height Difference Multiplier 
         /// </summary>
-        public const double ColumnHeightDifferenceMultiplier = 1.5;
+        public const double ColumnHeightDifferenceMultiplier = 1.0;
 
         /// <summary>
         ///     Recently inserted block color
