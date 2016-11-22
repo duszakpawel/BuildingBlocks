@@ -5,6 +5,8 @@ using System.Linq;
 using BuildingBlocks.BusinessLogic.Interfaces;
 using BuildingBlocks.Models.Constants;
 using BuildingBlocks.Models.Models;
+using BuildingBlocks.BusinessLogic.Exceptions;
+using System.Threading.Tasks;
 
 namespace BuildingBlocks.BusinessLogic.Algorithm
 {
@@ -42,59 +44,61 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
         /// <param name="k">k parameter</param>
         /// <param name="step"></param>
         /// <returns></returns>
-        public List<Simulation> Execute(IEnumerable<Simulation> simulations, int k, int step)
+        public async Task<List<Simulation>> Execute(IEnumerable<Simulation> simulations, int k, int step)
         {
-            foreach (var simulation in simulations)
-            {
-                simulation.LastBlock = new int[simulation.Content.GetLength(0), simulation.Content.GetLength(1)];
-            }
-            var ret = new List<Simulation>();
-
-            for (var i = 0; i < step; i++)
-            {
-                if (_computationsTerminated)
-                {
-                    break;
-                }
-
-                var dict = new Dictionary<Simulation, int>();
+            return await Task.Run(() => {
                 foreach (var simulation in simulations)
                 {
-                    simulation.AvailableBlocks.RemoveAll(b => b.Quantity <= 0);
-                    CheckAndCorrectSimulationHeight(simulation);
-                    foreach (var block in simulation.AvailableBlocks)
+                    simulation.LastBlock = new int[simulation.Content.GetLength(0), simulation.Content.GetLength(1)];
+                }
+                var ret = new List<Simulation>();
+
+                for (var i = 0; i < step; i++)
+                {
+                    if (_computationsTerminated)
                     {
-                        foreach (var b in _blockLogicProvider.RotateBlock(block))
+                        break;
+                    }
+
+                    var dict = new Dictionary<Simulation, int>();
+                    foreach (var simulation in simulations)
+                    {
+                        simulation.AvailableBlocks.RemoveAll(b => b.Quantity <= 0);
+                        CheckAndCorrectSimulationHeight(simulation);
+                        foreach (var block in simulation.AvailableBlocks)
                         {
-                            foreach (var xy in _blockLogicProvider.FindBestPlacesForBlock(simulation.Content, b.Content))
+                            foreach (var b in _blockLogicProvider.RotateBlock(block))
                             {
-                                var sim = AddBlockToSimulation(b, simulation, xy.Item1, xy.Item2);
-                                var score = _evaluateFunctionProvider.Evaluate(sim.Content);
-                                sim.Score = score;
-                                sim.Height = GetSimulationHeight(sim.Content);
-                                dict.Add(sim, score);
+                                foreach (var xy in _blockLogicProvider.FindBestPlacesForBlock(simulation.Content, b.Content))
+                                {
+                                    var sim = AddBlockToSimulation(b, simulation, xy.Item1, xy.Item2);
+                                    var score = _evaluateFunctionProvider.Evaluate(sim.Content);
+                                    sim.Score = score;
+                                    sim.Height = GetSimulationHeight(sim.Content);
+                                    dict.Add(sim, score);
+                                }
                             }
                         }
                     }
-                }
-                dict = dict.Distinct(new SimulationEqualityComparer()).ToDictionary(x => x.Key, x => x.Value);
-                var bestScores = dict.Values.OrderByDescending(v => v).Take(k).Distinct().ToList();
-                ret = dict.Where(d => bestScores.Contains(d.Value)).Select(p => p.Key).Take(k).ToList();
-                simulations = ret;
+                    dict = dict.Distinct(new SimulationEqualityComparer()).ToDictionary(x => x.Key, x => x.Value);
+                    var bestScores = dict.Values.OrderByDescending(v => v).Take(k).Distinct().ToList();
+                    ret = dict.Where(d => bestScores.Contains(d.Value)).Select(p => p.Key).Take(k).ToList();
+                    simulations = ret;
 
-                if (simulations.FirstOrDefault()?.AvailableBlocks.Count == 0)
+                    if (simulations.FirstOrDefault()?.AvailableBlocks.Count == 0)
+                    {
+                        _computationsTerminated = true;
+                        break;
+                    }
+                }
+
+                foreach (var sim in ret)
                 {
-                    _computationsTerminated = true;
-                    break;
+                    SyncCanvasWithContent(sim);
                 }
-            }
 
-            foreach (var sim in ret)
-            {
-                SyncCanvasWithContent(sim);
-            }
-
-            return ret;
+                return ret;
+            });
         }
 
         /// <summary>
@@ -141,7 +145,7 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
 
                     if (sim.Content[x + i, y + j] > 0)
                     {
-                        throw new ArgumentException("This place in simulation is already filled");
+                        throw new AlgorithmLogicException("This place in simulation is already filled");
                     }
 
                     sim.Content[x + i, y + j] = lastBlockId + 1;

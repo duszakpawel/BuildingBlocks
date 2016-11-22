@@ -34,9 +34,14 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
                 var columnHeight = GetColumnMaxY(content, i);
 
                 if (columnHeight > maxColumnHeight)
+                {
                     maxColumnHeight = columnHeight;
+                }
+
                 if (columnHeight < minColumnHeight)
+                {
                     minColumnHeight = columnHeight;
+                }
 
                 columnHeights.Add(i, columnHeight);
             }
@@ -51,9 +56,13 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
                 for (int j = lowerBound; j >= columnHeight; j--)
                 {
                     if (content[i, j] > 0)
+                    {
                         full++;
+                    }
                     else
+                    {
                         empty++;
+                    }
                 }
             }
 
@@ -72,6 +81,7 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
                 }
 
             }
+
             return simHeight - 1;
         }
     }

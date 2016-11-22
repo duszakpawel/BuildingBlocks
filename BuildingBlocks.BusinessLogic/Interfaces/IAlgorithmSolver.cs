@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using BuildingBlocks.Models.Models;
+using System.Threading.Tasks;
 
 namespace BuildingBlocks.BusinessLogic.Interfaces
 {
@@ -10,6 +11,6 @@ namespace BuildingBlocks.BusinessLogic.Interfaces
         /// </summary>
         /// <param name="simulations">simulations collection</param>
         /// <param name="k">k parameter</param>
-        List<Simulation> Execute(IEnumerable<Simulation> simulations, int k, int step);
+        Task<List<Simulation>> Execute(IEnumerable<Simulation> simulations, int k, int step);
     }
 }

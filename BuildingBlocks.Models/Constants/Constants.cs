@@ -9,59 +9,69 @@ namespace BuildingBlocks.Models.Constants
     public static class Constants
     {
         /// <summary>
+        /// default step value
+        /// </summary>
+        public static int stepDefaultValue { get; } = 1;
+
+        /// <summary>
+        /// k default value
+        /// </summary>
+        public static int kDefaultValue { get; } = 1;
+
+        /// <summary>
         ///     Width of single tile
         /// </summary>
-        public const int SingleTileWidth = 25;
+        public static int SingleTileWidth { get; } = 25;
 
         /// <summary>
         ///     Canvas start height
         /// </summary>
-        public const int SimulationStartHeight = 400;
+        public static int SimulationStartHeight { get; } = 400;
 
         /// <summary>
         ///     Compulsory free space in well height
         /// </summary>
-        public const int CompulsoryFreeSpaceInWellHeight = 8;
+        public static int CompulsoryFreeSpaceInWellHeight { get; } = 8;
 
         /// <summary>
         ///     Height for counting density 
         /// </summary>
-        public const int HeightForCountingDensity = 10;
+        public static int HeightForCountingDensity { get; } = 10;
 
         /// <summary>
         ///     Column Height Difference Multiplier 
         /// </summary>
-        public const double ColumnHeightDifferenceMultiplier = 1.0;
+        public static double ColumnHeightDifferenceMultiplier { get; } = 1.0;
         
         /// <summary>
         ///     Block positions counts
         /// </summary>
-        public const int BlockPositionsCount = 1;
+        public static int BlockPositionsCount { get; } = 1;
         
         /// <summary>
         ///     Recently inserted block color
         /// </summary>
-        public static readonly Brush BlockFillColor = Brushes.DeepSkyBlue;
+        public static Brush BlockFillColor { get; } = Brushes.DeepSkyBlue;
 
         /// <summary>
         ///     Block edge color
         /// </summary>
-        public static readonly Brush BlockEdgeColor = Brushes.Black;
+        public static Brush BlockEdgeColor { get; } = Brushes.Black;
 
         /// <summary>
         ///     Inserted block color
         /// </summary>
-        public static readonly Brush OldBlockFillColor = Brushes.Gray;
+        public static Brush OldBlockFillColor { get; } = Brushes.Gray;
 
         /// <summary>
         ///     New block stroke color
         /// </summary>
-        public static readonly Brush NewBlockStrokeColor = Brushes.Red;
+        public static Brush NewBlockStrokeColor { get; } = Brushes.Black;
 
         /// <summary>
         ///     New block stroke thickness
         /// </summary>
-        public static readonly int NewBlockStrokeThickness = 5;
+        public static int NewBlockStrokeThickness { get; } = 3;
 
         /// <summary>
         ///     Sample Brushes
@@ -87,5 +97,10 @@ namespace BuildingBlocks.Models.Constants
             Brushes.Azure,
             Brushes.Aqua
         };
+
+        /// <summary>
+        /// Default block quantity
+        /// </summary>
+        public static int DefaultBlockQuantity { get; } = 1;
     }
 }

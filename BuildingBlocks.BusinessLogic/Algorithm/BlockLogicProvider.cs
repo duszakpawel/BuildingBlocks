@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using BuildingBlocks.BusinessLogic.Interfaces;
 using BuildingBlocks.Models.Constants;
 using BuildingBlocks.Models.Models;
+using BuildingBlocks.BusinessLogic.Exceptions;
 
 namespace BuildingBlocks.BusinessLogic.Algorithm
 {
@@ -54,13 +55,19 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
                     {
                         ret.Add(new Tuple<int, int>(i,j));
                         if (ret.Count >= Constants.BlockPositionsCount)
+                        {
                             return ret;
+                        }
                     }
                 }
             }
+
             if (ret.Count > 0)
+            {
                 return ret;
-            throw new Exception("Block cannot be put in any place on board");
+            }
+
+            throw new BlockLogicException("Block cannot be put in any place on board");
         }
 
         private bool CanBlockBePutInXy(int[,] board, bool[,] block, int x, int y)
