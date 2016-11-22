@@ -81,7 +81,7 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
 
             }
 
-            return simHeight - 1;
+            return simHeight;
         }
     }
 }
