@@ -5,7 +5,7 @@ namespace BuildingBlocks.BusinessLogic.Exceptions
     /// <summary>
     /// Exception class thrown in block logic
     /// </summary>
-    class BlockLogicException : Exception
+    public class BlockLogicException : Exception
     {
         /// <summary>
         /// constructor

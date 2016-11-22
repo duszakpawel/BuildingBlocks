@@ -69,13 +69,22 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
                         {
                             foreach (var b in _blockLogicProvider.RotateBlock(block))
                             {
-                                foreach (var xy in _blockLogicProvider.FindBestPlacesForBlock(simulation.Content, b.Content))
+                                try
                                 {
-                                    var sim = AddBlockToSimulation(b, simulation, xy.Item1, xy.Item2);
-                                    var score = _evaluateFunctionProvider.Evaluate(sim.Content);
-                                    sim.Score = score;
-                                    sim.Height = GetSimulationHeight(sim.Content);
-                                    dict.Add(sim, score);
+                                    foreach (
+                                        var xy in
+                                            _blockLogicProvider.FindBestPlacesForBlock(simulation.Content, b.Content))
+                                    {
+                                        var sim = AddBlockToSimulation(b, simulation, xy.Item1, xy.Item2);
+                                        var score = _evaluateFunctionProvider.Evaluate(sim.Content);
+                                        sim.Score = score;
+                                        sim.Height = GetSimulationHeight(sim.Content);
+                                        dict.Add(sim, score);
+                                    }
+                                }
+                                catch (BlockLogicException)
+                                {
+                                    throw new BlockLogicException();
                                 }
                             }
                         }

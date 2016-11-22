@@ -8,6 +8,8 @@ using BuildingBlocks.Models.Constants;
 using BuildingBlocks.Models.Models;
 using Caliburn.Micro;
 using System.Threading.Tasks;
+using BuildingBlocks.BusinessLogic.Exceptions;
+using BuildingBlocks.Presentation.Common;
 
 namespace BuildingBlocks.Presentation.ViewModels
 {
@@ -131,9 +133,20 @@ namespace BuildingBlocks.Presentation.ViewModels
 
         private async Task ExecuteAlgorithmSteps()
         {
-            var result = await _algorithmSolver.Execute(Simulations, _k, _step);
+            List<Simulation> result;
 
-            if (result.Count > 0)
+            try
+            {
+                result = await _algorithmSolver.Execute(Simulations, _k, _step);
+            }
+            catch (BlockLogicException)
+            {
+                var dialogManager = IoC.Get<ICustomDialogManager>();
+                await dialogManager.DisplayMessageBox("Information", "An error occured during computations. Operation terminated.");
+                _simulationFinished = true;
+                return;
+            }
+            if (result?.Count > 0)
             {
                 Simulations = new ObservableCollection<Simulation>(result);
             }
