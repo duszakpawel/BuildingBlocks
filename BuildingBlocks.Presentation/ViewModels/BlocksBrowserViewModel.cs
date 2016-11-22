@@ -30,12 +30,12 @@ namespace BuildingBlocks.Presentation.ViewModels
         /// <summary>
         ///     Displayed (selected) blocks
         /// </summary>
-        public List<Block> DisplayedBlocks { get; set; }
+        public List<Block> DisplayedBlocks { get; private set; }
 
         /// <summary>
         ///     Loaded blocks from file
         /// </summary>
-        public List<Block> LoadedBlocks { get; set; }
+        public List<Block> LoadedBlocks { get; private set; }
 
         /// <summary>
         ///     Disables quantity control for each of loaded blocks

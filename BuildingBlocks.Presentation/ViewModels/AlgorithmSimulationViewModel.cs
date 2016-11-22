@@ -7,6 +7,7 @@ using BuildingBlocks.BusinessLogic.Interfaces;
 using BuildingBlocks.Models.Constants;
 using BuildingBlocks.Models.Models;
 using Caliburn.Micro;
+using System.Threading.Tasks;
 
 namespace BuildingBlocks.Presentation.ViewModels
 {
@@ -25,6 +26,15 @@ namespace BuildingBlocks.Presentation.ViewModels
 
         private int _step;
 
+        /// <summary>
+        ///     simulations collection
+        /// </summary>
+        public ObservableCollection<Simulation> Simulations { get; set; }
+
+        /// <summary>
+        ///     well width
+        /// </summary>
+        public int WellWidth { get; private set; }
 
         /// <summary>
         ///     constructor
@@ -69,16 +79,6 @@ namespace BuildingBlocks.Presentation.ViewModels
         }
 
         /// <summary>
-        ///     simulations collection
-        /// </summary>
-        public ObservableCollection<Simulation> Simulations { get; set; }
-
-        /// <summary>
-        ///     well width
-        /// </summary>
-        public int WellWidth { get; set; }
-
-        /// <summary>
         ///     Start command
         /// </summary>
         /// <param name="step">step value</param>
@@ -108,7 +108,7 @@ namespace BuildingBlocks.Presentation.ViewModels
         ///     Next computations command
         /// </summary>
         /// <param name="step">step value</param>
-        public void Next(int step)
+        public async Task Next(int step)
         {
             if (_simulationFinished)
             {
@@ -116,22 +116,22 @@ namespace BuildingBlocks.Presentation.ViewModels
             }
 
             _step = step;
-            ExecuteAlgorithmSteps();
+            await ExecuteAlgorithmSteps();
         }
 
-        private void DispatcherTimerOnTick(object sender, EventArgs eventArgs)
+        private async void DispatcherTimerOnTick(object sender, EventArgs eventArgs)
         {
             if (_simulationFinished)
             {
                 return;
             }
 
-            ExecuteAlgorithmSteps();
+            await ExecuteAlgorithmSteps();
         }
 
-        private void ExecuteAlgorithmSteps()
+        private async Task ExecuteAlgorithmSteps()
         {
-            var result = _algorithmSolver.Execute(Simulations, _k, _step);
+            var result = await _algorithmSolver.Execute(Simulations, _k, _step);
 
             if (result.Count > 0)
             {

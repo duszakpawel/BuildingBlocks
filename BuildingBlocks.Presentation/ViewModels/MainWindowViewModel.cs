@@ -8,6 +8,9 @@ using BuildingBlocks.Models.Models;
 using BuildingBlocks.Presentation.Common;
 using Caliburn.Micro;
 using Microsoft.Win32;
+using BuildingBlocks.BusinessLogic.Exceptions;
+using System.Runtime.Serialization;
+using BuildingBlocks.Models.Constants;
 
 namespace BuildingBlocks.Presentation.ViewModels
 {
@@ -19,12 +22,12 @@ namespace BuildingBlocks.Presentation.ViewModels
         /// <summary>
         ///     Reference to blocks browser view model
         /// </summary>
-        public BlocksBrowserViewModel BlocksBrowserViewViewModel { get; set; }
+        public BlocksBrowserViewModel BlocksBrowserViewViewModel { get; private set; }
 
         /// <summary>
         ///     Reference to algorithms simulation view model
         /// </summary>
-        public AlgorithmSimulationViewModel AlgorithmSimulationViewViewModel { get; set; }
+        public AlgorithmSimulationViewModel AlgorithmSimulationViewViewModel { get; private set; }
 
         /// <summary>
         ///     Board width
@@ -34,12 +37,12 @@ namespace BuildingBlocks.Presentation.ViewModels
         /// <summary>
         ///     K parameter
         /// </summary>
-        public int K { get; set; } = 1;
+        public int K { get; set; } = Constants.kDefaultValue;
 
         /// <summary>
         ///     Step value
         /// </summary>
-        public int Step { get; set; } = 1;
+        public int Step { get; set; } = Constants.stepDefaultValue;
 
         /// <summary>
         ///     Returns information whether Start button is enabled or disabled
@@ -116,7 +119,7 @@ namespace BuildingBlocks.Presentation.ViewModels
                 BlocksBrowserViewViewModel = new BlocksBrowserViewModel(blocks.Blocks);
                 BoardWidth = blocks.WellWidth;
             }
-            catch (Exception details)
+            catch (ParsingException details)
             {
                 var dialogManager = IoC.Get<ICustomDialogManager>();
                 await
@@ -185,7 +188,7 @@ namespace BuildingBlocks.Presentation.ViewModels
         /// <summary>
         ///     Next button onclick handler
         /// </summary>
-        public void Next()
+        public async void Next()
         {
             CanLoadFile = false;
             IsExpanded = false;
@@ -200,7 +203,7 @@ namespace BuildingBlocks.Presentation.ViewModels
                 BlocksBrowserViewViewModel.DisableQuantity();
             }
 
-            AlgorithmSimulationViewViewModel.Next(Step);
+            await AlgorithmSimulationViewViewModel.Next(Step);
         }
 
         /// <summary>
@@ -224,7 +227,7 @@ namespace BuildingBlocks.Presentation.ViewModels
                 computationsSerializer.Serialize(openFileDialog.FileName, BoardWidth, K,
                     AlgorithmSimulationViewViewModel.Simulations);
             }
-            catch (Exception)
+            catch (SerializationException)
             {
                 var dialogManager = IoC.Get<ICustomDialogManager>();
                 dialogManager.DisplayMessageBox("Information", "An error occured. Saving to XML file terminated.");
@@ -264,7 +267,7 @@ namespace BuildingBlocks.Presentation.ViewModels
                 Start();
                 Pause();
             }
-            catch (Exception)
+            catch (SerializationException)
             {
                 var dialogManager = IoC.Get<ICustomDialogManager>();
                 dialogManager.DisplayMessageBox("Information", "The file is incorrect. Operation terminated.");

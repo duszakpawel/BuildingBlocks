@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using BuildingBlocks.BusinessLogic.Interfaces;
 using BuildingBlocks.Models.Models;
 using BuildingBlocks.Models.Serializable;
+using BuildingBlocks.BusinessLogic.Exceptions;
+using BuildingBlocks.Models.Constants;
 
 namespace BuildingBlocks.BusinessLogic.Parsing
 {
@@ -39,7 +41,7 @@ namespace BuildingBlocks.BusinessLogic.Parsing
                 }
                 else
                 {
-                    throw new ArgumentException("Incorrect value of well width.");
+                    throw new ParsingException("Incorrect value of well width.");
                 }
 
                 if (parts.Length > 1)
@@ -51,7 +53,7 @@ namespace BuildingBlocks.BusinessLogic.Parsing
                     }
                     else
                     {
-                        throw new ArgumentException("Incorrect value of blocks count.");
+                        throw new ParsingException("Incorrect value of blocks count.");
                     }
                 }
 
@@ -67,19 +69,19 @@ namespace BuildingBlocks.BusinessLogic.Parsing
 
                         if (int.TryParse(parts[0], out width) == false)
                         {
-                            throw new ArgumentException($"Incorrect value of block width ({counter}).");
+                            throw new ParsingException($"Incorrect value of block width ({counter}).");
                         }
 
                         if (int.TryParse(parts[1], out height) == false)
                         {
-                            throw new ArgumentException($"Incorrect value of block height ({counter}).");
+                            throw new ParsingException($"Incorrect value of block height ({counter}).");
                         }
 
                         var block = new Block
                         {
                             Width = width,
                             Height = height,
-                            Quantity = 0,
+                            Quantity = Constants.DefaultBlockQuantity,
                             IsQuantityEnabled = true
                         };
 
@@ -102,7 +104,7 @@ namespace BuildingBlocks.BusinessLogic.Parsing
                                 }
                                 else
                                 {
-                                    throw new ArgumentException("Incorrect value of blocks count.");
+                                    throw new ParsingException("Incorrect value of blocks count.");
                                 }
                             }
                         }
@@ -113,7 +115,7 @@ namespace BuildingBlocks.BusinessLogic.Parsing
                 }
                 catch (Exception)
                 {
-                    throw new ArgumentException();
+                    throw new ParsingException();
                 }
 
                 return gd;

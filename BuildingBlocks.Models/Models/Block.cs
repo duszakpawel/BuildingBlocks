@@ -15,7 +15,7 @@ namespace BuildingBlocks.Models.Models
         /// <summary>
         ///     Block Id
         /// </summary>
-        public int Id;
+        public int Id { get; set; }
 
         /// <summary>
         ///     constructor
