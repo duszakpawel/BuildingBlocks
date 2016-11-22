@@ -66,7 +66,7 @@ namespace BuildingBlocks.Models.Constants
         /// <summary>
         ///     New block stroke color
         /// </summary>
-        public static Brush NewBlockStrokeColor { get; } = Brushes.Black;
+        public static Brush NewBlockStrokeColor { get; } = Brushes.Red;
 
         /// <summary>
         ///     New block stroke thickness

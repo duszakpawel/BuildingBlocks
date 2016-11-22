@@ -148,18 +148,28 @@ namespace BuildingBlocks.Presentation.ViewModels
             {
                 var dialogManager = IoC.Get<ICustomDialogManager>();
                 // sync call on purpose
-                    dialogManager.DisplayMessageBox("Information",
-                        "An error occured during computations. Computations terminated.");
+                dialogManager.DisplayMessageBox("Information",
+                    "An error occured during computations. Computations terminated.");
                 _simulationFinished = true;
                 return;
             }
             catch (OutOfMemoryException)
             {
                 var dialogManager = IoC.Get<ICustomDialogManager>();
-                    // sync call on purpose
-                    dialogManager.DisplayMessageBox("Information",
-                        "Not enough memory to process. Computations terminated.");
+                // sync call on purpose
+                dialogManager.DisplayMessageBox("Information",
+                    "Not enough memory to process. Computations terminated.");
                 _simulationFinished = true;
+                return;
+            }
+            catch (SimulationTerminatedException)
+            {
+                _simulationFinished = true;
+                Pause();
+                var dialogManager = IoC.Get<ICustomDialogManager>();
+                // sync call on purpose
+                dialogManager.DisplayMessageBox("Information",
+                    "Computations done.");
                 return;
             }
             if (result?.Count > 0)

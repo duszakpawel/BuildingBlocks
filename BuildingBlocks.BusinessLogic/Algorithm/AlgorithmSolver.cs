@@ -47,7 +47,7 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
         {
             if (_computationsTerminated)
             {
-                return new List<Simulation>(simulations);
+                throw new SimulationTerminatedException();
             }
 
             return await Task.Run(() => {
