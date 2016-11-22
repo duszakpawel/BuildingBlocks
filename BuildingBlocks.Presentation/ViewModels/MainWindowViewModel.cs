@@ -19,6 +19,7 @@ namespace BuildingBlocks.Presentation.ViewModels
     /// </summary>
     public class MainWindowViewModel : Screen
     {
+        private readonly IComputationsSerializer _computationsSerializer;
         /// <summary>
         ///     Reference to blocks browser view model
         /// </summary>
@@ -98,6 +99,11 @@ namespace BuildingBlocks.Presentation.ViewModels
         ///     Returns information whether Step control is enabled or disabled
         /// </summary>
         public bool IsStepEnabled { get; set; } = true;
+
+        public MainWindowViewModel(IComputationsSerializer computationsSerializer)
+        {
+            _computationsSerializer = computationsSerializer;
+        }
 
         /// <summary>
         ///     Load file button onclick handler
@@ -223,8 +229,7 @@ namespace BuildingBlocks.Presentation.ViewModels
 
             try
             {
-                var computationsSerializer = new ComputationsSerializer();
-                computationsSerializer.Serialize(openFileDialog.FileName, BoardWidth, K,
+                _computationsSerializer.Serialize(openFileDialog.FileName, BoardWidth, K,
                     AlgorithmSimulationViewViewModel.Simulations);
             }
             catch (SerializationException)
@@ -249,11 +254,9 @@ namespace BuildingBlocks.Presentation.ViewModels
                 return;
             }
 
-            var computationsSerializer = new ComputationsSerializer();
-
             try
             {
-                var result = computationsSerializer.Deserialize(openFileDialog.FileName);
+                var result = _computationsSerializer.Deserialize(openFileDialog.FileName);
                 var boardWidth = result.Item1;
                 var k = result.Item2;
                 var simulations = result.Item3;

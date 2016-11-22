@@ -8,6 +8,7 @@ using Autofac;
 using BuildingBlocks.BusinessLogic.Algorithm;
 using BuildingBlocks.BusinessLogic.Interfaces;
 using BuildingBlocks.BusinessLogic.Parsing;
+using BuildingBlocks.BusinessLogic.Serialization;
 using BuildingBlocks.Presentation.Common;
 using BuildingBlocks.Presentation.ViewModels;
 using Caliburn.Micro;
@@ -110,6 +111,8 @@ namespace BuildingBlocks.Presentation
             builder.Register<IBlocksParser>(c => new BlocksParser())
                 .InstancePerDependency();
             builder.Register<ICustomDialogManager>(c => new CustomDialogManager())
+                .SingleInstance();
+            builder.Register<IComputationsSerializer>(c => new ComputationsSerializer())
                 .SingleInstance();
 
             _container = builder.Build();

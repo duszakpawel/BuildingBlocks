@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Xml;
+using BuildingBlocks.BusinessLogic.Interfaces;
 using BuildingBlocks.Models.Constants;
 using BuildingBlocks.Models.Models;
 using BuildingBlocks.Models.Serializable;
@@ -15,7 +16,7 @@ namespace BuildingBlocks.BusinessLogic.Serialization
     /// <summary>
     ///     Serializer class for computations data.
     /// </summary>
-    public class ComputationsSerializer
+    public class ComputationsSerializer : IComputationsSerializer
     {
         /// <summary>
         ///     Stores computations data in XML file with specified name.

@@ -11,7 +11,6 @@ namespace BuildingBlocks.Presentation.Views
         public MainWindowView()
         {
             InitializeComponent();
-            DataContext = new MainWindowViewModel();
         }
     }
 }

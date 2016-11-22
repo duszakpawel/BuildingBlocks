@@ -66,6 +66,7 @@
     <Compile Include="Exceptions\BlockLogicException.cs" />
     <Compile Include="Exceptions\ParsingException.cs" />
     <Compile Include="Interfaces\IAlgorithmSolver.cs" />
+    <Compile Include="Interfaces\IComputationsSerializer.cs" />
     <Compile Include="Interfaces\IEvaluateFunctionProvider.cs" />
     <Compile Include="Interfaces\IBlockLogicProvider.cs" />
     <Compile Include="Extension methods\ArrayExtensions.cs" />
