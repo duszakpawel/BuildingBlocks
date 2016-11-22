@@ -51,7 +51,17 @@ namespace BuildingBlocks.Models.Constants
         /// <summary>
         ///     Inserted block color
         /// </summary>
-        public static readonly Brush OldBlockEdgeColor = Brushes.Gray;
+        public static readonly Brush OldBlockFillColor = Brushes.Gray;
+
+        /// <summary>
+        ///     New block stroke color
+        /// </summary>
+        public static readonly Brush NewBlockStrokeColor = Brushes.Red;
+
+        /// <summary>
+        ///     New block stroke thickness
+        /// </summary>
+        public static readonly int NewBlockStrokeThickness = 5;
 
         /// <summary>
         ///     Sample Brushes

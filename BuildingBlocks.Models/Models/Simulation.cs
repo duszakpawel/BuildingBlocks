@@ -33,7 +33,7 @@ namespace BuildingBlocks.Models.Models
         /// <summary>
         ///     Simulation content aray
         /// </summary>
-        public bool[,] Content { get; set; }
+        public int[,] Content { get; set; }
 
         /// <summary>
         ///     Last block content array

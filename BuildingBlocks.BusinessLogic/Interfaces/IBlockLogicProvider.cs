@@ -19,6 +19,6 @@ namespace BuildingBlocks.BusinessLogic.Interfaces
         /// <param name="board">board content</param>
         /// <param name="block">block content</param>
         /// <returns></returns>
-        List<Tuple<int, int>> FindBestPlacesForBlock(bool[,] board, bool[,] block);
+        List<Tuple<int, int>> FindBestPlacesForBlock(int[,] board, bool[,] block);
     }
 }

@@ -43,7 +43,7 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
         /// <param name="board">Board content</param>
         /// <param name="block">Block conntent</param>
         /// <returns>Best position (x,y) for block</returns>
-        public List<Tuple<int, int>> FindBestPlacesForBlock(bool[,] board, bool[,] block)
+        public List<Tuple<int, int>> FindBestPlacesForBlock(int[,] board, bool[,] block)
         {
             var ret = new List<Tuple<int, int>>();
             for (var j = board.GetLength(1) - 1; j >= 0; j--)
@@ -63,7 +63,7 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
             throw new Exception("Block cannot be put in any place on board");
         }
 
-        private bool CanBlockBePutInXy(bool[,] board, bool[,] block, int x, int y)
+        private bool CanBlockBePutInXy(int[,] board, bool[,] block, int x, int y)
         {
             for (var i = 0; i < block.GetLength(0); i++)
             {
@@ -74,7 +74,7 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
                         continue;
                     }
 
-                    if (x + i >= board.GetLength(0) || y + j >= board.GetLength(1) || board[x + i, y + j])
+                    if (x + i >= board.GetLength(0) || y + j >= board.GetLength(1) || board[x + i, y + j] > 0)
                     {
                         return false;
                     }

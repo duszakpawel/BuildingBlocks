@@ -19,7 +19,7 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
         /// </summary>
         /// <param name="content">content array</param>
         /// <returns>Score</returns>
-        public int Evaluate(bool[,] content)
+        public int Evaluate(int[,] content)
         {
             var simWidth = content.GetLength(0);
             int full = 0;
@@ -50,7 +50,7 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
                 var columnHeight = columnHeights[i];
                 for (int j = lowerBound; j >= columnHeight; j--)
                 {
-                    if (content[i, j])
+                    if (content[i, j] > 0)
                         full++;
                     else
                         empty++;
@@ -60,13 +60,13 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
             return (int)((100 * full / (empty + full)) - ((maxColumnHeight - minColumnHeight) * Constants.ColumnHeightDifferenceMultiplier));
         }
 
-        private int GetColumnMaxY(bool[,] content, int col)
+        private int GetColumnMaxY(int[,] content, int col)
         {
             var simHeight = content.GetLength(1);
 
             for (var j = 0; j < simHeight; j++)
             {
-                if (content[col, j])
+                if (content[col, j] > 0)
                 {
                     return j;
                 }

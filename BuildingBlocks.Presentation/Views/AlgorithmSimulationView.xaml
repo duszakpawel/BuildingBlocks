@@ -18,24 +18,24 @@
                       Grid.Column="0">
             <ItemsControl.Template>
                 <ControlTemplate>
-                    <StackPanel Orientation="Horizontal" IsItemsHost="true" Margin="5" VerticalAlignment="Stretch"
+                    <StackPanel Orientation="Horizontal" IsItemsHost="true" Margin="5" VerticalAlignment="Bottom"
                                 HorizontalAlignment="Stretch" />
                 </ControlTemplate>
             </ItemsControl.Template>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Orientation="Vertical">
+                    <StackPanel Orientation="Vertical" >
                         <Border BorderThickness="1 0 1 1" BorderBrush="Black" Margin="10" Padding="1"
-                                VerticalAlignment="Center" HorizontalAlignment="Center">
-                            <WrapPanel Orientation="Horizontal" Margin="0">
-                                <ItemsControl ItemsSource="{Binding CanvasChildren}">
+                                VerticalAlignment="Bottom" HorizontalAlignment="Center">
+                            <WrapPanel Orientation="Horizontal" Margin="0" VerticalAlignment="Bottom">
+                                <ItemsControl ItemsSource="{Binding CanvasChildren}" VerticalAlignment="Bottom">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
                                             <Canvas
                                                 Width="{Binding DataContext.WellWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
                                                 Height="{Binding WellHeight}"
-                                                VerticalAlignment="Center" Background="Beige"
-                                                HorizontalAlignment="Center" />
+                                                VerticalAlignment="Bottom" Background="Beige"
+                                                HorizontalAlignment="Center"  />
                                         </ItemsPanelTemplate>
                                     </ItemsControl.ItemsPanel>
                                     <ItemsControl.ItemContainerStyle>
@@ -47,7 +47,7 @@
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
                                             <Rectangle Width="{Binding Width}" Height="{Binding Height}"
-                                                       Fill="{Binding FillColor}" Stroke="{Binding StrokeColor}"
+                                                       Fill="{Binding FillColor}" Stroke="{Binding StrokeColor}" StrokeThickness="{Binding StrokeThickness}"
                                                        Margin="0" />
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>

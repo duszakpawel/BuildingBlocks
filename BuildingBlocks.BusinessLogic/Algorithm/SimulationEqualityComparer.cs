@@ -37,7 +37,7 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
             foreach (var element in array)
             {
                 // not very clever but for this purpose should be enough
-                hc = unchecked(hc*constValue + (element ? 1 : 0));
+                hc = unchecked(hc*constValue + (element.GetHashCode()));
             }
 
             return hc;

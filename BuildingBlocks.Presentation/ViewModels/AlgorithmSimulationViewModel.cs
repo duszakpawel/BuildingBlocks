@@ -60,7 +60,7 @@ namespace BuildingBlocks.Presentation.ViewModels
                     AvailableBlocks = list,
                     CanvasChildren = new ObservableCollection<RectItem>(),
                     WellHeight = Constants.SimulationStartHeight,
-                    Content = new bool[boardWidth, Constants.SimulationStartHeight/Constants.SingleTileWidth]
+                    Content = new int[boardWidth, Constants.SimulationStartHeight/Constants.SingleTileWidth]
                 });
             }
 

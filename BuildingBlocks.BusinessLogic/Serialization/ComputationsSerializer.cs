@@ -42,7 +42,7 @@ namespace BuildingBlocks.BusinessLogic.Serialization
                     WellHeight = item.WellHeight,
                     CanvasChildren = new RectItemData[item.CanvasChildren.Count],
                     AvailableBlocks = new BlockData[item.AvailableBlocks.Count],
-                    Content = new bool[item.Content.Length],
+                    Content = new int[item.Content.Length],
                     LastBlock = new int[item.LastBlock.Length],
                     Score = item.Score,
                     Height = item.Height
@@ -191,7 +191,7 @@ namespace BuildingBlocks.BusinessLogic.Serialization
                     });
                 }
 
-                var content = new bool[boardWidth, item.WellHeight/Constants.SingleTileWidth];
+                var content = new int[boardWidth, item.WellHeight/Constants.SingleTileWidth];
 
                 for (var i = 0; i < boardWidth; ++i)
                 {

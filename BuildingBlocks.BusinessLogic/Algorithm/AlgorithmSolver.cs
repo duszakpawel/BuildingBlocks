@@ -114,7 +114,7 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
             }
             var sim = new Simulation
             {
-                Content = (bool[,])simulation.Content.Clone(),
+                Content = (int[,])simulation.Content.Clone(),
                 AvailableBlocks = list,
                 WellHeight = simulation.WellHeight,
                 LastBlock = (int[,])simulation.LastBlock.Clone()
@@ -128,6 +128,8 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
             }
 
             var lastBlockCurrentId = sim.LastBlock.Cast<int>().Max();
+            var lastBlockId = sim.Content.Cast<int>().Max();
+
             for (var i = 0; i < block.Height; i++)
             {
                 for (var j = 0; j < block.Width; j++)
@@ -137,12 +139,12 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
                         continue;
                     }
 
-                    if (sim.Content[x + i, y + j])
+                    if (sim.Content[x + i, y + j] > 0)
                     {
                         throw new ArgumentException("This place in simulation is already filled");
                     }
 
-                    sim.Content[x + i, y + j] = true;
+                    sim.Content[x + i, y + j] = lastBlockId + 1;
                     sim.LastBlock[x + i, y + j] = lastBlockCurrentId + 1;
                 }
             }
@@ -165,12 +167,17 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
                     {
                         children.Add(new RectItem(i * Constants.SingleTileWidth, j * Constants.SingleTileWidth)
                         {
-                            FillColor = Constants.FillBrushes[simulation.LastBlock[i, j] % Constants.FillBrushes.Count]
+                            FillColor = Constants.FillBrushes[simulation.LastBlock[i, j] % Constants.FillBrushes.Count],
+                            StrokeColor = Constants.NewBlockStrokeColor,
+                            StrokeThickness = Constants.NewBlockStrokeThickness
                         });
                     }
-                    else if (simulation.Content[i, j])
+                    else if (simulation.Content[i, j] > 0)
                     {
-                        children.Add(new RectItem(i * Constants.SingleTileWidth, j * Constants.SingleTileWidth));
+                        children.Add(new RectItem(i * Constants.SingleTileWidth, j * Constants.SingleTileWidth)
+                        {
+                            FillColor = Constants.FillBrushes[simulation.Content[i, j] % Constants.FillBrushes.Count]
+                        });
                     }
                 }
             }
@@ -189,7 +196,7 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
                 var free = true;
                 for (var i = 0; i < simulation.Content.GetLength(0); i++)
                 {
-                    if (!simulation.Content[i, j])
+                    if (simulation.Content[i, j] == 0)
                     {
                         continue;
                     }
@@ -205,7 +212,7 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
                 // make well bigger: 
                 simulation.WellHeight += Constants.CompulsoryFreeSpaceInWellHeight * Constants.SingleTileWidth;
                 var newContent =
-                    new bool[simulation.Content.GetLength(0),
+                    new int[simulation.Content.GetLength(0),
                         simulation.Content.GetLength(1) + Constants.CompulsoryFreeSpaceInWellHeight];
                 var newLastBlocks =
                     new int[simulation.Content.GetLength(0),
@@ -227,7 +234,7 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
             }
         }
 
-        private int GetSimulationHeight(bool[,] content)
+        private int GetSimulationHeight(int[,] content)
         {
             var height = content.GetLength(1);
             var width = content.GetLength(0);
@@ -236,7 +243,7 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
             {
                 for (var i = 0; i < width; i++)
                 {
-                    if (content[i, j])
+                    if (content[i, j] > 0)
                     {
                         return height - j;
                     }

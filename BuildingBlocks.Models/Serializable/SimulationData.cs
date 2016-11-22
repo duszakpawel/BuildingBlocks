@@ -30,7 +30,7 @@ namespace BuildingBlocks.Models.Serializable
         ///     Content array
         /// </summary>
         [DataMember]
-        public bool[] Content { get; set; }
+        public int[] Content { get; set; }
 
         /// <summary>
         ///     Last block content array

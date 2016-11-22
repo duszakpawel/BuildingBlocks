@@ -28,8 +28,9 @@ namespace BuildingBlocks.Models.Models
             Y = y;
             Height = Constants.Constants.SingleTileWidth;
             Width = Constants.Constants.SingleTileWidth;
-            FillColor = Constants.Constants.OldBlockEdgeColor;
+            FillColor = Constants.Constants.OldBlockFillColor;
             StrokeColor = Constants.Constants.BlockEdgeColor;
+            StrokeThickness = 1;
         }
 
         /// <summary>
@@ -61,6 +62,11 @@ namespace BuildingBlocks.Models.Models
         ///     Stroke color
         /// </summary>
         public Brush StrokeColor { get; set; }
+
+        /// <summary>
+        ///     Stroke thickness
+        /// </summary>
+        public int StrokeThickness { get; set; }
 
         /// <summary>
         ///     Property changed event
