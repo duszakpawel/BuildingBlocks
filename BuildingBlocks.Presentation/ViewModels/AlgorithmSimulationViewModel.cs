@@ -147,7 +147,18 @@ namespace BuildingBlocks.Presentation.ViewModels
             catch (BlockLogicException)
             {
                 var dialogManager = IoC.Get<ICustomDialogManager>();
-                await dialogManager.DisplayMessageBox("Information", "An error occured during computations. Operation terminated.");
+                await
+                    dialogManager.DisplayMessageBox("Information",
+                        "An error occured during computations. Computations terminated.");
+                _simulationFinished = true;
+                return;
+            }
+            catch (OutOfMemoryException)
+            {
+                var dialogManager = IoC.Get<ICustomDialogManager>();
+                await
+                    dialogManager.DisplayMessageBox("Information",
+                        "Not enough memory to process. Computations terminated.");
                 _simulationFinished = true;
                 return;
             }

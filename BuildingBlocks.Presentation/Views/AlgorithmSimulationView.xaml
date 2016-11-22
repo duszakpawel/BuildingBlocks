@@ -34,7 +34,7 @@
                                             <Canvas
                                                 Width="{Binding DataContext.WellWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
                                                 Height="{Binding WellHeight}"
-                                                VerticalAlignment="Bottom" Background="Beige"
+                                                VerticalAlignment="Bottom" Background="#1B1D1A"
                                                 HorizontalAlignment="Center"  />
                                         </ItemsPanelTemplate>
                                     </ItemsControl.ItemsPanel>
