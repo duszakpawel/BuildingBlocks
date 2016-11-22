@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using BuildingBlocks.BusinessLogic.Interfaces;
 using BuildingBlocks.BusinessLogic.Parsing;
 using BuildingBlocks.Models.Models;
 using BuildingBlocks.Presentation.Common;
@@ -12,13 +13,16 @@ namespace BuildingBlocks.Presentation.ViewModels
     public class BlocksBrowserViewModel : Screen
     {
         private const int CanvasWidth = 100;
+        private readonly IBlocksPreprocessor _blocksPreprocessor;
 
         /// <summary>
         ///     Constructor
         /// </summary>
+        /// <param name="blocksPreprocessor"></param>
         /// <param name="blocks">Blocks collection</param>
-        public BlocksBrowserViewModel(List<Block> blocks)
+        public BlocksBrowserViewModel(IBlocksPreprocessor blocksPreprocessor, List<Block> blocks)
         {
+            this._blocksPreprocessor = blocksPreprocessor;
             if (blocks?.Count > 0)
             {
                 PreprocessBlocks(blocks);
@@ -74,7 +78,7 @@ namespace BuildingBlocks.Presentation.ViewModels
 
         private void PreprocessBlocks(List<Block> blocks)
         {
-            var blocksPreprocessor = new BlocksPreprocessor(blocks, CanvasWidth);
+            _blocksPreprocessor.Preprocess(blocks, CanvasWidth);
         }
     }
 }

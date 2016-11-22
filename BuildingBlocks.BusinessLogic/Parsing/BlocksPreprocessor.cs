@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using BuildingBlocks.BusinessLogic.Interfaces;
 using BuildingBlocks.Models.Constants;
 using BuildingBlocks.Models.Models;
 
@@ -8,30 +9,16 @@ namespace BuildingBlocks.BusinessLogic.Parsing
     /// <summary>
     ///     Blocks preprocessor class
     /// </summary>
-    public class BlocksPreprocessor
+    public class BlocksPreprocessor : IBlocksPreprocessor
     {
-        private readonly List<Block> _blocks;
-        private readonly int _canvasWidth;
 
-        /// <summary>
-        ///     constructor
-        /// </summary>
-        /// <param name="blocks">blocks collection</param>
-        /// <param name="canvasWidth">canvas width</param>
-        public BlocksPreprocessor(List<Block> blocks, int canvasWidth)
+        public void Preprocess(List<Block> blocks, int canvasWidth)
         {
-            _blocks = blocks;
-            _canvasWidth = canvasWidth;
-            Preprocess();
-        }
-
-        private void Preprocess()
-        {
-            var maxBlockWidth = _blocks.Max(item => item.Width);
-            var maxBlockHeight = _blocks.Max(item => item.Height);
+            var maxBlockWidth = blocks.Max(item => item.Width);
+            var maxBlockHeight = blocks.Max(item => item.Height);
             var maxEdgeLength = maxBlockHeight > maxBlockWidth ? maxBlockHeight : maxBlockWidth;
-            var singleTileWidth = _canvasWidth/(double) maxEdgeLength;
-            _blocks.ForEach(x => PreprocessSingle(x, maxEdgeLength, (int) singleTileWidth));
+            var singleTileWidth = canvasWidth / (double) maxEdgeLength;
+            blocks.ForEach(x => PreprocessSingle(x, maxEdgeLength, (int) singleTileWidth));
         }
 
         private void PreprocessSingle(Block block, int maxEdgeLength, int singleTileWidth)

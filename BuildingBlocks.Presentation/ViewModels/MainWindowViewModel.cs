@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using BuildingBlocks.BusinessLogic.Interfaces;
-using BuildingBlocks.BusinessLogic.Serialization;
 using BuildingBlocks.Models.Models;
 using BuildingBlocks.Presentation.Common;
 using Caliburn.Micro;
@@ -122,7 +120,7 @@ namespace BuildingBlocks.Presentation.ViewModels
             try
             {
                 var blocks = await IoC.Get<IBlocksParser>().LoadData(new StreamReader(openFileDialog.FileName));
-                BlocksBrowserViewViewModel = new BlocksBrowserViewModel(blocks.Blocks);
+                BlocksBrowserViewViewModel = new BlocksBrowserViewModel(IoC.Get<IBlocksPreprocessor>(), blocks.Blocks);
                 BoardWidth = blocks.WellWidth;
             }
             catch (ParsingException details)
@@ -148,7 +146,7 @@ namespace BuildingBlocks.Presentation.ViewModels
             IsStepEnabled = false;
             if (BlocksBrowserViewViewModel == null)
             {
-                BlocksBrowserViewViewModel = new BlocksBrowserViewModel(new List<Block>());
+                BlocksBrowserViewViewModel = new BlocksBrowserViewModel(IoC.Get<IBlocksPreprocessor>(), new List<Block>());
             }
             BlocksBrowserViewViewModel.UpdateBrowserView(DisplayMode.Selected);
             if (AlgorithmSimulationViewViewModel == null)

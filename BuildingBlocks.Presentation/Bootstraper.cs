@@ -114,6 +114,8 @@ namespace BuildingBlocks.Presentation
                 .SingleInstance();
             builder.Register<IComputationsSerializer>(c => new ComputationsSerializer())
                 .SingleInstance();
+            builder.Register<IBlocksPreprocessor>(c => new BlocksPreprocessor())
+            .SingleInstance();
 
             _container = builder.Build();
         }
