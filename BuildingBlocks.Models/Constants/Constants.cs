@@ -11,12 +11,12 @@ namespace BuildingBlocks.Models.Constants
         /// <summary>
         /// default step value
         /// </summary>
-        public static int stepDefaultValue { get; } = 1;
+        public static int StepDefaultValue { get; } = 1;
 
         /// <summary>
         /// k default value
         /// </summary>
-        public static int kDefaultValue { get; } = 1;
+        public static int KDefaultValue { get; } = 1;
 
         /// <summary>
         ///     Width of single tile
@@ -102,5 +102,10 @@ namespace BuildingBlocks.Models.Constants
         /// Default block quantity
         /// </summary>
         public static int DefaultBlockQuantity { get; } = 1;
+
+        /// <summary>
+        /// continuous simulation interval time
+        /// </summary>
+        public static int ContinuousSimulationInterval { get; set; } = 1;
     }
 }

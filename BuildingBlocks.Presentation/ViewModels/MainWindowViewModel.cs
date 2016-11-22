@@ -36,12 +36,12 @@ namespace BuildingBlocks.Presentation.ViewModels
         /// <summary>
         ///     K parameter
         /// </summary>
-        public int K { get; set; } = Constants.kDefaultValue;
+        public int K { get; set; } = Constants.KDefaultValue;
 
         /// <summary>
         ///     Step value
         /// </summary>
-        public int Step { get; set; } = Constants.stepDefaultValue;
+        public int Step { get; set; } = Constants.StepDefaultValue;
 
         /// <summary>
         ///     Returns information whether Start button is enabled or disabled

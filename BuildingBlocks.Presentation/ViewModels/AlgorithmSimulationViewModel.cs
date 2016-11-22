@@ -53,7 +53,7 @@ namespace BuildingBlocks.Presentation.ViewModels
 
             _dispatcherTimer = new DispatcherTimer
             {
-                Interval = new TimeSpan(0, 0, 0, 1)
+                Interval = new TimeSpan(0, 0, 0, Constants.ContinuousSimulationInterval)
             };
             _dispatcherTimer.Tick += DispatcherTimerOnTick;
 
