@@ -1,5 +1,4 @@
 ﻿using System.Windows.Controls;
-using BuildingBlocks.Presentation.ViewModels;
 
 namespace BuildingBlocks.Presentation.Views
 {

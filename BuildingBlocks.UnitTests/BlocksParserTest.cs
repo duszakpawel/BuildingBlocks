@@ -1,6 +1,6 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Threading.Tasks;
+using BuildingBlocks.BusinessLogic.Exceptions;
 using BuildingBlocks.BusinessLogic.Parsing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -308,27 +308,27 @@ namespace BuildingBlocks.UnitTests
             const string text = @"";
 
             var file = new StringReader(text);
-            var result = await _parser.LoadData(file);
+            await _parser.LoadData(file);
             // should not throw an exception
         }
 
         /// <summary>
         ///     Parser test for bad file.
         /// </summary>
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(ParsingException))]
         [TestMethod]
         public async Task ParserTest_ForBadFile()
         {
             const string text = @"!@#$%^&*()";
 
             var file = new StringReader(text);
-            var result = await _parser.LoadData(file);
+            await _parser.LoadData(file);
         }
 
         /// <summary>
         ///     Parser test for not correct file.
         /// </summary>
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(ParsingException))]
         [TestMethod]
         public async Task ParserTest_ForNotCorrectFile()
         {
@@ -345,7 +345,7 @@ namespace BuildingBlocks.UnitTests
 1 1 1";
 
             var file = new StringReader(text);
-            var result = await _parser.LoadData(file);
+            await _parser.LoadData(file);
         }
     }
 }
