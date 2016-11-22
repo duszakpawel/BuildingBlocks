@@ -126,7 +126,7 @@ namespace BuildingBlocks.Presentation.ViewModels
             catch (ParsingException details)
             {
                 var dialogManager = IoC.Get<ICustomDialogManager>();
-                await
+               
                     dialogManager.DisplayMessageBox("Information",
                         $"The file is incorrect. Operation terminated. {details.Message}");
             }

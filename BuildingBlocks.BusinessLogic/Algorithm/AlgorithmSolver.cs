@@ -59,11 +59,6 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
 
                 for (var i = 0; i < step; i++)
                 {
-                    if (_computationsTerminated)
-                    {
-                        return new List<Simulation>(simulations);
-                    }
-
                     var dict = new Dictionary<Simulation, int>();
                     foreach (var simulation in simulations)
                     {
