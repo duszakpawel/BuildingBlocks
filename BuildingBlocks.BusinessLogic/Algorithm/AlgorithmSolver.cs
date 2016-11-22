@@ -45,6 +45,11 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
         /// <returns></returns>
         public async Task<List<Simulation>> Execute(IEnumerable<Simulation> simulations, int k, int step)
         {
+            if (_computationsTerminated)
+            {
+                return new List<Simulation>(simulations);
+            }
+
             return await Task.Run(() => {
                 foreach (var simulation in simulations)
                 {
@@ -54,11 +59,6 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
 
                 for (var i = 0; i < step; i++)
                 {
-                    if (_computationsTerminated)
-                    {
-                        break;
-                    }
-
                     var dict = new Dictionary<Simulation, int>();
                     foreach (var simulation in simulations)
                     {
