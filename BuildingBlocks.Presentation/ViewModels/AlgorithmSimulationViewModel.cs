@@ -133,6 +133,11 @@ namespace BuildingBlocks.Presentation.ViewModels
 
         private async Task ExecuteAlgorithmSteps()
         {
+            if (_simulationFinished)
+            {
+                return;
+            }
+
             List<Simulation> result;
 
             try
