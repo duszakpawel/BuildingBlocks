@@ -31,7 +31,7 @@ namespace BuildingBlocks.Models.Constants
         /// <summary>
         ///     Compulsory free space in well height
         /// </summary>
-        public static int CompulsoryFreeSpaceInWellHeight { get; } = 8;
+        public static int CompulsoryFreeSpaceInWellHeight { get; } = 15;
 
         /// <summary>
         ///     Height for counting density 
@@ -104,9 +104,9 @@ namespace BuildingBlocks.Models.Constants
         public static int DefaultBlockQuantity { get; } = 1;
 
         /// <summary>
-        /// continuous simulation interval time
+        /// continuous simulation interval time in milliseconds
         /// </summary>
-        public static int ContinuousSimulationInterval { get; } = 1;
+        public static int ContinuousSimulationInterval { get; } = 100;
 
         private static string _simulationBackgroundColorHex = "#1B1D1A";
 

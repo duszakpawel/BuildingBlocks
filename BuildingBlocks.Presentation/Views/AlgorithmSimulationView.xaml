@@ -56,12 +56,14 @@
                             </WrapPanel>
                         </Border>
                         <TextBlock FontSize="20" FontFamily="TimesNewRoman" HorizontalAlignment="Stretch"
-                                   TextAlignment="Center">
+                                   TextAlignment="Center" VerticalAlignment="Bottom">
                             <TextBlock.Inlines>
                                 <Run Text="Height: " />
                                 <Run FontWeight="Bold" Text="{Binding Height}" />
                                 <Run Text=", Score: " />
                                 <Run FontWeight="Bold" Text="{Binding Score}" />
+                                <Run Text=", Density: " />
+                                <Run FontWeight="Bold" Text="{Binding Density}" />
                             </TextBlock.Inlines>
                         </TextBlock>
                     </StackPanel>
