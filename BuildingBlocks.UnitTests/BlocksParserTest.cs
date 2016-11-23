@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
 using BuildingBlocks.BusinessLogic.Exceptions;
+using BuildingBlocks.BusinessLogic.Interfaces;
 using BuildingBlocks.BusinessLogic.Parsing;
 using NUnit.Framework;
 using Assert = NUnit.Framework.Assert;
@@ -13,7 +14,19 @@ namespace BuildingBlocks.UnitTests
     [TestFixture]
     public class BlocksParserTest
     {
-        private readonly BlocksParser _parser = new BlocksParser();
+        private readonly IBlocksParser _parser = new BlocksParser();
+
+        [SetUp]
+        public void Init()
+        {
+            
+        }
+
+        [TearDown]
+        public void Dispose()
+        {
+            
+        }
 
         /// <summary>
         ///     Parser test for different widths of blocks.
@@ -31,8 +44,8 @@ namespace BuildingBlocks.UnitTests
 1 0 0 1
 1 0 0 1
 1 1 1 1";
-
             var file = new StringReader(text);
+
             var result = await _parser.LoadData(file);
 
             Assert.AreEqual(result.WellWidth, 8);
@@ -345,6 +358,141 @@ namespace BuildingBlocks.UnitTests
 
             var file = new StringReader(text);
             Assert.That(async () => await _parser.LoadData(file), Throws.TypeOf<ParsingException>());
+        }
+
+        /// <summary>
+        ///     Parser test for one block.
+        /// </summary>
+        [Test]
+        public async Task ParserTest_ForOneBlock()
+        {
+            const string text =
+                @"8 1
+2 3
+0 1
+0 1
+1 1";
+
+            var file = new StringReader(text);
+            var result = await _parser.LoadData(file);
+
+            Assert.AreEqual(result.WellWidth, 8);
+            Assert.AreEqual(result.BlocksCount, 1);
+            Assert.AreEqual(result.Blocks.Count, 1);
+            Assert.AreEqual(result.Blocks[0].Width, 2);
+            Assert.AreEqual(result.Blocks[0].Height, 3);
+            Assert.AreEqual(result.Blocks[0].Content[0, 0], false);
+            Assert.AreEqual(result.Blocks[0].Content[0, 1], true);
+            Assert.AreEqual(result.Blocks[0].Content[1, 0], false);
+            Assert.AreEqual(result.Blocks[0].Content[1, 1], true);
+            Assert.AreEqual(result.Blocks[0].Content[2, 0], true);
+            Assert.AreEqual(result.Blocks[0].Content[2, 1], true);
+        }
+
+        /// <summary>
+        ///     Parser test for number of blocks not equal to blocks quantity in file
+        /// </summary>
+        [Test]
+        public async Task ParserTest_ForNumberOfBlocksNotEqualToBlocksQuantityInFile()
+        {
+            const string text =
+                @"8 2
+2 3
+0 1
+0 1
+1 1";
+
+            var file = new StringReader(text);
+            var result = await _parser.LoadData(file);
+
+            Assert.AreEqual(result.WellWidth, 8);
+            Assert.AreEqual(result.BlocksCount, 2);
+            Assert.AreEqual(result.Blocks.Count, 1);
+            Assert.AreEqual(result.Blocks[0].Width, 2);
+            Assert.AreEqual(result.Blocks[0].Height, 3);
+            Assert.AreEqual(result.Blocks[0].Content[0, 0], false);
+            Assert.AreEqual(result.Blocks[0].Content[0, 1], true);
+            Assert.AreEqual(result.Blocks[0].Content[1, 0], false);
+            Assert.AreEqual(result.Blocks[0].Content[1, 1], true);
+            Assert.AreEqual(result.Blocks[0].Content[2, 0], true);
+            Assert.AreEqual(result.Blocks[0].Content[2, 1], true);
+        }
+
+        /// <summary>
+        ///     Parser test for not specified blocks count
+        /// </summary>
+        [Test]
+        public async Task ParserTest_ForNotSpecifiedBlocksCount()
+        {
+            const string text =
+                @"2
+2 3
+0 1
+0 1
+1 1";
+
+            var file = new StringReader(text);
+            var result = await _parser.LoadData(file);
+
+            Assert.AreEqual(result.WellWidth, 2);
+            Assert.AreEqual(result.BlocksCount, null);
+            Assert.AreEqual(result.Blocks.Count, 1);
+            Assert.AreEqual(result.Blocks[0].Width, 2);
+            Assert.AreEqual(result.Blocks[0].Height, 3);
+            Assert.AreEqual(result.Blocks[0].Content[0, 0], false);
+            Assert.AreEqual(result.Blocks[0].Content[0, 1], true);
+            Assert.AreEqual(result.Blocks[0].Content[1, 0], false);
+            Assert.AreEqual(result.Blocks[0].Content[1, 1], true);
+            Assert.AreEqual(result.Blocks[0].Content[2, 0], true);
+            Assert.AreEqual(result.Blocks[0].Content[2, 1], true);
+        }
+
+        /// <summary>
+        ///     Parser test for not specified well width
+        /// </summary>
+        [Test]
+        public async Task ParserTest_ForNotSpecifiedWellWidth()
+        {
+            const string text =
+                @"2
+2 3
+0 1
+0 1
+1 1";
+
+            var file = new StringReader(text);
+            var result = await _parser.LoadData(file);
+
+            Assert.AreEqual(result.WellWidth, 2);
+            Assert.AreEqual(result.BlocksCount, null);
+            Assert.AreEqual(result.Blocks.Count, 1);
+            Assert.AreEqual(result.Blocks[0].Width, 2);
+            Assert.AreEqual(result.Blocks[0].Height, 3);
+            Assert.AreEqual(result.Blocks[0].Content[0, 0], false);
+            Assert.AreEqual(result.Blocks[0].Content[0, 1], true);
+            Assert.AreEqual(result.Blocks[0].Content[1, 0], false);
+            Assert.AreEqual(result.Blocks[0].Content[1, 1], true);
+            Assert.AreEqual(result.Blocks[0].Content[2, 0], true);
+            Assert.AreEqual(result.Blocks[0].Content[2, 1], true);
+        }
+
+        /// <summary>
+        ///     Parser test for not specified well width and blocks count
+        /// </summary>
+        [Test]
+        public async Task ParserTest_ForNotSpecifiedWellWidthAndBlocksCount()
+        {
+            const string text =
+                @"2 3
+0 1
+0 1
+1 1";
+
+            var file = new StringReader(text);
+            var result = await _parser.LoadData(file);
+
+            Assert.AreEqual(result.WellWidth, 2);
+            Assert.AreEqual(result.BlocksCount, 3);
         }
     }
 }
