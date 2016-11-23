@@ -63,6 +63,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="ArrayExtensionsTests.cs" />
+    <Compile Include="BlockLogicProviderTests.cs" />
     <Compile Include="BlocksParserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
