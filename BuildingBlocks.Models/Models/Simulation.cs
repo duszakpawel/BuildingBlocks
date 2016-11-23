@@ -63,6 +63,8 @@ namespace BuildingBlocks.Models.Models
             }
         }
 
+        public string Density { get; set; }
+
         /// <summary>
         ///     Property changed event, required by INotiftyPropertyChanged interface
         /// </summary>

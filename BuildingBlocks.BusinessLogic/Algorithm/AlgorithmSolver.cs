@@ -68,7 +68,8 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
                         {
                             foreach (var b in _blockLogicProvider.RotateBlock(block))
                             {
-                                try
+                                // co za idiotyczny pomysł z tym 
+                             //   try
                                 {
                                     foreach (
                                         var xy in
@@ -78,12 +79,13 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
                                         var score = _evaluateFunctionProvider.Evaluate(sim.Content);
                                         sim.Score = score;
                                         sim.Height = GetSimulationHeight(sim.Content);
+                                        sim.Density = CountSimulationDensity(sim.Content, sim.Height).ToString("0.00");
                                         dict.Add(sim, score);
                                     }
                                 }
-                                catch (BlockLogicException)
+                          //      catch (BlockLogicException)
                                 {
-                                    throw new BlockLogicException();
+                           //         throw new BlockLogicException();
                                 }
                             }
                         }
@@ -107,6 +109,11 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
 
                 return ret;
             });
+        }
+
+        private double CountSimulationDensity(int[,] simContent, int simHeight)
+        {
+            return (double)simContent.Cast<int>().Count(c => c > 0)/(simHeight*simContent.GetLength(0));
         }
 
         /// <summary>
