@@ -12,21 +12,9 @@ namespace BuildingBlocks.UnitTests
     ///     Tests for blocks parser logic.
     /// </summary>
     [TestFixture]
-    public class BlocksParserTest
+    public class BlocksParserTests
     {
         private readonly IBlocksParser _parser = new BlocksParser();
-
-        [SetUp]
-        public void Init()
-        {
-            
-        }
-
-        [TearDown]
-        public void Dispose()
-        {
-            
-        }
 
         /// <summary>
         ///     Parser test for different widths of blocks.

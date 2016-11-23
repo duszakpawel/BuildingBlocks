@@ -62,7 +62,8 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="BlocksParserTest.cs" />
+    <Compile Include="ArrayExtensionsTests.cs" />
+    <Compile Include="BlocksParserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
