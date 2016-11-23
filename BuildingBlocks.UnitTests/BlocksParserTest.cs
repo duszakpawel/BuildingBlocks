@@ -2,14 +2,15 @@
 using System.Threading.Tasks;
 using BuildingBlocks.BusinessLogic.Exceptions;
 using BuildingBlocks.BusinessLogic.Parsing;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
+using Assert = NUnit.Framework.Assert;
 
 namespace BuildingBlocks.UnitTests
 {
     /// <summary>
     ///     Tests for blocks parser logic.
     /// </summary>
-    [TestClass]
+    [TestFixture]
     public class BlocksParserTest
     {
         private readonly BlocksParser _parser = new BlocksParser();
@@ -17,7 +18,7 @@ namespace BuildingBlocks.UnitTests
         /// <summary>
         ///     Parser test for different widths of blocks.
         /// </summary>
-        [TestMethod]
+        [Test]
         public async Task ParserTest_ForDifferentWidthBlocks()
         {
             const string text =
@@ -64,7 +65,7 @@ namespace BuildingBlocks.UnitTests
         /// <summary>
         ///     Parser test for different widths of blocks.
         /// </summary>
-        [TestMethod]
+        [Test]
         public async Task ParserTest_ForDifferentWidthBlocks2()
         {
             const string text =
@@ -111,7 +112,7 @@ namespace BuildingBlocks.UnitTests
         /// <summary>
         ///     Parser test for different heights of blocks.
         /// </summary>
-        [TestMethod]
+        [Test]
         public async Task ParserTest_ForDifferentHeightBlocks()
         {
             const string text =
@@ -155,7 +156,7 @@ namespace BuildingBlocks.UnitTests
         /// <summary>
         ///     Parser test for different heights of blocks.
         /// </summary>
-        [TestMethod]
+        [Test]
         public async Task ParserTest_ForDifferentHeightBlocks2()
         {
             const string text =
@@ -199,7 +200,7 @@ namespace BuildingBlocks.UnitTests
         /// <summary>
         ///     Parser test for equal sizes of blocks.
         /// </summary>
-        [TestMethod]
+        [Test]
         public async Task ParserTest_ForEqualSizeBlocks()
         {
             const string text =
@@ -237,7 +238,7 @@ namespace BuildingBlocks.UnitTests
         /// <summary>
         ///     Parser test for not equal sizes of blocks.
         /// </summary>
-        [TestMethod]
+        [Test]
         public async Task ParserTest_ForNotEqualSizeBlocks()
         {
             const string text =
@@ -285,7 +286,7 @@ namespace BuildingBlocks.UnitTests
         /// <summary>
         ///     Parser test for no blocks in file.
         /// </summary>
-        [TestMethod]
+        [Test]
         public async Task ParserTest_ForNoBlocks()
         {
             const string text =
@@ -302,7 +303,7 @@ namespace BuildingBlocks.UnitTests
         /// <summary>
         ///     Parser test for empty file.
         /// </summary>
-        [TestMethod]
+        [Test]
         public async Task ParserTest_ForEmptyFile()
         {
             const string text = @"";
@@ -315,22 +316,20 @@ namespace BuildingBlocks.UnitTests
         /// <summary>
         ///     Parser test for bad file.
         /// </summary>
-        [ExpectedException(typeof(ParsingException))]
-        [TestMethod]
-        public async Task ParserTest_ForBadFile()
+        [Test]
+        public void ParserTest_ForBadFile()
         {
             const string text = @"!@#$%^&*()";
 
             var file = new StringReader(text);
-            await _parser.LoadData(file);
+            Assert.That(async () => await _parser.LoadData(file), Throws.TypeOf<ParsingException>());
         }
 
         /// <summary>
         ///     Parser test for not correct file.
         /// </summary>
-        [ExpectedException(typeof(ParsingException))]
-        [TestMethod]
-        public async Task ParserTest_ForNotCorrectFile()
+        [Test]
+        public void ParserTest_ForNotCorrectFile()
         {
             const string text =
                 @"8 2
@@ -345,7 +344,7 @@ namespace BuildingBlocks.UnitTests
 1 1 1";
 
             var file = new StringReader(text);
-            await _parser.LoadData(file);
+            Assert.That(async () => await _parser.LoadData(file), Throws.TypeOf<ParsingException>());
         }
     }
 }
