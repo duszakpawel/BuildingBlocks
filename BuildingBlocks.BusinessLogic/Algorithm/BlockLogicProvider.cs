@@ -24,7 +24,7 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
                 throw new BlockLogicException("Content array was null.");
             }
 
-            if (block.Content.GetLength(0) != block.Width || block.Content.GetLength(1) != block.Height)
+            if (block.Content.GetLength(0) != block.Height || block.Content.GetLength(1) != block.Width)
             {
                 throw new BlockLogicException("The block has incorrect structure. Width or height value does not correspond to actual content dimension length.");
             }
