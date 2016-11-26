@@ -48,12 +48,12 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
         }
 
         /// <summary>
-        ///     For each of simulations, executes one step and takes the best k simulations at the end.
+        ///     For each of simulations, executes steps and takes the best k simulations at the end.
         /// </summary>
         /// <param name="simulations">simulations collection</param>
         /// <param name="k">k parameter</param>
         /// <param name="step"></param>
-        /// <returns></returns>
+        /// <returns>results</returns>
         public async Task<List<Simulation>> Execute(IEnumerable<Simulation> simulations, int k, int step)
         {
             if (_computationsTerminated)
