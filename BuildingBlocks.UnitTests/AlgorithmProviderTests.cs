@@ -19,10 +19,7 @@ namespace BuildingBlocks.UnitTests
         [SetUp]
         public void Init()
         {
-            var blocksLogicProvider = new Mock<IBlockLogicProvider>(new BlockLogicProvider());
-            var evaluateFunctionProvider = new Mock<IEvaluateFunctionProvider>(new EvaluateFunctionProvider());
-
-            _algorithmSolver = new AlgorithmSolver(blocksLogicProvider.Object, evaluateFunctionProvider.Object);
+            _algorithmSolver = new AlgorithmSolver(new BlockLogicProvider(), new EvaluateFunctionProvider());
         }
 
         [Test]
