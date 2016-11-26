@@ -1,4 +1,5 @@
-﻿using BuildingBlocks.BusinessLogic.Interfaces;
+﻿using System;
+using BuildingBlocks.BusinessLogic.Interfaces;
 using BuildingBlocks.Models.Constants;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -73,7 +74,17 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
                 }
             }
 
-            return (int)((100 * full / (empty + full)) - ((maxColumnHeight - minColumnHeight) * Constants.ColumnHeightDifferenceMultiplier));
+            try
+            {
+                return
+                    (int)
+                        ((100*full/(empty + full)) -
+                         (maxColumnHeight - minColumnHeight)*Constants.ColumnHeightDifferenceMultiplier);
+            }
+            catch (DivideByZeroException)
+            {
+                return 100;
+            }
         }
 
         private static int GetColumnMaxY(int[,] content, int col)

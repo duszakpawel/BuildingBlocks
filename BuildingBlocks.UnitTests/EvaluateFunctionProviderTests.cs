@@ -76,5 +76,124 @@ namespace BuildingBlocks.UnitTests
 
             Assert.That(() => _evaluateFunctionProvider.Evaluate(board), Throws.TypeOf<EvaluateFunctionException>());
         }
+
+        /// <summary>
+        ///     Evaluate function test for sample correct board
+        /// </summary>
+        [Test]
+        public void EvaluateTest_ForSampleCorrectBoard4()
+        {
+            var board = new[,]
+            {
+                {1, 1, 1},
+                {1, 1, 1},
+                {1, 1, 1},
+                {1, 1, 1},
+                {1, 0, 1},
+                {1, 1, 1}
+            };
+
+            var result = _evaluateFunctionProvider.Evaluate(board);
+            Assert.AreEqual(result, 94);
+        }
+
+        /// <summary>
+        ///     Evaluate function test for sample correct board
+        /// </summary>
+        [Test]
+        public void EvaluateTest_ForSampleCorrectBoard5()
+        {
+            var board = new[,]
+            {
+                {0, 0, 0},
+                {0, 0, 0},
+                {1, 1, 1},
+                {1, 1, 1},
+                {1, 1, 1},
+                {1, 1, 1},
+                {1, 0, 1},
+                {1, 1, 1}
+            };
+
+            var result = _evaluateFunctionProvider.Evaluate(board);
+            Assert.AreEqual(result, 91);
+        }
+
+        /// <summary>
+        ///     Evaluate function test for empty board
+        /// </summary>
+        [Test]
+        public void EvaluateTest_ForEmptyBoard()
+        {
+            var board = new[,]
+            {
+                {0, 0, 0},
+                {0, 0, 0},
+                {0, 0, 0}
+            };
+
+            var result = _evaluateFunctionProvider.Evaluate(board);
+            Assert.AreEqual(result, 100);
+        }
+
+        /// <summary>
+        ///     Evaluate function test for sample correct board
+        /// </summary>
+        [Test]
+        public void EvaluateTest_ForSampleCorrectBoard6()
+        {
+            var board = new[,]
+            {
+                {1, 1, 1, 0},
+                {1, 1, 1, 1},
+                {1, 1, 1, 0},
+                {1, 1, 1, 1},
+                {1, 0, 1, 0},
+                {1, 1, 1, 1}
+            };
+
+            var result = _evaluateFunctionProvider.Evaluate(board);
+            Assert.AreEqual(result, 83);
+        }
+
+        /// <summary>
+        ///     Evaluate function test for sample correct board
+        /// </summary>
+        [Test]
+        public void EvaluateTest_ForSampleCorrectBoard7()
+        {
+            var board = new[,]
+            {
+                {1, 1, 1, 0, 0},
+                {1, 1, 1, 1, 0},
+                {1, 1, 1, 0, 1},
+                {1, 1, 1, 1, 1},
+                {1, 0, 1, 0, 1},
+                {1, 1, 1, 1, 0}
+            };
+
+            var result = _evaluateFunctionProvider.Evaluate(board);
+            Assert.AreEqual(result, 76);
+        }
+
+        /// <summary>
+        ///     Evaluate function test for sample correct board
+        /// </summary>
+        [Test]
+        public void EvaluateTest_ForSampleCorrectBoard8()
+        {
+            var board = new[,]
+            {
+                {1},
+                {1},
+                {1},
+                {1},
+                {1},
+                {1}
+            };
+
+            var result = _evaluateFunctionProvider.Evaluate(board);
+            Assert.AreEqual(result, 100);
+        }
     }
 }
