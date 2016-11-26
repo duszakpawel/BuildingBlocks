@@ -9,6 +9,7 @@ using Microsoft.Win32;
 using BuildingBlocks.BusinessLogic.Exceptions;
 using System.Runtime.Serialization;
 using BuildingBlocks.Models.Constants;
+#pragma warning disable 4014
 
 namespace BuildingBlocks.Presentation.ViewModels
 {

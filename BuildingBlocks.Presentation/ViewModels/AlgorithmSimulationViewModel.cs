@@ -10,6 +10,7 @@ using Caliburn.Micro;
 using System.Threading.Tasks;
 using BuildingBlocks.BusinessLogic.Exceptions;
 using BuildingBlocks.Presentation.Common;
+#pragma warning disable 4014
 
 namespace BuildingBlocks.Presentation.ViewModels
 {

@@ -68,8 +68,6 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
                         {
                             foreach (var b in _blockLogicProvider.RotateBlock(block))
                             {
-                                // co za idiotyczny pomysł z tym 
-                             //   try
                                 {
                                     foreach (
                                         var xy in
@@ -82,10 +80,6 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
                                         sim.Density = CountSimulationDensity(sim.Content, sim.Height).ToString("0.00");
                                         dict.Add(sim, score);
                                     }
-                                }
-                          //      catch (BlockLogicException)
-                                {
-                           //         throw new BlockLogicException();
                                 }
                             }
                         }
