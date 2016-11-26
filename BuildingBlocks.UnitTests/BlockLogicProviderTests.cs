@@ -1,4 +1,5 @@
-﻿using BuildingBlocks.BusinessLogic.Algorithm;
+﻿using System.Linq;
+using BuildingBlocks.BusinessLogic.Algorithm;
 using BuildingBlocks.BusinessLogic.Exceptions;
 using BuildingBlocks.BusinessLogic.Interfaces;
 using BuildingBlocks.Models.Models;
@@ -132,6 +133,129 @@ namespace BuildingBlocks.UnitTests
             };
 
             Assert.That(() => _blocksLogicProvider.RotateBlock(block), Throws.TypeOf<BlockLogicException>());
+        }
+
+        /// <summary>
+        ///     Find best places for block test for correct values
+        /// </summary>
+        [Test]
+        public void FindBestPlacesForBlockTest_ForCorrectValues()
+        {
+            var board = new[,]
+            {
+                {0, 0, 0},
+                {0, 0, 0},
+                {0, 0, 0}
+            };
+
+            var content = new[,]
+            {
+                {true, true, true},
+                {true, true, true},
+                {true, true, true}
+            };
+
+            var result =_blocksLogicProvider.FindBestPlacesForBlock(board, content);
+            Assert.AreEqual(result.Count, 1);
+            Assert.AreEqual(result.First().Item1, 0);
+            Assert.AreEqual(result.First().Item2, 0);
+        }
+
+        /// <summary>
+        ///     Find best places for block test for correct but more complex values
+        /// </summary>
+        [Test]
+        public void FindBestPlacesForBlockTest_ForCorrectMoreComplexValues()
+        {
+            var board = new[,]
+            {
+                {1, 0, 1},
+                {1, 0, 1},
+                {1, 1, 1}
+            };
+
+            var content = new[,]
+            {
+                {true},
+                {true}
+            };
+
+            var result = _blocksLogicProvider.FindBestPlacesForBlock(board, content);
+            Assert.AreEqual(result.Count, 1);
+            Assert.AreEqual(result.First().Item1, 0);
+            Assert.AreEqual(result.First().Item2, 1);
+        }
+
+        /// <summary>
+        ///     Find best places for block test for correct but more complex values
+        /// </summary>
+        [Test]
+        public void FindBestPlacesForBlockTest_ForCorrectMoreComplexValues2()
+        {
+            var board = new[,]
+            {
+                {0, 0, 0},
+                {1, 0, 0},
+                {1, 1, 1}
+            };
+
+            var content = new[,]
+            {
+                {true},
+                {true}
+            };
+
+            var result = _blocksLogicProvider.FindBestPlacesForBlock(board, content);
+            Assert.AreEqual(result.Count, 1);
+            Assert.AreEqual(result[0].Item1, 0);
+            Assert.AreEqual(result[0].Item2, 2);
+        }
+
+        /// <summary>
+        ///     Find best places for block test for correct but more complex values
+        /// </summary>
+        [Test]
+        public void FindBestPlacesForBlockTest_ForCorrectMoreComplexValues3()
+        {
+            var board = new[,]
+            {
+                {1, 0, 1},
+                {1, 0, 1},
+                {1, 1, 1}
+            };
+
+            var content = new[,]
+            {
+                {true},
+                {true}
+            };
+
+            var result = _blocksLogicProvider.FindBestPlacesForBlock(board, content);
+            Assert.AreEqual(result.Count, 1);
+            Assert.AreEqual(result[0].Item1, 0);
+            Assert.AreEqual(result[0].Item2, 1);
+        }
+
+        /// <summary>
+        ///     Find best places for block test for correct but more complex values no solution expected exception
+        /// </summary>
+        [Test]
+        public void FindBestPlacesForBlockTest_ForCorrectMoreComplexValues_NoSolution()
+        {
+            var board = new[,]
+            {
+                {1, 1, 1},
+                {1, 1, 1},
+                {1, 1, 1}
+            };
+
+            var content = new[,]
+            {
+                {true},
+                {true}
+            };
+
+            Assert.That(() => _blocksLogicProvider.FindBestPlacesForBlock(board, content), Throws.TypeOf<BlockLogicException>());
         }
     }
 }

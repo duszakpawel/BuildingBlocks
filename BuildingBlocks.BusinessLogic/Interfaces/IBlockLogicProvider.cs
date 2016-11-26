@@ -14,7 +14,7 @@ namespace BuildingBlocks.BusinessLogic.Interfaces
         IList<Block> RotateBlock(Block block);
 
         /// <summary>
-        ///     Returns best place for block
+        ///     Returns best places for block (X, Y) coordinates for left top corner of block
         /// </summary>
         /// <param name="board">board content</param>
         /// <param name="block">block content</param>
