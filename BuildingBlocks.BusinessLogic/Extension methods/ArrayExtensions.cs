@@ -26,7 +26,12 @@ namespace BuildingBlocks.BusinessLogic.Extension_methods
                 return false;
             }
 
-            if (a1.Length != a2.Length)
+            if (a1.GetLength(0) != a2.GetLength(0))
+            {
+                return false;
+            }
+
+            if (a1.GetLength(1) != a2.GetLength(1))
             {
                 return false;
             }

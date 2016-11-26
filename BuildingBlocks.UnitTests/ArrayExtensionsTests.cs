@@ -110,5 +110,19 @@ namespace BuildingBlocks.UnitTests
 
             Assert.AreEqual(result, true);
         }
+
+        /// <summary>
+        ///     Has equal content method test for equal length of tables and equal content of int type but not equal dimensions length
+        /// </summary>
+        [Test]
+        public void HasEqualContentTest_ForEqualLengthOfTablesAndEqualContent2()
+        {
+            int[,] tab1 = { { 1, 2, 3 }, { 2, 3, 4 } };
+            int[,] tab2 = { {1, 2}, {3, 2}, {3, 4} };
+
+            var result = tab1.HasEqualContent(tab2);
+
+            Assert.AreEqual(result, false);
+        }
     }
 }
