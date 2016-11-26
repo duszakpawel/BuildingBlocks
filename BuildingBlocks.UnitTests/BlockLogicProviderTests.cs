@@ -1,4 +1,5 @@
 ﻿using BuildingBlocks.BusinessLogic.Algorithm;
+using BuildingBlocks.BusinessLogic.Exceptions;
 using BuildingBlocks.BusinessLogic.Interfaces;
 using BuildingBlocks.Models.Models;
 using NUnit.Framework;
@@ -94,6 +95,43 @@ namespace BuildingBlocks.UnitTests
             Assert.AreEqual(result[2].Content[0, 1], true);
             Assert.AreEqual(result[3].Content[0, 0], true);
             Assert.AreEqual(result[3].Content[1, 0], true);
+        }
+
+        /// <summary>
+        ///     Rotate block method test for not null content
+        /// </summary>
+        [Test]
+        public void RotateBlockTest_ForNotCorrectBlock()
+        {
+            var block = new Block()
+            {
+                Content = null,
+                Width = 2,
+                Height = 1
+            };
+
+            Assert.That(() =>_blocksLogicProvider.RotateBlock(block), Throws.TypeOf<BlockLogicException>());
+        }
+
+        /// <summary>
+        ///     Rotate block method test for not not correct content (not corresponding to block width and height values)
+        /// </summary>
+        [Test]
+        public void RotateBlockTest_ForNotCorrectBlockContent()
+        {
+            var block = new Block()
+            {
+                Content = new[,]
+                {
+                    { true, true, true },
+                    { true, true, true },
+                    { true, true, true }
+                },
+                Width = 2,
+                Height = 1
+            };
+
+            Assert.That(() => _blocksLogicProvider.RotateBlock(block), Throws.TypeOf<BlockLogicException>());
         }
     }
 }

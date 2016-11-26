@@ -14,12 +14,21 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
     {
         /// <summary>
         ///     Returns collection of rotated block
-        ///     TODO: zwrócić tutaj 4 obroty bloków (lub mniej jeżeli jest symetryczny w jakis sposób)
         /// </summary>
         /// <param name="block">Block conntent</param>
         /// <returns>collection of rotated block</returns>
         public IList<Block> RotateBlock(Block block)
         {
+            if (block.Content == null)
+            {
+                throw new BlockLogicException("Content array was null.");
+            }
+
+            if (block.Content.GetLength(0) != block.Width || block.Content.GetLength(1) != block.Height)
+            {
+                throw new BlockLogicException("The block has incorrect structure. Width or height value does not correspond to actual content dimension length.");
+            }
+
             var ret = new List<Block> {new Block(block)};
             for (var i = 1; i < 4; ++i)
             {
