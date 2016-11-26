@@ -35,6 +35,26 @@ namespace BuildingBlocks.Presentation.ViewModels
         public int BoardWidth { get; set; }
 
         /// <summary>
+        /// Is changing quantity of every block enabled flag
+        /// </summary>
+        public bool IsChangingQuantityOfEveryBlockEnabled { get; set; }
+
+        private int _quantityOfEveryBlock = 1;
+
+        /// <summary>
+        /// Quantity of every block
+        /// </summary>
+        public int QuantityOfEveryBlock
+        {
+            get { return _quantityOfEveryBlock; }
+            set
+            {
+                _quantityOfEveryBlock = value;
+                BlocksBrowserViewViewModel.SetQuantityOfEveryBlock(_quantityOfEveryBlock);
+            }
+        }
+
+        /// <summary>
         ///     K parameter
         /// </summary>
         public int K { get; set; } = Constants.KDefaultValue;
@@ -123,6 +143,7 @@ namespace BuildingBlocks.Presentation.ViewModels
                 var blocks = await IoC.Get<IBlocksParser>().LoadData(new StreamReader(openFileDialog.FileName));
                 BlocksBrowserViewViewModel = new BlocksBrowserViewModel(IoC.Get<IBlocksPreprocessor>(), blocks.Blocks);
                 BoardWidth = blocks.WellWidth;
+                IsChangingQuantityOfEveryBlockEnabled = true;
             }
             catch (ParsingException details)
             {
@@ -145,6 +166,8 @@ namespace BuildingBlocks.Presentation.ViewModels
             CanPause = true;
             IsKEnabled = false;
             IsStepEnabled = false;
+            IsChangingQuantityOfEveryBlockEnabled = false;
+
             if (BlocksBrowserViewViewModel == null)
             {
                 BlocksBrowserViewViewModel = new BlocksBrowserViewModel(IoC.Get<IBlocksPreprocessor>(), new List<Block>());
@@ -171,6 +194,7 @@ namespace BuildingBlocks.Presentation.ViewModels
             CanPause = false;
             IsKEnabled = true;
             IsStepEnabled = true;
+            IsChangingQuantityOfEveryBlockEnabled = true;
             BlocksBrowserViewViewModel.UpdateBrowserView(DisplayMode.All);
             AlgorithmSimulationViewViewModel.Stop();
             AlgorithmSimulationViewViewModel = null;

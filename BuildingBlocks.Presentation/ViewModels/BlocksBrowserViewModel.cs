@@ -79,5 +79,13 @@ namespace BuildingBlocks.Presentation.ViewModels
         {
             _blocksPreprocessor.Preprocess(blocks, CanvasWidth);
         }
+
+        public void SetQuantityOfEveryBlock(int quantityOfEveryBlock)
+        {
+            foreach (var element in LoadedBlocks)
+            {
+                element.Quantity = quantityOfEveryBlock;
+            }
+        }
     }
 }

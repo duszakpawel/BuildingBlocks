@@ -31,7 +31,10 @@
                         <controls:NumericUpDown Minimum="1" Interval="1" x:Name="K" Value="{Binding K}"
                                                 IsEnabled="{Binding IsKEnabled}" Width="80" Height="30" />
                         <Label Width="80" Height="30" Margin="0,0,0,0" Content="Board Width:" />
-                        <TextBox x:Name="BoardWidth" Width="80" Height="30" IsEnabled="False" />
+                        <TextBox x:Name="BoardWidth" Width="90" Height="30" IsEnabled="False" />
+                        <Label Width="140" Height="30" Margin="0,0,0,0" Content="Quantity of every block:" />
+                        <controls:NumericUpDown Minimum="0" Interval="1" x:Name="QuantityOfEveryBlock" Value="{Binding QuantityOfEveryBlock}"
+                                                IsEnabled="{Binding IsChangingQuantityOfEveryBlockEnabled}" Width="80" Height="30" />
                     </StackPanel>
                     <ScrollViewer VerticalScrollBarVisibility="Auto" MaxHeight="350">
                         <StackPanel>
