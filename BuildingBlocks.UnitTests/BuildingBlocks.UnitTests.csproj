@@ -65,6 +65,7 @@
     <Compile Include="ArrayExtensionsTests.cs" />
     <Compile Include="BlockLogicProviderTests.cs" />
     <Compile Include="BlocksParserTests.cs" />
+    <Compile Include="EvaluateFunctionProviderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -5,7 +5,7 @@
         /// <summary>
         ///     Evaluation function. Returns score.
         /// </summary>
-        /// <param name="content">content array</param>
-        int Evaluate(int[,] content);
+        /// <param name="board">board array</param>
+        int Evaluate(int[,] board);
     }
 }

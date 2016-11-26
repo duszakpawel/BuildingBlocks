@@ -314,7 +314,7 @@ namespace BuildingBlocks.UnitTests
         /// </summary>
         [Test]
         [SuppressMessage("ReSharper", "ExpressionIsAlwaysNull")]
-        public void FindBestPlacesForBlock_ForNotCorrectBlock()
+        public void FindBestPlacesForBlock_ForNotCorrectBoard()
         {
             int[,] board = null;
 

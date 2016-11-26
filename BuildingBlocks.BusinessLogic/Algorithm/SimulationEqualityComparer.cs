@@ -32,7 +32,7 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
         public int GetHashCode(KeyValuePair<Simulation, int> obj)
         {
             var array = obj.Key.Content;
-            var constValue = 314159;
+            const int constValue = 314159;
             var hc = array.Length;
             foreach (var element in array)
             {

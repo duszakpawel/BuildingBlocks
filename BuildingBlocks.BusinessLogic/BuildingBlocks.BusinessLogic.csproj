@@ -64,6 +64,7 @@
     <Compile Include="Algorithm\BlockLogicProvider.cs" />
     <Compile Include="Exceptions\AlgorithmLogicException.cs" />
     <Compile Include="Exceptions\BlockLogicException.cs" />
+    <Compile Include="Exceptions\EvaluateFunctionException.cs" />
     <Compile Include="Exceptions\ParsingException.cs" />
     <Compile Include="Exceptions\SimulationTerminatedException.cs" />
     <Compile Include="Interfaces\IAlgorithmSolver.cs" />

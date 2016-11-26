@@ -108,8 +108,6 @@ namespace BuildingBlocks.Models.Constants
         /// </summary>
         public static int ContinuousSimulationInterval { get; } = 100;
 
-        private static string _simulationBackgroundColorHex = "#1B1D1A";
-
         /// <summary>
         /// simulation background color
         /// Brushes.Beige was the old one

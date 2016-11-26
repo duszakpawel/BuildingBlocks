@@ -263,9 +263,8 @@ namespace BuildingBlocks.Presentation.ViewModels
                 K = k;
 
                 AlgorithmSimulationViewViewModel = new AlgorithmSimulationViewModel(new List<Block>(), BoardWidth, K,
-                    Step);
+                    Step) {Simulations = new ObservableCollection<Simulation>(simulations)};
 
-                AlgorithmSimulationViewViewModel.Simulations = new ObservableCollection<Simulation>(simulations);
                 Start();
                 Pause();
             }

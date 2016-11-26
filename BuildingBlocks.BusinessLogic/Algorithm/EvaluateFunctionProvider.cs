@@ -1,6 +1,8 @@
 ﻿using BuildingBlocks.BusinessLogic.Interfaces;
 using BuildingBlocks.Models.Constants;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using BuildingBlocks.BusinessLogic.Exceptions;
 
 namespace BuildingBlocks.BusinessLogic.Algorithm
 {
@@ -16,21 +18,27 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
         ///             minus 
         ///         (difference between heighest and lowest column multiplied by constant) 
         /// </summary>
-        /// <param name="content">content array</param>
+        /// <param name="board">board array</param>
         /// <returns>Score</returns>
-        public int Evaluate(int[,] content)
+        [SuppressMessage("ReSharper", "PossibleLossOfFraction")]
+        public int Evaluate(int[,] board)
         {
-            var simWidth = content.GetLength(0);
-            int full = 0;
-            int empty = 0;
-            int maxColumnHeight = int.MinValue;
-            int minColumnHeight = int.MaxValue;
+            if (board == null)
+            {
+                throw new EvaluateFunctionException("Board provided to evaluate function was null.");
+            }
+
+            var simWidth = board.GetLength(0);
+            var full = 0;
+            var empty = 0;
+            var maxColumnHeight = int.MinValue;
+            var minColumnHeight = int.MaxValue;
 
             var columnHeights = new Dictionary<int, int>();
 
-            for (int i = 0; i < simWidth; i++)
+            for (var i = 0; i < simWidth; i++)
             {
-                var columnHeight = GetColumnMaxY(content, i);
+                var columnHeight = GetColumnMaxY(board, i);
 
                 if (columnHeight > maxColumnHeight)
                 {
@@ -46,15 +54,15 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
             }
 
             var lowerBound = maxColumnHeight + Constants.HeightForCountingDensity;
-            if (lowerBound > content.GetLength(1) - 1)
-                lowerBound = content.GetLength(1) - 1;
+            if (lowerBound > board.GetLength(1) - 1)
+                lowerBound = board.GetLength(1) - 1;
 
-            for (int i = 0; i < simWidth; i++)
+            for (var i = 0; i < simWidth; i++)
             {
                 var columnHeight = columnHeights[i];
-                for (int j = lowerBound; j >= columnHeight; j--)
+                for (var j = lowerBound; j >= columnHeight; j--)
                 {
-                    if (content[i, j] > 0)
+                    if (board[i, j] > 0)
                     {
                         full++;
                     }
@@ -68,7 +76,7 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
             return (int)((100 * full / (empty + full)) - ((maxColumnHeight - minColumnHeight) * Constants.ColumnHeightDifferenceMultiplier));
         }
 
-        private int GetColumnMaxY(int[,] content, int col)
+        private static int GetColumnMaxY(int[,] content, int col)
         {
             var simHeight = content.GetLength(1);
 
