@@ -55,6 +55,11 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
         /// <returns>Best position (x,y) for block</returns>
         public List<Tuple<int, int>> FindBestPlacesForBlock(int[,] board, bool[,] block)
         {
+            if (board == null)
+            {
+                throw new BlockLogicException("Board array was null.");
+            }
+
             var ret = new List<Tuple<int, int>>();
             for (var j = board.GetLength(1) - 1; j >= 0; j--)
             {

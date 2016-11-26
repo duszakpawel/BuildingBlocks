@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using BuildingBlocks.BusinessLogic.Algorithm;
 using BuildingBlocks.BusinessLogic.Exceptions;
 using BuildingBlocks.BusinessLogic.Interfaces;
@@ -253,6 +254,75 @@ namespace BuildingBlocks.UnitTests
             {
                 {true},
                 {true}
+            };
+
+            Assert.That(() => _blocksLogicProvider.FindBestPlacesForBlock(board, content), Throws.TypeOf<BlockLogicException>());
+        }
+
+        /// <summary>
+        ///     Find best places for block test for correct but more complex values
+        /// </summary>
+        [Test]
+        public void FindBestPlacesForBlockTest_ForCorrectComplexValues()
+        {
+            var board = new[,]
+            {
+                {1, 1, 1, 2, 2},
+                {1, 0, 0, 0, 2},
+                {1, 1, 1, 2, 2}
+            };
+
+            var content = new[,]
+            {
+                {true, true, true}
+            };
+
+            var result = _blocksLogicProvider.FindBestPlacesForBlock(board, content);
+            Assert.AreEqual(result.Count, 1);
+            Assert.AreEqual(result[0].Item1, 1);
+            Assert.AreEqual(result[0].Item2, 1);
+        }
+
+        /// <summary>
+        ///     Find best places for block test for correct but more complex values
+        /// </summary>
+        [Test]
+        public void FindBestPlacesForBlockTest_ForCorrectComplexValues2()
+        {
+            var board = new[,]
+            {
+                {1, 1, 1, 0, 2},
+                {1, 0, 0, 0, 2},
+                {1, 1, 1, 0, 2}
+            };
+
+            var content = new[,]
+            {
+                {false, true },
+                {true , true },
+                {false, true }
+            };
+
+            var result = _blocksLogicProvider.FindBestPlacesForBlock(board, content);
+            Assert.AreEqual(result.Count, 1);
+            Assert.AreEqual(result[0].Item1, 0);
+            Assert.AreEqual(result[0].Item2, 2);
+        }
+
+        /// <summary>
+        ///     Find best places for block test for null content
+        /// </summary>
+        [Test]
+        [SuppressMessage("ReSharper", "ExpressionIsAlwaysNull")]
+        public void FindBestPlacesForBlock_ForNotCorrectBlock()
+        {
+            int[,] board = null;
+
+            var content = new[,]
+            {
+                {false, true },
+                {true , true },
+                {false, true }
             };
 
             Assert.That(() => _blocksLogicProvider.FindBestPlacesForBlock(board, content), Throws.TypeOf<BlockLogicException>());
