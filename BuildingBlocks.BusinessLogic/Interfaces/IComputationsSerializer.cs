@@ -20,5 +20,5 @@ namespace BuildingBlocks.BusinessLogic.Interfaces
         /// <param name="filename">Name of XML file</param>
         /// <returns>BoardWidth, K, Simulations</returns>
         Tuple<int, int, IEnumerable<Simulation>> Deserialize(string filename);
-        }
+    }
 }

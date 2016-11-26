@@ -13,6 +13,6 @@ namespace BuildingBlocks.BusinessLogic.Interfaces
         /// </summary>
         /// <param name="blocks">blocks to preprocess</param>
         /// <param name="canvasWidth">canvas width</param>
-        void Preprocess(List<Block> blocks, int canvasWidth);
+        List<Block> Preprocess(List<Block> blocks, int canvasWidth);
     }
 }

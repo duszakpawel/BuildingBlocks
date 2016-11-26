@@ -21,7 +21,7 @@ namespace BuildingBlocks.Presentation.ViewModels
         /// <param name="blocks">Blocks collection</param>
         public BlocksBrowserViewModel(IBlocksPreprocessor blocksPreprocessor, List<Block> blocks)
         {
-            this._blocksPreprocessor = blocksPreprocessor;
+            _blocksPreprocessor = blocksPreprocessor;
             if (blocks?.Count > 0)
             {
                 PreprocessBlocks(blocks);

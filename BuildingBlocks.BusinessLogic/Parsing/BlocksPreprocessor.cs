@@ -11,14 +11,20 @@ namespace BuildingBlocks.BusinessLogic.Parsing
     /// </summary>
     public class BlocksPreprocessor : IBlocksPreprocessor
     {
-
-        public void Preprocess(List<Block> blocks, int canvasWidth)
+        /// <summary>
+        /// Preprocesses list of blocks
+        /// </summary>
+        /// <param name="blocks"></param>
+        /// <param name="canvasWidth"></param>
+        /// <returns></returns>
+        public List<Block> Preprocess(List<Block> blocks, int canvasWidth)
         {
             var maxBlockWidth = blocks.Max(item => item.Width);
             var maxBlockHeight = blocks.Max(item => item.Height);
             var maxEdgeLength = maxBlockHeight > maxBlockWidth ? maxBlockHeight : maxBlockWidth;
             var singleTileWidth = canvasWidth / (double) maxEdgeLength;
             blocks.ForEach(x => PreprocessSingle(x, maxEdgeLength, (int) singleTileWidth));
+            return blocks;
         }
 
         private void PreprocessSingle(Block block, int maxEdgeLength, int singleTileWidth)
