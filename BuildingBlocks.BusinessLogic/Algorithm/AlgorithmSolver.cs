@@ -24,6 +24,17 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
         ///     constructor
         /// </summary>
         /// <param name="evaluateFunctionProvider"></param>
+        /// <param name="blockLogicProvider"></param>
+        public AlgorithmSolver(IBlockLogicProvider blockLogicProvider, IEvaluateFunctionProvider evaluateFunctionProvider)
+        {
+            _blockLogicProvider = blockLogicProvider;
+            _evaluateFunctionProvider = evaluateFunctionProvider;
+        }
+
+        /// <summary>
+        ///     constructor
+        /// </summary>
+        /// <param name="evaluateFunctionProvider"></param>
         /// <param name="simulations">simulations collection</param>
         /// <param name="k">k parameter</param>
         /// <param name="blockLogicProvider"></param>
