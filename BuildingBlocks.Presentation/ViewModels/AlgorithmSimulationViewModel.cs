@@ -143,7 +143,7 @@ namespace BuildingBlocks.Presentation.ViewModels
 
             try
             {
-                result = await _algorithmSolver.Execute(new List<Simulation>(Simulations), _k, _step);
+                result = await _algorithmSolver.Execute(Simulations, _k, _step);
                 Simulations = new ObservableCollection<Simulation>(result);
             }
             catch (BlockLogicException)
