@@ -106,7 +106,7 @@ namespace BuildingBlocks.Models.Constants
         /// <summary>
         /// continuous simulation interval time in milliseconds
         /// </summary>
-        public static int ContinuousSimulationInterval { get; } = 100;
+        public static int ContinuousSimulationInterval { get; } = 1000;
 
         /// <summary>
         /// simulation background color
