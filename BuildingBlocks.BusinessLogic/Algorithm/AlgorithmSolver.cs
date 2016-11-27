@@ -68,76 +68,77 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
                 throw new SimulationTerminatedException();
             }
 
-            return await Task.Run(() => {
+            return await Task.Run(() =>
+            {
                 foreach (var simulation in simulations)
                 {
                     simulation.LastBlock = new int[simulation.Content.GetLength(0), simulation.Content.GetLength(1)];
                 }
                 var ret = new List<Simulation>();
-                                            try
+                try
+                {
+                    for (var i = 0; i < step; i++)
+                    {
+                        var dict = new ConcurrentDictionary<Simulation, int>();
+                        Parallel.ForEach(simulations, (simulation) =>
+                        {
+                            simulation.AvailableBlocks.RemoveAll(b => b.Quantity <= 0);
+                            CheckAndCorrectSimulationHeight(simulation);
+                            Parallel.ForEach(simulation.AvailableBlocks, (block) =>
+                            {
+                                Parallel.ForEach(_blockLogicProvider.RotateBlock(block),
+                                    (b) =>
+                                    {
+                                        Parallel.ForEach(
+                                            _blockLogicProvider.FindBestPlacesForBlock(
+                                                simulation.Content, b.Content),
+                                            (xy) =>
                                             {
-                                                for (var i = 0; i < step; i++)
-                                                {
-                                                    var dict = new ConcurrentDictionary<Simulation, int>();
-                                                    Parallel.ForEach(simulations, (simulation) =>
-                                                    {
-                                                        simulation.AvailableBlocks.RemoveAll(b => b.Quantity <= 0);
-                                                        CheckAndCorrectSimulationHeight(simulation);
-                                                        Parallel.ForEach(simulation.AvailableBlocks, (block) =>
-                                                        {
-                                                            Parallel.ForEach(_blockLogicProvider.RotateBlock(block),
-                                                                (b) =>
-                                                                {
-                                                                    Parallel.ForEach(
-                                                                        _blockLogicProvider.FindBestPlacesForBlock(
-                                                                            simulation.Content, b.Content),
-                                                                        (xy) =>
-                                                                        {
-                                                                            var sim = AddBlockToSimulation(b, simulation,
-                                                                                xy.Item1, xy.Item2);
-                                                                            var score =
-                                                                                _evaluateFunctionProvider.Evaluate(
-                                                                                    sim.Content);
-                                                                            sim.Score = score;
-                                                                            sim.Height = GetSimulationHeight(sim.Content);
-                                                                            sim.Density =
-                                                                                CountSimulationDensity(sim.Content,
-                                                                                    sim.Height).ToString("0.00");
-                                                                            dict.TryAdd(sim, score);
-                                                                        });
-                                                                });
-                                                        });
-                                                    });
+                                                var sim = AddBlockToSimulation(b, simulation,
+                                                    xy.Item1, xy.Item2);
+                                                var score =
+                                                    _evaluateFunctionProvider.Evaluate(
+                                                        sim.Content);
+                                                sim.Score = score;
+                                                sim.Height = GetSimulationHeight(sim.Content);
+                                                sim.Density =
+                                                    CountSimulationDensity(sim.Content,
+                                                        sim.Height).ToString("0.00");
+                                                dict.TryAdd(sim, score);
+                                            });
+                                    });
+                            });
+                        });
 
-                                                    var dictResult = dict.ToDictionary(entry => entry.Key,
-                                                        entry => entry.Value)
-                                                        .Distinct(new SimulationEqualityComparer())
-                                                        .ToDictionary(x => x.Key, x => x.Value);
-                                                    var bestScores =
-                                                        dictResult.Values.OrderByDescending(v => v)
-                                                            .Take(k)
-                                                            .Distinct()
-                                                            .ToList();
-                                                    ret =
-                                                        dictResult.Where(d => bestScores.Contains(d.Value))
-                                                            .Select(p => p.Key)
-                                                            .Take(k)
-                                                            .ToList();
-                                                    simulations = ret;
+                        var dictResult = dict.ToDictionary(entry => entry.Key,
+                            entry => entry.Value)
+                            .Distinct(new SimulationEqualityComparer())
+                            .ToDictionary(x => x.Key, x => x.Value);
+                        var bestScores =
+                            dictResult.Values.OrderByDescending(v => v)
+                                .Take(k)
+                                .Distinct()
+                                .ToList();
+                        ret =
+                            dictResult.Where(d => bestScores.Contains(d.Value))
+                                .Select(p => p.Key)
+                                .Take(k)
+                                .ToList();
+                        simulations = ret;
 
-                                                    if (simulations.FirstOrDefault()?.AvailableBlocks.Count == 0)
-                                                    {
-                                                        _computationsTerminated = true;
-                                                        break;
-                                                    }
-                                                }
-                                            }
-                                            catch (OverflowException)
-                                            {
-                                                throw new AlgorithmLogicException("Not enough space to complete the computations.");
-                                            }
+                        if (simulations.FirstOrDefault()?.AvailableBlocks.Count == 0)
+                        {
+                            _computationsTerminated = true;
+                            break;
+                        }
+                    }
+                }
+                catch (OverflowException)
+                {
+                    throw new AlgorithmLogicException("Not enough space to complete the computations.");
+                }
 
-                                            foreach (var sim in ret)
+                foreach (var sim in ret)
                 {
                     SyncCanvasWithContent(sim);
                 }
@@ -148,7 +149,7 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
 
         private double CountSimulationDensity(int[,] simContent, int simHeight)
         {
-            return (double)simContent.Cast<int>().Count(c => c > 0)/(simHeight*simContent.GetLength(0));
+            return (double)simContent.Cast<int>().Count(c => c > 0) / (simHeight * simContent.GetLength(0));
         }
 
         /// <summary>
