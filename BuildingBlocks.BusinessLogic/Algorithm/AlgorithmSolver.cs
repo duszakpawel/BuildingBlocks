@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using BuildingBlocks.BusinessLogic.Interfaces;
@@ -75,34 +76,34 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
 
                 for (var i = 0; i < step; i++)
                 {
-                    var dict = new Dictionary<Simulation, int>();
-                    foreach (var simulation in simulations)
+                    var dict = new ConcurrentDictionary<Simulation, int>();
+                    Parallel.ForEach(simulations, (simulation) =>
                     {
                         simulation.AvailableBlocks.RemoveAll(b => b.Quantity <= 0);
                         CheckAndCorrectSimulationHeight(simulation);
-                        foreach (var block in simulation.AvailableBlocks)
+                        Parallel.ForEach(simulation.AvailableBlocks, (block) =>
                         {
-                            foreach (var b in _blockLogicProvider.RotateBlock(block))
+                            Parallel.ForEach(_blockLogicProvider.RotateBlock(block), (b) =>
                             {
-                                {
-                                    foreach (
-                                        var xy in
-                                            _blockLogicProvider.FindBestPlacesForBlock(simulation.Content, b.Content))
+                                Parallel.ForEach(
+                                    _blockLogicProvider.FindBestPlacesForBlock(simulation.Content, b.Content),
+                                    (xy) =>
                                     {
                                         var sim = AddBlockToSimulation(b, simulation, xy.Item1, xy.Item2);
                                         var score = _evaluateFunctionProvider.Evaluate(sim.Content);
                                         sim.Score = score;
                                         sim.Height = GetSimulationHeight(sim.Content);
                                         sim.Density = CountSimulationDensity(sim.Content, sim.Height).ToString("0.00");
-                                        dict.Add(sim, score);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    dict = dict.Distinct(new SimulationEqualityComparer()).ToDictionary(x => x.Key, x => x.Value);
-                    var bestScores = dict.Values.OrderByDescending(v => v).Take(k).Distinct().ToList();
-                    ret = dict.Where(d => bestScores.Contains(d.Value)).Select(p => p.Key).Take(k).ToList();
+                                        dict.TryAdd(sim, score);
+                                    });
+                            });
+                        });
+                    });
+
+                    var dictResult = dict.ToDictionary(entry => entry.Key,
+                                                       entry => entry.Value).Distinct(new SimulationEqualityComparer()).ToDictionary(x => x.Key, x => x.Value);
+                    var bestScores = dictResult.Values.OrderByDescending(v => v).Take(k).Distinct().ToList();
+                    ret = dictResult.Where(d => bestScores.Contains(d.Value)).Select(p => p.Key).Take(k).ToList();
                     simulations = ret;
 
                     if (simulations.FirstOrDefault()?.AvailableBlocks.Count == 0)
