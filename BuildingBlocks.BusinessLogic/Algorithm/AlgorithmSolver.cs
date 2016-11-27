@@ -56,6 +56,11 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
         /// <returns>results</returns>
         public async Task<List<Simulation>> Execute(IEnumerable<Simulation> simulations, int k, int step)
         {
+            if (simulations == null || !simulations.Any() || k <= 0 || step <= 0)
+            {
+                throw new AlgorithmLogicException();
+            }
+
             if (_computationsTerminated)
             {
                 throw new SimulationTerminatedException();
