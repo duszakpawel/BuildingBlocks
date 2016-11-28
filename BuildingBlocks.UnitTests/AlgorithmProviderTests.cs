@@ -14,7 +14,7 @@ namespace BuildingBlocks.UnitTests
     [TestFixture]
     public class AlgorithmProviderTests
     {
-        private IAlgorithmSolver _algorithmSolver;
+        private IAlgorithmProvider _algorithmProvider;
 
         /// <summary>
         /// Setup method invoked before every test method in AlgorithmProviderTests class
@@ -22,7 +22,7 @@ namespace BuildingBlocks.UnitTests
         [SetUp]
         public void Init()
         {
-            _algorithmSolver = new AlgorithmSolver(new BlockLogicProvider(), new EvaluateFunctionProvider());
+            _algorithmProvider = new AlgorithmProvider(new BlockLogicProvider(), new EvaluateFunctionProvider());
         }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace BuildingBlocks.UnitTests
                 }
             };
 
-            var result = await _algorithmSolver.Execute(simulations, k, step);
+            var result = await _algorithmProvider.Execute(simulations, k, step);
 
             Assert.AreEqual(result.Count, 1);
             Assert.AreEqual(result[0].Density, "1,00");
@@ -95,7 +95,7 @@ namespace BuildingBlocks.UnitTests
                 }
             };
 
-            var result = await _algorithmSolver.Execute(simulations, k, step);
+            var result = await _algorithmProvider.Execute(simulations, k, step);
 
             Assert.AreEqual(result.Count, 1);
             Assert.AreEqual(result[0].Density, "1,00");
@@ -129,7 +129,7 @@ namespace BuildingBlocks.UnitTests
                 }
             };
 
-            Assert.That(async () => await _algorithmSolver.Execute(simulations, k, step), Throws.TypeOf<AlgorithmLogicException>());
+            Assert.That(async () => await _algorithmProvider.Execute(simulations, k, step), Throws.TypeOf<AlgorithmLogicException>());
         }
     }
 }

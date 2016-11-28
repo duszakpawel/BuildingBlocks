@@ -19,7 +19,7 @@ namespace BuildingBlocks.Presentation.ViewModels
     /// </summary>
     public class AlgorithmSimulationViewModel : Screen
     {
-        private readonly IAlgorithmSolver _algorithmSolver;
+        private readonly IAlgorithmProvider _algorithmProvider;
 
         private readonly DispatcherTimer _dispatcherTimer;
 
@@ -77,7 +77,7 @@ namespace BuildingBlocks.Presentation.ViewModels
                 });
             }
 
-            _algorithmSolver = new AlgorithmSolver(IoC.Get<IBlockLogicProvider>(), IoC.Get<IEvaluateFunctionProvider>(),
+            _algorithmProvider = new AlgorithmProvider(IoC.Get<IBlockLogicProvider>(), IoC.Get<IEvaluateFunctionProvider>(),
                 Simulations, _k);
         }
 
@@ -143,7 +143,7 @@ namespace BuildingBlocks.Presentation.ViewModels
 
             try
             {
-                result = await _algorithmSolver.Execute(Simulations, _k, _step);
+                result = await _algorithmProvider.Execute(Simulations, _k, _step);
                 Simulations = new ObservableCollection<Simulation>(result);
             }
             catch (BlockLogicException)

@@ -12,9 +12,9 @@ using System.Threading.Tasks;
 namespace BuildingBlocks.BusinessLogic.Algorithm
 {
     /// <summary>
-    ///     Algorithm solver
+    ///     Algorithm provider
     /// </summary>
-    public class AlgorithmSolver : IAlgorithmSolver
+    public class AlgorithmProvider : IAlgorithmProvider
     {
         private readonly IBlockLogicProvider _blockLogicProvider;
         private readonly IEvaluateFunctionProvider _evaluateFunctionProvider;
@@ -27,7 +27,7 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
         /// </summary>
         /// <param name="evaluateFunctionProvider"></param>
         /// <param name="blockLogicProvider"></param>
-        public AlgorithmSolver(IBlockLogicProvider blockLogicProvider, IEvaluateFunctionProvider evaluateFunctionProvider)
+        public AlgorithmProvider(IBlockLogicProvider blockLogicProvider, IEvaluateFunctionProvider evaluateFunctionProvider)
         {
             _blockLogicProvider = blockLogicProvider;
             _evaluateFunctionProvider = evaluateFunctionProvider;
@@ -40,7 +40,7 @@ namespace BuildingBlocks.BusinessLogic.Algorithm
         /// <param name="simulations">simulations collection</param>
         /// <param name="k">k parameter</param>
         /// <param name="blockLogicProvider"></param>
-        public AlgorithmSolver(IBlockLogicProvider blockLogicProvider,
+        public AlgorithmProvider(IBlockLogicProvider blockLogicProvider,
             IEvaluateFunctionProvider evaluateFunctionProvider, IEnumerable<Simulation> simulations, int k)
         {
             _blockLogicProvider = blockLogicProvider;

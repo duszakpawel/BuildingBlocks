@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace BuildingBlocks.BusinessLogic.Interfaces
 {
-    public interface IAlgorithmSolver
+    public interface IAlgorithmProvider
     {
         /// <summary>
         ///     For each of simulations, executes one step and takes the best k simulations at the end.
